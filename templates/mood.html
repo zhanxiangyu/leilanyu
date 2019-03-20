@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block other_css_js %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/timeline.css' %}"/>
+{% endblock %}
+<!--导航条-->
+{% block nav %}
+    <nav class="breadcrumb">
+        <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="{% url 'index' %}" class="c-primary">首页</a> <span
+                class="c-gray en">&gt;</span> <span class="c-gray">时间阁楼</span></div>
+    </nav>
+{% endblock %}
+
+{% block section_contain %}
+    <section class="container mt-20">
+        <div class="container-fluid">
+            <div class="timeline">
+                {% comment %}{% for blog in blogs %}
+                <div class="cd-timeline-block">
+                    <div class="cd-timeline-img cd-picture">
+                        <img src="{% static 'css/timeline/cd-icon-location.svg' %}" alt="position">
+                    </div>
+                    <div class="cd-timeline-content">
+                        <h4>{{ blog.title }}</h4>
+                        <p>{{ blog.body }}</p>
+                        <a href="{% url 'blog:blog_detail' blog.id %}" class="f-r"><input class="btn btn-success size-S"
+                                                                                          type="button"
+                                                                                          value="查看更多"></a>
+                        <span class="cd-date" style="color:green">{{ blog.created_time|date:'Y年m月d日' }}</span>
+                    </div>
+                </div>
+                {% endfor %}{% endcomment %}
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+{% block bottom_js %}
+    <script>
+        var get_timeline_url = "{% url 'blog:api:timeline-list' %}";
+        $(function () {
+            //on scolling, show/animate timeline blocks when enter the viewport
+            $(window).on('scroll', function () {
+                $('.cd-timeline-block').each(function () {
+                    if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.75 && $(this).find('.cd-timeline-img').hasClass('is-hidden')) {
+                        $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+                    }
+                    if ($(window).scrollTop() - $(this).offset().top > 0) {
+                        $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden').removeClass('bounce-in');
+                    }
+
+                });
+                $('.cd-timeline-block').each(function () {
+                    if ($(this).offset().top < $(window).scrollTop() + $(window).height() * 0.75) {
+                        $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden');
+                    }
+                });
+            });
+
+            $.get(get_timeline_url, {}, function (data) {
+                var $timeline = $(".timeline");
+                for (var i = 0; i < data.length; i++) {
+                    var title = data[i].title;
+                    var text = data[i].text;
+                    var created_time = data[i].created_time.replace(/ \d+:\d+:\d+/g, "");
+
+                    $timeline.append(
+                        "<div class=\"cd-timeline-block\">" +
+                        "<div class=\"cd-timeline-img cd-picture\">" +
+                        "<img src=\"{% static 'css/timeline/cd-icon-location.svg' %}\" alt=\"position\">" +
+                        "</div>" +
+                        "<div class=\"cd-timeline-content\">" +
+                        "<h4 style='color: #10ced2'>" + title + "</h4>" +
+                        "<p>" + text + "</p>" +
+                        "<span class=\"cd-date\" style='font-size: 15px'><b>" + created_time + "</b></span>" +
+                        "</div>" +
+                        "</div>"
+                    )
+                }
+            });
+
+        });
+
+    </script>
+{% endblock %}

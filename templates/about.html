@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!--导航条-->
+{% block nav %}
+    <nav class="breadcrumb">
+        <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="{% url 'index' %}" class="c-primary">首页</a> <span
+                class="c-gray en">&gt;</span> <span class="c-gray">关于</span></div>
+    </nav>
+{% endblock %}
+
+
+
+{% block section_contain %}
+    <section class="container">
+        <div class="container-fluid">
+            <div class="about">
+                <h2>Just about me</h2>
+                <ul>
+                    <p>一枚正在努力进步的python程序员。</p>
+                </ul>
+                <h2>About my blog</h2>
+                <ul>
+                    <p>域 名：zhanxiangyu.xyz(阿里云)</p>
+                    <p>服务器：vultr服务器</p>
+                    <p>本站定位为IT技术博客站，博客内容主要涉及编程语言、前端开发、服务端开发及一些热门技术等方面，同时分享实用的学习和开发资料。</p>
+                </ul>
+                <h2>Contact me</h2>
+                <ul>
+                    <p><i class="Hui-iconfont">&#xe67b;</i>qq : 1033432955 ☺☺☺☺</p>
+                    <p><i class="Hui-iconfont">&#xe6d1;</i>git：<a href="https://github.com/zhanxiangyu/leilanyu"
+                                                                  class="blog_link">https://github.com/zhanxiangyu/leilanyu</a>
+                    </p>
+                    <p><i class="Hui-iconfont">&#xe63b;</i>email : <a class="blog_link" href="mailto:1033432955@qq.com">1033432955@qq.com</a>
+                    </p>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

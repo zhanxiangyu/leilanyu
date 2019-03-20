@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block other_css_js %}
+    <link rel="stylesheet" type="text/css" href="{% static 'plugin/wangEditor/css/wangEditor.min.css' %}">
+{% endblock %}
+
+
+<!--导航条-->
+{% block nav %}
+    <nav class="breadcrumb">
+        <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="/" class="c-primary">首页</a> <span
+                class="c-gray en">&gt;</span> <span class="c-gray">留言板</span></div>
+    </nav>
+{% endblock %}
+
+{% block section_contain %}
+
+    <!--高速版 畅言的使用-->
+    {% comment %}<div id="SOHUCS" sid="请将此处替换为配置SourceID的语句"></div>
+    <script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js"></script>
+    <script type="text/javascript">
+        window.changyan.api.config({
+            appid: 'cytw4Jfwx',
+            conf: 'prod_d8954d0adccf5c9f7e8b4bb367795106'
+        });
+    </script>{% endcomment %}
+    {% include 'comment.html' %}
+{% endblock %}
+
+{% block bottom_js %}
+{#    <script type="text/javascript" src="{% static 'plugin/wangEditor/js/wangEditor.min.js' %}"></script>#}
+
+    <script type="text/javascript">
+        $(function () {
+
+
+        });
+
+
+{##}
+    </script>
+{% endblock %}

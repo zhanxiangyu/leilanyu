@@ -1,0 +1,193 @@
+{% load static %}
+<script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vue/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugin/jquery.validation/1.14.0/jquery.validate.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'common/js/vuefilter.js' %}"></script>#}
+
+<style>
+</style>
+{#用户子评论#}
+<section class="container">
+        <div class="col-xs-7 col-md-7">
+            <!--用于评论-->
+            <div class="mt-20" id="ct">
+                <textarea id="textarea1" class="form-control" rows="5" name="comment" placeholder="看完不留一发？"> </textarea>
+                <div class="text-r mt-10">
+                    {% if request.user.is_authenticated %}
+                    <button onclick="CALLBACK.getPlainTxt()" class="btn btn-primary radius"> 发表评论</button>
+                        {% else %}
+                        <button class="btn btn-info"> 登录 即可评论</button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <ul class="commentList mt-50" id="comment-id">
+                <template v-for="comment_data in comment_datas">
+                    <li class="item cl"><a href="#"><i class="avatar size-L radius"><img :src="comment_data.commentator.image"></i></a>
+                        <div class="comment-main" :common_id="comment_data.id">
+                            <header class="comment-header">
+                                <div class="comment-meta"><a class="comment-author" href="#">[[comment_data.commentator.username]]</a>
+                                    <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">[[comment_data.created_time]]
+                                    </time>
+                                </div>
+                            </header>
+                            <div class="comment-body">
+                                [[comment_data.body]]
+
+                                <ul class="commentList">
+                                    <li class="item cl" v-for="comment_obj in comment_data.sub_comment"><a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                                         :src="comment_obj.commentator.image"></i></a>
+                                        <div class="comment-main">
+                                            <header class="comment-header">
+                                                <div class="comment-meta"><a class="comment-author" href="#">[[ comment_obj.commentator.username ]]</a>
+                                                    <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                                                          class="f-r">[[ comment_obj.created_time ]]
+                                                    </time>
+                                                </div>
+                                            </header>
+                                            <div class="comment-body">
+                                                <p> [[ comment_obj.body ]]</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% if request.user.is_authenticated %}
+                                <button class="hf f-r btn btn-default size-S mt-10" v-on:click="reply">回复</button>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+            <!--用于回复-->
+            <div class="comment hidden mt-20">
+                <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                <textarea class="textarea" style="height:100px;"> </textarea>
+                <button onclick="CALLBACK.sub_reply(this);" type="button" class="btn btn-primary radius mt-10">回复</button>
+                <a class="cancelReply f-r mt-10">取消回复</a>
+            </div>
+
+        </div>
+</section>
+
+<script>
+    var blog_id = "{{ blog_id }}";
+    var commit_comment_url = "{% url 'comments:api:comment-list' %}";
+
+    $(function () {
+
+        //展示所有用户，所有评论数据
+        CALLBACK.init_comment_data();
+
+        //cancel reply
+        $(".cancelReply").on('click', function () {
+            $(this).parents(".comment-body").find(".hf").show();
+            $(this).parents(".comment-body").find(".comment").remove();
+            console.log('cance')
+        });
+
+    });
+
+    var app = new Vue({
+        el: '#comment-id',
+        delimiters: ['[[', ']]'],
+        data: {
+            comment_datas: []
+        },
+        methods:{
+          reply: function (e) {
+              $(e.target).parents(".commentList").find(".cancelReply").trigger("click");
+              $(e.target).parent(".comment-body").append($(".comment").clone(true));
+              $(e.target).parent(".comment-body").find(".comment").removeClass("hidden");
+              $(e.target).hide();
+          }
+        },
+        filters: {
+
+        }
+    });
+
+
+    var CALLBACK = {
+        getPlainTxt: function () {
+            var text = $("#textarea1").val().trim();
+            var data = {
+                body:text,
+                article: blog_id
+            };
+            if (text.length > 0) {
+                //展示所有用户，所有评论数据
+                CALLBACK.post_commit(data);
+            }
+        },
+        init_comment_data: function () {
+            $.ajax({
+                url: commit_comment_url,
+                type: 'GET',
+                async: true,
+                data: {'blog_id': blog_id},
+                cache: false,
+                dataType: 'json',
+                success: function (res, status) {
+                    app.comment_datas = [];
+                    app.comment_datas = app.comment_datas.concat(res);
+                },
+                error: function (xhr, status) {
+                    console.log('获取评论信息失败!');
+                }
+            })
+        },
+        sub_reply: function (e) {
+            // 获取当前评论和父评论id
+            var text = $(e).prev().val().trim();
+            var parent_comment = $(e).parentsUntil("li")[$(e).parentsUntil("li").length-1];
+            var common_id = parent_comment.getAttribute("common_id");
+            var data = {
+                body: text,
+                parent_comment: common_id,
+                article: blog_id
+            };
+            if (text.length > 0) {
+                CALLBACK.post_commit(data)
+            }
+            $(e).next().click();
+
+        },
+        post_commit: function (data) {
+            //展示所有用户，所有评论数据
+            $.post(commit_comment_url, data, function (data) {
+                swal({
+                    title: "评论成功",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定"
+                }, function () {
+                    $("#textarea1").val('');
+                    CALLBACK.init_comment_data();
+                });
+            }).error(function (data) {
+                var error_text = JSON.parse(data.responseText);
+                swal({
+                    title: error_text['detail'],
+                    type: "error",
+                    showCancelButton: true,
+                    cancelButtonText: "取消",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: true
+                })
+            });
+        }
+    };
+
+
+
+    function hf(e) {
+        var text = $(e).prev().val();
+        console.log(text)
+
+    }
+</script>

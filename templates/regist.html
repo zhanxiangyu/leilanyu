@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugin/jquery.validation/1.14.0/jquery.validate.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/ajax_csrf.js' %}"></script>
+    
+    <style>
+        .error {
+            color: #e41f14;
+        }
+        .errorlist {
+            color: #e41f14;
+        }
+    </style>
+
+
+</head>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<body>
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data" name="registerForm" id="registerForm">
+        {% csrf_token %}
+        <div class="form row">
+            <div class="form-horizontal col-md-offset-3" id="register_form">
+                <h3 class="form-title">注册</h3>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <i class="fa fa-user fa-lg"></i>
+                        <input class="form-control" type="text" placeholder="用户名" id="username" value="{{ register_form.data.username }}"
+                               name="username" required autofocus="autofocus" {% comment %}maxlength="20"{% endcomment %}/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-lock fa-lg"></i>
+                        <input class="form-control" type="password" placeholder="密码" id="password" value="{{ register_form.data.password }}"
+                               name="password"/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-lock fa-lg"></i>
+                        <input class="form-control required" type="password" placeholder="确认密码" value="{{ register_form.data.password2 }}"
+                               id="password2" name="password2"/>
+                    </div>
+                    {{ register_form.captcha }}
+
+                    <div>
+                        {% if register_form.errors %}
+                            {% for k, error in register_form.errors.items %}
+                                {{ error }}
+{#                            <p id="failMessage" style="font-size: medium; color: red"></p>#}
+                            {% endfor %}
+                        {% endif %}
+                        {% if name_used %}
+                            <div>{{ name_used }}</div>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'users:login' %}" style="color:yellow">已注册，登录？</a>
+                    <input type="submit" value="提交" class="btn btn-success pull-right" >
+
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+</div>
+</body>
+
+<script>
+
+
+    $("#username").bind("input propertychange change", function (event) {
+        $("#failMessage").empty();
+    });
+    $("#password").bind("input propertychange change", function (event) {
+        $("#failMessage").empty();
+    });
+    $(function () {
+        $("#registerForm").validate({
+            {#debug: true,#}
+            rules: {
+                username: {
+                    required: true,
+                    rangelength: [4,20],
+                },
+                password: {
+                    required: true,
+                    rangelength: [3, 8]
+                },
+                password2: {
+                    required: true,
+                    rangelength: [3,8],
+                    {#equalTo: "#password"#}
+                },
+                captcha_1:{
+                    required: true,
+                }
+            },
+            messages: {
+                username: {
+                    required: '用户名必填',
+                    rangelength: '字符串长度4~20之间'
+                },
+                password: {
+                    required: '密码必填',
+                    rangelength: "字符串长度3~8之间"
+                },
+                password2: {
+                    required: '密码必填',
+                    rangelength: "字符串长度3~8之间",
+                    {#equalTo: "两次输入密码不一样"#}
+                },
+                captcha_1: {
+                    required: "验证码必填"
+                }
+            }
+        });
+    })
+
+</script>
+</html>

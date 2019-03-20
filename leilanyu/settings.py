@@ -33,7 +33,7 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = PRIVATE_JSON['DEBUG']
 if DEBUG:
     ALLOWED_HOSTS = []
 else:

@@ -50,3 +50,4 @@ python manage.py migrate
 # hahhaha
 # badsfasdfa
 # fsccc
+# sss

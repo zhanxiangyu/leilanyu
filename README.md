@@ -47,4 +47,3 @@ python manage.py migrate
 
 [我的网站](http://www.zhanxiangyu.xyz/)
 [我的博客](http://blog.csdn.net/qq_34971175)
-#leilanyu#xxx

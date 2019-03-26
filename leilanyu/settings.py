@@ -18,6 +18,18 @@ import sys
 try:
     from private_key import PRIVATE_JSON
 except:
+    """
+    在项目目录下面创建 private_key.py文件
+    PRIVATE_JSON = {
+        "DEBUG": True,
+        "ALLOWED_HOSTS": ["*"],
+        "DB_NAME": 'leilanyu',
+        "DB_USER": "leilanyu",
+        "DB_PASSWORD": "leilanyu",
+        "ADMIN_URL": "admin",   #控制后台admin路径
+        "SECRET_KEY": 'jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d',
+    }
+    """
     print('私有，可以自己提供')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -30,7 +42,7 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'extra_apps'))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d'
+SECRET_KEY = PRIVATE_JSON['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = PRIVATE_JSON['DEBUG']

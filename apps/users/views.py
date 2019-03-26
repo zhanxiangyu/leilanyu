@@ -1,21 +1,18 @@
 # -*- coding:utf-8 -*-
 from datetime import datetime
-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from django.conf import settings
 from django.urls import reverse
 from django.utils.http import is_safe_url
-from django.views.generic.base import View
-from django.contrib.auth import get_user_model
 from django.views.decorators.cache import cache_page
-from django.contrib.auth.hashers import make_password
-
-from rest_framework.decorators import api_view, permission_classes
+from django.views.generic.base import View
 from rest_framework import permissions, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from blog.models import Blog, Tag, FriendLink
@@ -24,6 +21,7 @@ from .models import RecordIP
 from .utils.utlis import get_client_ip_from_request
 
 User = get_user_model()
+
 
 # 配置全局返回
 def template_variable(request):
@@ -60,6 +58,10 @@ def index(request):
                 record_ip.save()
 
     return render(request, 'index.html', locals())
+
+
+def indexV(request):
+    return render(request, 'index/index.html', locals())
 
 
 def about_me(request):

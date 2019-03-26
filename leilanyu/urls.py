@@ -21,7 +21,7 @@ from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
 
-from users.views import index
+from users.views import index, indexV
 from blog.search_views import MySearchView
 
 import xadmin
@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^comments/', include('comments.urls', namespace='comments')),
 
     url(r'^$', index, name='index'),
+    url(r'^v1$', indexV, name='indexV'),
 
     url(r'^uploads/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 

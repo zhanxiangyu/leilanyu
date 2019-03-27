@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 
 from .serializers import BlogSerializers, TimeLineSerializers
 from .models import Blog, TimeLine
@@ -32,6 +32,13 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = BlogSerializers
     permission_classes = (permissions.AllowAny,)
     pagination_class = BlogPagination
+
+    @list_route()
+    def get_hot(self, request):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(status='p')[:6]
+        serializer_data = self.get_serializer(queryset, many=True).data
+        return Response(status=status.HTTP_200_OK, data=serializer_data)
 
     @detail_route(methods=['get'])
     def page_up_down(self, request, pk):

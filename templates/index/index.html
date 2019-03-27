@@ -14,21 +14,8 @@
   <meta name="description" content="Free HTML5 Template by FREEHTML5"/>
   <meta name="keywords" content="累兰羽"/>
 
-
-  <!-- Facebook and Twitter integration -->
-  <meta property="og:title" content=""/>
-  <meta property="og:image" content=""/>
-  <meta property="og:url" content=""/>
-  <meta property="og:site_name" content=""/>
-  <meta property="og:description" content=""/>
-  <meta name="twitter:title" content=""/>
-  <meta name="twitter:image" content=""/>
-  <meta name="twitter:url" content=""/>
-  <meta name="twitter:card" content=""/>
-
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <link rel="shortcut icon" href="{% static 'favicon.png' %}">
-
 
   <!-- Animate.css -->
   <link rel="stylesheet" href="{% static 'muban/css/animate.css' %}">
@@ -53,6 +40,13 @@
   <!-- End 100动画 -->
 
   <style>
+    .moreHidden {
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+      overflow: hidden; /** 隐藏超出的内容 **/
+      white-space: nowrap
+    }
+
     /* For demo purpose only */
 
     /*
@@ -274,9 +268,9 @@
             <h4 class="animate-box">容易得像顺水推舟</h4>
             <h4 class="animate-box">但是要结识良朋益友</h4>
             <h4 class="animate-box">却难如登天</h4>
-{#            <p class="animate-box"><a href="images/video.wmv" class="btn btn-outline popup-vimeo btn-video"><i#}
-{#                class="icon-play2"></i> 关于</a> <a href="http://www.jianhuax.com/html5/156.html" target="_blank"#}
-{#                                                  class="btn btn-primary">点击下载此模板</a></p>#}
+            {#            <p class="animate-box"><a href="images/video.wmv" class="btn btn-outline popup-vimeo btn-video"><i#}
+            {#                class="icon-play2"></i> 关于</a> <a href="http://www.jianhuax.com/html5/156.html" target="_blank"#}
+            {#                                                  class="btn btn-primary">点击下载此模板</a></p>#}
           </div>
           <div class="fh5co-right-position">
             <!-- 右侧蜜蜂动画 -->
@@ -306,81 +300,26 @@
     <div class="container">
       <div class="row row-bottom-padded-md">
         <div class="col-md-6 col-md-offset-3 text-center">
-          <h2 class="fh5co-lead animate-box">热门文章</h2>
-{#          <p class="fh5co-sub-lead animate-box">将自然美与艺术美相结合 </p>#}
+          <h2 class="fh5co-lead ">最新文章</h2>
         </div>
       </div>
+      <div class="row" id="hotArticle">
+{#        ajax填充数据#}
+      </div>
       <div class="row">
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_1.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_1.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>落日胜景</h2>
-              <p>自然光的最大优势在于它是持续存在的，这就给了摄影师充分的时间去仔细观察环境...</p>
-            </div>
-          </a></div>
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_2.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_2.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>爱可</h2>
-              <p>利用自然光拍摄的另一个优势在于能最大限度地保持原有的环境氛围。纪实婚礼摄影...</p>
-            </div>
-          </a></div>
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_3.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_3.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>大好河山</h2>
-              <p>利用自然光拍摄可以将照相机给被摄对象带来的干扰最小化。毋庸置疑，闪光灯在工...</p>
-            </div>
-          </a></div>
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_4.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_4.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>我与农场</h2>
-              <p>拍摄婚礼时，最常利用的自然光就是窗户光。这种光线相对柔和、均匀...</p>
-            </div>
-          </a></div>
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_5.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_5.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>海光</h2>
-              <p>室内光线不是很充足的情况下，建议选择光圈优先模式拍摄,设定为较大的光圈数值...</p>
-            </div>
-          </a></div>
-
-        <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
-          <a href="{% static 'muban/images/img_6.jpg' %}" class="fh5co-project-item ">
-            <img src="{% static 'muban/images/img_6.jpg' %}" alt="Image" class="img-responsive">
-            <div class="fh5co-text">
-              <h2>朝露待日晞</h2>
-              <p>在主体没有太明显移动的时候，快门速度可以控制在1/30s；人物有一些动作时，快门...</p>
-            </div>
-          </a></div>
-
-
+        <div class="text-center">
+          <a href="#" type="button" class="btn btn-primary">更多文章</a>
+        </div>
       </div>
     </div>
   </section>
-  <!-- END #fh5co-projects -->
 
   <section id="fh5co-features">
     <div class="container">
       <div class="row text-center row-bottom-padded-md">
         <div class="col-md-8 col-md-offset-2">
-          <figure class="fh5co-devices animate-box"><img src="images/img_devices.png"
-                                                         alt="Free HTML5 Bootstrap Template" class="img-responsive">
-          </figure>
-          <h2 class="fh5co-lead animate-box">教学课程</h2>
-          <p class="fh5co-sub-lead animate-box">欢迎您走进Hooguang的世界，我们将竭诚为您服务，美丽梦想在此启航！</p>
+          <h2 class="fh5co-lead animate-box">友情链接</h2>
+          {#          <p class="fh5co-sub-lead animate-box">欢迎您走进Hooguang的世界，我们将竭诚为您服务，美丽梦想在此启航！</p>#}
         </div>
       </div>
       <div class="row">
@@ -440,180 +379,14 @@
     </div>
   </section>
 
-  <!-- END #fh5co-features -->
-
-
-  <section id="fh5co-features-2">
-    <div class="container">
-      <div class="col-md-6 col-md-push-6">
-        <figure class="fh5co-feature-image animate-box">
-          <img src="images/macbook.png" alt="Free HTML5 Bootstrap Template by FREEHTML5.co">
-        </figure>
-      </div>
-      <div class="col-md-6 col-md-pull-6">
-        <span class="fh5co-label animate-box">选择我们</span>
-        <h2 class="fh5co-lead animate-box">HooGuang优势</h2>
-        <div class="fh5co-feature">
-          <div class="fh5co-icon animate-box"><i class="icon-check2"></i></div>
-          <div class="fh5co-text animate-box">
-            <h3>入学签协议，包分配</h3>
-            <p>全科班学员入学报到时,签署就业分配协议,享法律保护工作半年内可调换. </p>
-          </div>
-        </div>
-        <div class="fh5co-feature">
-          <div class="fh5co-icon animate-box"><i class="icon-check2"></i></div>
-          <div class="fh5co-text animate-box">
-            <h3>包学包会，学会为止</h3>
-            <p>针对所有学员包学包会学不会可跟下期新班免费继续学习,学会为止. </p>
-          </div>
-        </div>
-        <div class="fh5co-feature">
-          <div class="fh5co-icon animate-box"><i class="icon-check2"></i></div>
-          <div class="fh5co-text animate-box">
-            <h3>终身免费进修</h3>
-            <p>随时可以返回学校免费进修所学专业的新技术一次学习终身免费升级. </p>
-          </div>
-        </div>
-
-        <div class="fh5co-btn-action animate-box">
-          <a href="http://www.jianhuax.com/html5/156.html" class="btn btn-primary btn-cta">更多优势</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-  <!-- END #fh5co-features-2 -->
-
-  <section id="fh5co-testimonials">
-    <div class="container">
-      <div class="row row-bottom-padded-sm">
-        <div class="col-md-6 col-md-offset-3 text-center">
-          <div class="fh5co-label animate-box">关于摄影</div>
-          <h2 class="fh5co-lead animate-box">他们说：</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2 text-center animate-box">
-          <div class="flexslider">
-            <ul class="slides">
-              <li>
-                <blockquote>
-                  <p>&ldquo;摄影对我来说,是为了记录决定性瞬间,自己的生活,家人朋友,摄影本质是记录,听起来舒服一些,但是感觉却少了点儿参与感,个人感觉这样的想法也存在着巨大的惰性.&rdquo;</p>
-                  <p><cite>&mdash; Steve Jobs</cite></p>
-                </blockquote>
-              </li>
-              <li>
-                <blockquote>
-                  <p>&ldquo;如果重心在记录上,那么就会产生被动的想法,尤其是对创造力的限制,摄影是记录瞬间的过程,摄影师是创造那个瞬间的人,不只是记录创造了照片,而是同时创造了那个时刻.&rdquo;</p>
-                  <p><cite>&mdash; Frank Chimero</cite></p>
-                </blockquote>
-              </li>
-              <li>
-                <blockquote>
-                  <p>&ldquo;影师之间的区别不只在于记录的方式,比如参数设置,构图,拍摄角度,曝光,甚至用光.还在于创造,注意我不指更在于创造.&rdquo;</p>
-                  <p><cite>&mdash; Ferdinand A. Porsche</cite></p>
-                </blockquote>
-              </li>
-            </ul>
-          </div>
-          <div class="flexslider-controls">
-            <ol class="flex-control-nav">
-              <li class="animate-box"><img src="images/person4.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co">
-              </li>
-              <li class="animate-box"><img src="images/person2.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co">
-              </li>
-              <li class="animate-box"><img src="images/person3.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co">
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- END #fh5co-testimonials -->
-
-  <section id="fh5co-subscribe">
-    <div class="container">
-
-      <h3 class="animate-box"><label for="email">你想说什么？</label></h3>
-      <form action="Outlook:1249721215@qq.com" method="post" class="animate-box">
-        <i class="fh5co-icon icon-paper-plane"></i>
-        <input type="email" class="form-control" placeholder="搜索你想要的" id="email" name="email">
-        <input type="submit" value="发送" class="btn btn-primary">
-      </form>
-
-    </div>
-  </section>
-
-  <!-- END #fh5co-subscribe -->
 
   <footer id="fh5co-footer">
-    <div class="container">
-      <div class="row row-bottom-padded-md">
-        <div class="col-md-3 col-sm-6 col-xs-12 animate-box">
-          <div class="fh5co-footer-widget">
-            <h3>HooGuang</h3>
-            <ul class="fh5co-links">
-              <li><a href="about.html">关于我们</a></li>
-              <li><a href="pricing.html">课程介绍</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">学员作品</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">师资力量</a></li>
-              <li><a href="http://wpa.qq.com/msgrd?v=3&uin=1249721215&site=qq&menu=yes">预约咨询</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12 animate-box">
-          <div class="fh5co-footer-widget">
-            <h3>常见问题</h3>
-            <ul class="fh5co-links">
-              <li><a href="http://www.jianhuax.com/html5/156.html">学摄影需要去学校学习吗</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">学化妆多久能出师</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">女生学习化妆吃香吗</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">正规摄影学校学费多少</a></li>
-              <li><a href="http://www.jianhuax.com/html5/156.html">临沂学习摄影哪家学校好</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12 animate-box">
-          <div class="fh5co-footer-widget">
-            <h3>联系我们</h3>
-            <p>
-              <a href="http://wpa.qq.com/msgrd?v=3&uin=1249721215&site=qq&menu=yes">1249721215@qq.com</a> <br>
-              山东 · 临沂 · 兰山<br>
-              兰田步行街玉人街二楼7号<br>
-              <a href="QQ1249721215">QQ1249721215</a>
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12 animate-box">
-          <div class="fh5co-footer-widget">
-            <h3>分享给朋友</h3>
-            <ul class="fh5co-social">
-              <li><a href="#"><i class="icon-qq"></i></a></li>
-              <li><a href="#"><i class="icon-wechat"></i></a></li>
-              <li><a href="#"><i class="icon-weibo"></i></a></li>
-
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
     <div class="fh5co-copyright animate-box">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <p class="fh5co-left">
-              <small>&copy; 2016 <a href="index.html">HooGuang</a> free html5. All Rights Reserved.</small>
-            </p>
-            <p class="fh5co-right">
-              <small class="fh5co-right">More Templates <a href="http://www.jianhuax.com" target="_blank"
-                                                           title="建华兄个人博客">建华兄个人博客</a> - Collect from <a
-                  href="http://www.jianhuax.com" target="_blank" title="建华兄个人博客">建华兄个人博客</a></small>
+            <p class="text-center">
+              <small>Copyright&copy; 2019 累兰羽个人博客<a href="index.html"></a></small>
             </p>
           </div>
         </div>
@@ -656,8 +429,10 @@
 </script>
 <!-- End demo purposes only -->
 
+<script src="{% static 'js/constants.js' %}"></script>
 <!-- Main JS (Do not remove) -->
 <script src="{% static 'muban/js/main.js' %}"></script>
+
 
 <!--
   INFO:
@@ -684,6 +459,40 @@
       $.removeCookie('layoutCookie', {path: '/'}); // remove the value of our cookie 'layoutCookie'
     });
   });
+</script>
+
+{#数据填充#}
+<script>
+  var get_blog_hot_url = "{% url 'blog:api:blog-get-hot' %}";
+  var blog_detail_url = '#';
+
+  $(function () {
+    $.get(get_blog_hot_url, {}, function (data) {
+      var html = CALLBACK.genArticle(data);
+      $("#hotArticle").html(html)
+    })
+  })
+
+
+  var CALLBACK = {
+    genArticle: function (data) {
+      var html = '';
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].image == null){
+          data[i].image = MYCONST.blogImage
+        }
+        html += `<div class="col-md-4 col-sm-6 col-xxs-12">
+          <a href="${blog_detail_url}" class="fh5co-project-item ">
+            <img src="${data[i]['image']}" alt="Image" class="img-responsive">
+            <div class="fh5co-text">
+              <h2>${data[i]['title']}</h2>
+              <p class="moreHidden">${data[i]['body']}</p>
+            </div>
+          </a></div>`;
+      }
+      return html
+    }
+  }
 </script>
 
 

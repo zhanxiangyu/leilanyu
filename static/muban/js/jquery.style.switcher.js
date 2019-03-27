@@ -171,7 +171,7 @@ SOFTWARE.
 		},
 		
 		updateStyle: function(newStyle) {
-			this.$themeCss.attr('href', newStyle);
+			this.$themeCss.attr('href', 'static/muban/' + newStyle);
 		},
 		
 		getFullAssetPath: function(asset) {

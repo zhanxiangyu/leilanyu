@@ -345,6 +345,9 @@ body {
   #fh5co-hero {
     height: 450px;
   }
+  #bee-container {
+    top: 80%!important;
+  }
 }
 #fh5co-hero .fh5co-overlay {
   position: absolute;
@@ -372,7 +375,7 @@ body {
   display: table-cell;
 }
 #fh5co-hero .fh5co-intro > div .fh5co-left-position {
-  width: 65%;
+  width: 50%;
   float: left;
 }
 @media screen and (max-width: 992px) {
@@ -392,7 +395,7 @@ body {
   }
 }
 #fh5co-hero .fh5co-intro > div .fh5co-right-position {
-  width: 65%;
+  width: 50%;
   float: right;
   text-align: right;
 }

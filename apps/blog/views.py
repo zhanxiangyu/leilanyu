@@ -91,3 +91,7 @@ def blog_mood(request):
     """
     blogs = Blog.objects.all().order_by('-created_time')
     return render(request, 'mood.html', locals())
+
+
+def list(request):
+    return render(request, 'blog/list.html', locals())

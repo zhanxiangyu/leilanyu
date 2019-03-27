@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^comments/', include('comments.urls', namespace='comments')),
 
     url(r'^$', index, name='index'),
-    url(r'^v1$', indexV, name='indexV'),
+    url(r'^v1$', indexV, name='home'),
 
     url(r'^uploads/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 

@@ -235,9 +235,9 @@
   <section id="fh5co-header">
     <div class="container">
       <nav role="navigation">
-        <h1 id="fh5co-logo"><a href="index.html">兰羽</a></h1>
+        <h1 id="fh5co-logo"><a href="{% url 'home' %}">兰羽</a></h1>
         <ul class="pull-left left-menu">
-          <li><a href="about.html">文章</a></li>
+          <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
           <li><a href="tour.html">资源下载</a></li>
           <li><a href="pricing.html">社区</a></li>
           <li><a href="tour.html">M家乡</a></li>
@@ -304,11 +304,11 @@
         </div>
       </div>
       <div class="row" id="hotArticle">
-{#        ajax填充数据#}
+        {#        ajax填充数据#}
       </div>
       <div class="row">
         <div class="text-center">
-          <a href="#" type="button" class="btn btn-primary">更多文章</a>
+          <a href="{% url 'blog:blog_list' %}" type="button" class="btn btn-primary">更多文章</a>
         </div>
       </div>
     </div>
@@ -471,14 +471,13 @@
       var html = CALLBACK.genArticle(data);
       $("#hotArticle").html(html)
     })
-  })
-
+  });
 
   var CALLBACK = {
     genArticle: function (data) {
       var html = '';
       for (var i = 0; i < data.length; i++) {
-        if (data[i].image == null){
+        if (data[i].image == null) {
           data[i].image = MYCONST.blogImage
         }
         html += `<div class="col-md-4 col-sm-6 col-xxs-12">

@@ -6,91 +6,374 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="keywords" content="个人博客,累兰羽博客,blog,python">
-  <meta name="description" content="初步搭建一个分享python的博客网站">
+  <meta name="description" content="累兰羽博客，是一个热爱互联网技术的个人博客，定期分享自己的原创技术文章、生活趣事、生活感悟等，希望能帮助到同样喜欢技术的同学">
+
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="xONOKFPwA8rilQtUk9LyPcOECpt9VAxdEgfs0C2V">
 
   <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+
   <title>兰羽</title>
+
   <link rel="stylesheet" href="{% static 'muban2/css/home.css' %}">
-  {% block other_css %}
-  {% endblock %}
+
+  <!-- Scripts -->
+  <script>
+    window.Language = 'zh_cn';
+
+    window.Laravel = {"csrfToken": "xONOKFPwA8rilQtUk9LyPcOECpt9VAxdEgfs0C2V"}    </script>
+
 </head>
 <body>
 <div id="app">
-  {% block nav %}
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
 
-          <!-- Collapsed Hamburger -->
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                  data-target="#app-navbar-collapse">
-            <span class="sr-only">Toggle Navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <!-- Collapsed Hamburger -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+          <span class="sr-only">Toggle Navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
 
-          <!-- Branding Image -->
-          <a class="navbar-brand" href="{% url 'home' %}">
-            兰羽
-          </a>
-        </div>
+        <!-- Branding Image -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+          兰羽
+        </a>
+      </div>
 
-        <div class="collapse navbar-collapse" id="app-navbar-collapse">
-          <!-- Left Side Of Navbar -->
-          <ul class="nav navbar-nav">
-            <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
-            <li><a href="#">讨论</a></li>
-          </ul>
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <!-- Left Side Of Navbar -->
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
+          <li><a href="#">资源下载</a></li>
+          <li><a href="#">社区</a></li>
+        </ul>
 
-          <!-- Right Side Of Navbar -->
-          <ul class="nav navbar-nav navbar-right">
-            <!-- Search Box -->
-            <li>
-              <form class="navbar-form navbar-right search" role="search" method="get" action="#">
-                <input type="text" class="form-control" name="q" placeholder="搜索" required>
-              </form>
-            </li>
+        <!-- Right Side Of Navbar -->
+        <ul class="nav navbar-nav navbar-right">
+          <!-- Search Box -->
+          <li>
+            <form class="navbar-form navbar-right search" role="search" method="get" action="#">
+              <input type="text" class="form-control" name="q" placeholder="搜索" required>
+            </form>
+          </li>
 
-            <!-- Authentication Links -->
-            <li><a href="login.html">登录</a></li>
-            <li><a href="register.html">注册</a></li>
-          </ul>
+          <!-- Authentication Links -->
+          <li><a href="login.html">登录</a></li>
+          <li><a href="register.html">注册</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="container-fluid">
+      <div class="jumbotron text-center">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <h3>不积跬步，无以至千里</h3>
+
+            <h6>不积小流，无以成江海</h6>
+          </div>
         </div>
       </div>
-    </nav>
-  {% endblock %}
-
-  {% block main %}
-  {% endblock %}
-
-  {% block footer %}
-    <footer id="footer" class="footer">
-      <div class="container text-center">
-        <div class="row content">
-          <div class="col-md-4 col-md-offset-4">
-            <ul class="connect">
-              <li>
-                <a href="http://www.jianhuax.com/html5/238.html">
-                  <i class="large ion-ios-home"></i>
+    </div>
+    <div class="container list">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="media">
+            <a class="media-left" href="#docker-kagnt">
+              <img alt="docker-kagnt" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#docker-kagnt">
+                  细说docker第二篇
                 </a>
-              </li>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">docker 三大基础组件</span>
+              </div> -->
+              <div class="description">
+                学习docker的第一步就要把镜像、容器的基础命令学好，只有熟练的使用命令，才能更好的运用docker,最后在利用Dockfile来制作vue的镜像
+              </div>
+              <div class="extra">
+                <a href="#tag/docker">
+                  <div class="label"><i class="ion-pricetag"></i>docker</div>
+                </a>
+                <a href="#tag/linux">
+                  <div class="label"><i class="ion-pricetag"></i>linux</div>
+                </a>
 
-            </ul>
-            <div class="links">
-              <a href="#link">友情链接</a>
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-08-08&nbsp;
+                  <i class="ion-ios-eye"></i>138
+                  <!-- <a href="#docker-kagnt" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#docker-2crp1">
+              <img alt="docker-2crp1" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#docker-2crp1">
+                  细说docker第一篇
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">docker的基本安装和使用</span>
+              </div> -->
+              <div class="description">
+                Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux
+                机器上，也可以实现虚拟化,本次讲下docker的基本知识，以及了解docker的生态，打好docker基础
+              </div>
+              <div class="extra">
+                <a href="#tag/docker">
+                  <div class="label"><i class="ion-pricetag"></i>docker</div>
+                </a>
+                <a href="#tag/linux">
+                  <div class="label"><i class="ion-pricetag"></i>linux</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-07-26&nbsp;
+                  <i class="ion-ios-eye"></i>99
+                  <!-- <a href="#docker-2crp1" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#nfs-jjfej">
+              <img alt="nfs-jjfej" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#nfs-jjfej">
+                  NFS来搭建文件服务器
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">nfs环境部署</span>
+              </div> -->
+              <div class="description">
+                NFS（Network File
+                System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透,利用NFS来搭建文件服务器
+              </div>
+              <div class="extra">
+                <a href="#tag/linux">
+                  <div class="label"><i class="ion-pricetag"></i>linux</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-07-05&nbsp;
+                  <i class="ion-ios-eye"></i>126
+                  <!-- <a href="#nfs-jjfej" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#docker-z9vxk">
+              <img alt="docker-z9vxk" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#docker-z9vxk">
+                  迁移博客到docker
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">docker容器技术</span>
+              </div> -->
+              <div class="description">
+                本篇主要记录迁移自己的博客到docker容器，让服务器和应用彻底独立，应用不在依赖于服务器，而是部署到docker上
+              </div>
+              <div class="extra">
+                <a href="#tag/docker">
+                  <div class="label"><i class="ion-pricetag"></i>docker</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-06-15&nbsp;
+                  <i class="ion-ios-eye"></i>132
+                  <!-- <a href="#docker-z9vxk" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#redis-wwfss">
+              <img alt="redis-wwfss" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#redis-wwfss">
+                  redis集群安装篇
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">redis集群安装</span>
+              </div> -->
+              <div class="description">
+                redis
+                从3.0以后支持了集群模式，在3.0以前只支持单实例，虽然现在的服务器内存已经很大了，但是单体上总会有瓶颈，导致无法满足业务需求，如果用redis集群的话，就可以横向扩展，在集群中增加节点、删除节点等，本篇只是介绍了集群的安装，将在下一篇介绍集群原理以及使用redis集群
+              </div>
+              <div class="extra">
+                <a href="#tag/nosql">
+                  <div class="label"><i class="ion-pricetag"></i>nosql</div>
+                </a>
+                <a href="#tag/linux">
+                  <div class="label"><i class="ion-pricetag"></i>linux</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-06-14&nbsp;
+                  <i class="ion-ios-eye"></i>221
+                  <!-- <a href="#redis-wwfss" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#postgresql-frr6m">
+              <img alt="postgresql-frr6m" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#postgresql-frr6m">
+                  PostgreSQL入门篇-初来乍到
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">PostgreSQL基础教程</span>
+              </div> -->
+              <div class="description">
+                PostgreSQL号称「最先进的开源数据库」，但是一直以来不温不火，风头没有MySQL那么盛。大乌龟如果迫害MySQL，也许PostgreSQL将会迎来一个新的春天。
+              </div>
+              <div class="extra">
+                <a href="#tag/postgresql">
+                  <div class="label"><i class="ion-pricetag"></i>postgresql</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-01-04&nbsp;
+                  <i class="ion-ios-eye"></i>460
+                  <!-- <a href="#postgresql-frr6m" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#php7-szu98">
+              <img alt="php7-szu98" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#php7-szu98">
+                  浅谈php7新特性
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">php7新语法</span>
+              </div> -->
+              <div class="description">
+                php的版本已经升级到了php7，还在用php5的小伙伴们赶紧看下php7的新特性吧
+              </div>
+              <div class="extra">
+                <a href="#tag/php">
+                  <div class="label"><i class="ion-pricetag"></i>php</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2018-01-02&nbsp;
+                  <i class="ion-ios-eye"></i>391
+                  <!-- <a href="#php7-szu98" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <a class="media-left" href="#composer-yksfs">
+              <img alt="composer-yksfs" src="{% static 'muban2/picture/ct0cjpcmpvrtcg5lb8vzluqtraxdjvmqfcebmlhe.jpg' %}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="#composer-yksfs">
+                  composer入门教程
+                </a>
+              </h6>
+              <!--  <div class="meta">
+                  <span class="cinema">php依赖管理</span>
+              </div> -->
+              <div class="description">
+                Composer 是 PHP5.3以上 的一个依赖管理工具。它允许你声明项目所依赖的代码库，它会在你的项目中为你安装他们,Composer 不是一个包管理器
+              </div>
+              <div class="extra">
+                <a href="#tag/composer">
+                  <div class="label"><i class="ion-pricetag"></i>composer</div>
+                </a>
+                <a href="#tag/php%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8">
+                  <div class="label"><i class="ion-pricetag"></i>php包管理器</div>
+                </a>
+
+                <div class="info">
+                  <i class="ion-person"></i>罗华&nbsp;,&nbsp;
+                  <i class="ion-clock"></i>2017-12-21&nbsp;
+                  <i class="ion-ios-eye"></i>492
+                  <!-- <a href="#composer-yksfs" class="pull-right">
+                      更多 <i class="ion-ios-arrow-forward"></i>
+                  </a> -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="copy-right text-center">
-        <a>© jianhuax.com Blog 2016. Powered By jianhuax.com</a>
-      </div>
-    </footer>
-  {% endblock %}
+    </div>
+
+  </div>
+
+  <footer id="footer" class="footer">
+    <div class="copy-right text-center">
+      <a>Copyright&copy; 2019 累兰羽个人博客</a>
+    </div>
+  </footer>
 </div>
 
-{% block other_js %}
-{% endblock %}
 </body>
 </html>

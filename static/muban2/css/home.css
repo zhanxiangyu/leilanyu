@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+﻿﻿@charset "UTF-8";
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
@@ -15972,7 +15972,7 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 140px;
+  height: 60px;
 }
 
 a:hover {
@@ -16749,4 +16749,3 @@ img.emojione {
 .comment-body a {
   color: #1abc9c;
 }
-

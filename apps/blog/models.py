@@ -42,6 +42,7 @@ class Blog(models.Model):
     views = models.PositiveIntegerField('浏览量', default=0)
     image = models.ImageField(verbose_name=u'文章头像', upload_to='image/blog', blank=True, null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE)
+    description = models.CharField("文章描述", max_length=30, default='')
 
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField('Tag', verbose_name='标签集合', blank=True)

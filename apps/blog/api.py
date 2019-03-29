@@ -37,7 +37,8 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
     def get_hot(self, request):
         queryset = self.get_queryset()
         queryset = queryset.filter(status='p')[:6]
-        serializer_data = self.get_serializer(queryset, many=True).data
+        serializer_data = self.get_serializer(queryset, many=True,
+                                              fields=('image', 'title', 'description')).data
         return Response(status=status.HTTP_200_OK, data=serializer_data)
 
     @detail_route(methods=['get'])
@@ -79,7 +80,6 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
         }
         return Response(data=data, status=status.HTTP_200_OK)
         pass
-    pass
 
 
 class TimeLineViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):

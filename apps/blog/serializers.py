@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse
 from rest_framework import serializers
+from base.utils import DynamicFieldsModelSerializer
 
 from .models import Blog, TimeLine
 
 
-class BlogSerializers(serializers.ModelSerializer):
+class BlogSerializers(DynamicFieldsModelSerializer):
     detail_url = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()
     category_name_url = serializers.SerializerMethodField()
-    body = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
 
     def get_category_name_url(self, obj):
         if obj.category:
@@ -28,10 +29,10 @@ class BlogSerializers(serializers.ModelSerializer):
     def get_username(self, obj):
         return obj.author.username
 
-    def get_body(self, obj):
-        if len(obj.body) > 50:
-            return obj.body[:50]
-        return obj.body
+    def get_description(self, obj):
+        if obj.description == '':
+            return '暂无描述'
+        return obj.description
 
     class Meta:
         model = Blog
@@ -39,8 +40,6 @@ class BlogSerializers(serializers.ModelSerializer):
 
 
 class TimeLineSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = TimeLine
         fields = "__all__"
-

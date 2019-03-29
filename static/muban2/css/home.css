@@ -1971,28 +1971,28 @@ kbd kbd {
           box-shadow: none;
 }
 
-pre {
-  display: block;
-  padding: 11.5px;
-  margin: 0 0 12px;
-  font-size: 13px;
-  line-height: 1.72222;
-  word-break: break-all;
-  word-wrap: break-word;
-  color: #333333;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+/*pre {*/
+  /*display: block;*/
+  /*padding: 11.5px;*/
+  /*margin: 0 0 12px;*/
+  /*font-size: 13px;*/
+  /*line-height: 1.72222;*/
+  /*word-break: break-all;*/
+  /*word-wrap: break-word;*/
+  /*color: #333333;*/
+  /*background-color: #f5f5f5;*/
+  /*border: 1px solid #ccc;*/
+  /*border-radius: 4px;*/
+/*}*/
 
-pre code {
-  padding: 0;
-  font-size: inherit;
-  color: inherit;
-  white-space: pre-wrap;
-  background-color: transparent;
-  border-radius: 0;
-}
+/*pre code {*/
+  /*padding: 0;*/
+  /*font-size: inherit;*/
+  /*color: inherit;*/
+  /*white-space: pre-wrap;*/
+  /*background-color: transparent;*/
+  /*border-radius: 0;*/
+/*}*/
 
 .pre-scrollable {
   max-height: 340px;

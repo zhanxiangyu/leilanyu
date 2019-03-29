@@ -27,7 +27,7 @@
   <script src="{% static 'js/constants.js' %}"></script>
   <script>
     var get_page_number_url = "{% url 'blog:api:blog-list' %}";
-
+    var get_detail_url = "{% url 'blog:blog_detail' 0 %}";
 
     $(function () {
       // 设置列表数据
@@ -77,19 +77,21 @@
           if (articles[i].image == null) {
             articles[i].image = MYCONST.blogImage
           }
+          var url = get_detail_url.replace(0, articles[i].id);
+
           html += `<div class="media">
-            <a class="media-left" href="#docker-kagnt">
+            <a class="media-left" href="${url}">
               <img alt="docker-kagnt" src="${articles[i].image}"
                    data-holder-rendered="true" width="229" height="185">
             </a>
             <div class="media-body">
               <h6 class="media-heading">
-                <a href="#docker-kagnt">
+                <a href="${url}">
                   ${articles[i]["title"]}
                 </a>
               </h6>
               <div class="description">
-                ${articles[i]['body']}
+                ${articles[i]['description']}
               </div>
               <div class="extra">
                 <a href="#tag/docker">

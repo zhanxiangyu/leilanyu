@@ -2,7 +2,69 @@
 
 {% load static %}
 
+{% block other_css %}
+  <style>
+    .main .header {
+      margin-bottom: 20px;
+    }
+
+    .main .header span {
+      color: #015b80;
+    }
+
+    div h3 {
+      color: #000;
+    }
+
+    #b_content pre {
+      background-color: #1abc9c6e;
+    }
+  </style>
+{% endblock %}
 
 {% block main %}
+  <div class="main">
+    <div class="article container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          <h3 id="b_title"></h3>
+          <div class="header">
+            <i class="ion-person"></i><span id="b_name"></span>
+            <i class="ion-clock"></i><span id="b_time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2" id="b_content">
+        </div>
+      </div>
+    </div>
 
+
+  </div>
+{% endblock %}
+
+{% block other_js %}
+  <script>
+    var blog_url = "{% url 'blog:api:blog-detail' blog_id %}";
+
+    $(function () {
+      CALLBACK.getData();
+    })
+  </script>
+  <script>
+    var CALLBACK = {
+      getData: function () {
+        $.get(blog_url, {}, function (data) {
+          CALLBACK.setData(data)
+        })
+      },
+      setData: function (data) {
+        $("#b_title").html(data.title);
+        $("#b_name").html(data.username);
+        $("#b_time").html(data.created_time);
+        $("#b_content").html(marked(data.body));
+      }
+    }
+  </script>
 {% endblock %}

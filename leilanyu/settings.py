@@ -28,6 +28,7 @@ except:
         "DB_PASSWORD": "leilanyu",
         "ADMIN_URL": "admin",   #控制后台admin路径
         "SECRET_KEY": 'jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d',
+        "REDIS_PASS": 'v105uCdcjQQuCdgww',  # 配置redis缓存
     }
     """
     print('私有，可以自己提供')
@@ -143,11 +144,15 @@ DATABASES = {
 }
 
 DEFAULT_CACHE_AGE = 300
+# 配置缓存为redis
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211'
-    }
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': 'redis://:{}@127.0.0.1:6379'.format(PRIVATE_JSON['REDIS_PASS']),
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        },
+    },
 }
 
 REST_FRAMEWORK = {
@@ -169,12 +174,8 @@ REST_FRAMEWORK = {
     'TIME_INPUT_FORMATS': ('%H:%M:%S',),
 }
 
-
+# drf-extensions的设置
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_OBJECT_CACHE_KEY_FUNC':
-        'rest_framework_extensions.utils.default_object_cache_key_func',
-    'DEFAULT_LIST_CACHE_KEY_FUNC':
-        'rest_framework_extensions.utils.default_list_cache_key_func',
     # DRF的缓存时间设置
     'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 1
 }

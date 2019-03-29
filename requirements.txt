@@ -19,6 +19,9 @@ django-rest-framework-social-oauth2==1.1.0
 django-reversion==2.0.13
 django-simple-captcha==0.4.6
 djangorestframework==3.7.7
+django-redis-cache==1.7.1
+django-redis==4.0.0
+redis==2.10.6
 drf-extensions==0.3.1
 et-xmlfile==1.0.1
 future==0.15.2

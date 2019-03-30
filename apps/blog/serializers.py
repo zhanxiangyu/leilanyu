@@ -6,7 +6,7 @@ from common_framework.handleserializers import ChangeSerializerFields
 from .models import Blog, TimeLine
 
 
-class BlogSerializers(ChangeSerializerFields):
+class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()

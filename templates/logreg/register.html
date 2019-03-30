@@ -11,6 +11,10 @@
     .main {
       margin-top: 100px;
     }
+
+    .main a:hover {
+      color: #408EBA;
+    }
   </style>
 {% endblock %}
 
@@ -65,19 +69,18 @@
 
                 <div class="form-group">
                   <div class="col-lg-10 col-lg-offset-1">
-                    <button type="submit" class="btn btn-primary form-control">
+                    <button type="submit" class="btn btn-info form-control">
                       注册
                     </button>
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <div class="col-md-8 col-md-offset-2 text-center">
-                    <a class="btn btn-link" href="login.html">
-                      您已经有账号？点击此处
-                    </a>
-                  </div>
-                </div>
+{#                <div class="form-group">#}
+{#                  <div class="col-md-8 col-md-offset-2 text-center">#}
+{#                    <a class="btn btn-link" href="{% url 'users:login' %}">#}
+{#                      您已经有账号？点击此处#}
+{#                    </a>#}
+{#                  </div>#}
+{#                </div>#}
               </fieldset>
             </form>
           </div>

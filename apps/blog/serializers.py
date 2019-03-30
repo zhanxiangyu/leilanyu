@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse
 from rest_framework import serializers
-from base.utils import DynamicFieldsModelSerializer
+from common_framework.handleserializers import ChangeSerializerFields
 
 from .models import Blog, TimeLine
 
 
-class BlogSerializers(DynamicFieldsModelSerializer):
+class BlogSerializers(ChangeSerializerFields):
     detail_url = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()

@@ -75,7 +75,8 @@ def leave_message(request):
 
 def login(request):
     next = request.GET.get('next', '/')  # 用于返回页面跳转
-    return render(request, 'login.html', locals())
+    # return render(request, 'login.html', locals())
+    return render(request, 'logreg/login.html', locals())
 
 
 @login_required(login_url='index')
@@ -111,7 +112,7 @@ class RegisterView(View):
 
     def get(self, request):
         register_form = RegisterForm()
-        return render(request, 'regist.html', {'register_form': register_form})
+        return render(request, 'logreg/register.html', {'register_form': register_form})
 
     def post(self, request):
         register_form = RegisterForm(request.POST)

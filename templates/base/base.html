@@ -16,7 +16,13 @@
   <title>兰羽</title>
 
   <link rel="stylesheet" href="{% static 'muban/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sweetalert/sweetalert.css' %}">
   <link rel="stylesheet" href="{% static 'muban2/css/home.css' %}">
+  <style>
+    .swalAlert2 {
+      background-color: #66afe9;
+    }
+  </style>
 
   {% block other_css %}
   {% endblock %}
@@ -82,6 +88,8 @@
 
 
 <script src="{% static 'muban/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'common/js/ajax_csrf.js' %}"></script>
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
 <script src="{% static 'js/utils/marked.js' %}"></script>
 <script>
   var rendererMD = new marked.Renderer();
@@ -95,6 +103,39 @@
     smartLists: true,
     smartypants: false
   });
+
+  function swalC(option, callback) {
+    if (callback) {
+      swal(option, callback())
+    } else {
+      swal(option)
+    }
+  }
+
+  function swalSuccess(option, callback) {
+    var option_t = {
+      type: "success",
+      title: "成功",
+      timer: 1000,
+      showConfirmButton: false,
+      {#customClass: 'swalAlert2',#}
+    };
+    option = $.extend({}, option_t, option);
+    swalC(option, callback);
+  }
+
+  function swalError(option, callback) {
+    var option_t = {
+      type: "error",
+      title: "错误",
+    };
+    option = $.extend({}, option_t, option);
+    swalC(option, callback);
+  }
+
+  function swalCustom(option, callback) {
+    swalC(option, callback);
+  }
 </script>
 {% block other_js %}
 {% endblock %}

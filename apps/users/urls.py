@@ -4,10 +4,11 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 from users import views
-from users.api import RecordIPViewSet
+from users.api import RecordIPViewSet, UserViewSet
 
 router = DefaultRouter()
 router.register('recordip', RecordIPViewSet)
+router.register('user', UserViewSet)
 
 
 urlpatterns = [

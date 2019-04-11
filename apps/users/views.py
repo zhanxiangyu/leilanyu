@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, resolve_url
 from django.urls import reverse
 from django.utils.http import is_safe_url
@@ -14,14 +14,26 @@ from django.views.generic.base import View
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from django.contrib.auth.backends import ModelBackend
+from django.db.models import Q
 
 from blog.models import Blog, Tag, FriendLink
 from users.forms import RegisterForm
-from .models import RecordIP
-from .utils.utlis import get_client_ip_from_request
+from users.models import RecordIP
+from users.utils.utlis import get_client_ip_from_request
 
 User = get_user_model()
 
+
+class CustomBackend(ModelBackend):
+
+    def authenticate(self, username=None, password=None, **kwargs):
+        try:
+            user = User.objects.get(Q(username=username) | Q(email=username))
+            if user.check_password(password):
+                return user
+        except Exception as e:
+            return None
 
 # 配置全局返回
 def template_variable(request):
@@ -97,7 +109,9 @@ def handler_login(request, authentication_form=AuthenticationForm):
         django_login(request, user)
         data['redirect_url'] = _get_redirect_url(request, redirect_to)
     else:
-        return Response(data={'errors': '用户名或密码不正确'}, status=status.HTTP_401_UNAUTHORIZED)
+        response = JsonResponse(data=form.errors)
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
 
     return Response(data, status=status.HTTP_200_OK)
 
@@ -119,12 +133,16 @@ class RegisterView(View):
         if register_form.is_valid():
             username = register_form.cleaned_data['username']
             password = register_form.cleaned_data['password']
-            # password2 = register_form.cleaned_data['password2']
-            if User.objects.filter(username=username).exists():
-                return render(request, 'regist.html', {'register_form': register_form, 'name_used': '用户名已经使用'})
+            email = register_form.cleaned_data['email']
+
+            # 默认用户未激活
             User.objects.create_user(
                 username=username,
-                password=password
+                password=password,
+                email=email,
+                is_active=False,
             )
-            return render(request, 'login.html', {'success': '注册成功'})
-        return render(request, 'regist.html', {'register_form': register_form})
+            return JsonResponse(data={'redirect_url': resolve_url('users:login')})
+        response = JsonResponse(data=register_form.errors)
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response

@@ -27,9 +27,15 @@ class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
 
 
     @list_route(methods=['POST'])
-    def check_username(self, request):
+    def check_user_register(self, request):
         username = request.data.get('username', '')
-        queryset = self.queryset.filter(username=username)
-        if queryset.exists():
-            return Response(data=False, status=HTTP_200_OK)
+        email = request.data.get('email', '')
+        if username:
+            queryset = self.queryset.filter(username=username)
+            if queryset.exists():
+                return Response(data=False, status=HTTP_200_OK)
+        if email:
+            queryset = self.queryset.filter(email=email)
+            if queryset.exists():
+                return Response(data=False, status=HTTP_200_OK)
         return Response(data=True, status=HTTP_200_OK)

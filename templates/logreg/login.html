@@ -72,8 +72,11 @@
 
                 <div class="form-group">
                   <div class="col-md-8 col-md-offset-2 text-center">
-                    <a class="btn btn-link" href="#password/reset">
+                    <a class="pull-left" href="#password/reset">
                       忘记密码？
+                    </a>
+                    <a class="pull-right" href="{% url '' %}">
+                      激活邮箱
                     </a>
                   </div>
                 </div>
@@ -100,8 +103,7 @@
       },
       dataType: 'json',
       error: function (xhr, status, err) {
-        error_data = xhr.responseJSON;
-        $("#formError").html(error_data.errors);
+        showError(xhr.responseJSON, $("#formError"));
       }
     };
     $("#loginForm").validate({

@@ -80,13 +80,13 @@
                     </button>
                   </div>
                 </div>
-                {#                <div class="form-group">#}
-                {#                  <div class="col-md-8 col-md-offset-2 text-center">#}
-                {#                    <a class="btn btn-link" href="{% url 'users:login' %}">#}
-                {#                      您已经有账号？点击此处#}
-                {#                    </a>#}
-                {#                  </div>#}
-                {#                </div>#}
+                <div class="form-group">
+                  <div class="col-md-8 col-md-offset-2 text-center">
+                    <a class="btn btn-link" href="{% url 'users:login' %}">
+                      您已经有账号？点击此处
+                    </a>
+                  </div>
+                </div>
               </fieldset>
             </form>
           </div>
@@ -101,7 +101,7 @@
   <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
   <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
   <script>
-  var checkUserNameUrl = "{% url 'users:api:user-check-username' %}"
+    var checkUserRegisterUrl = "{% url 'users:api:user-check-user-register' %}"
   </script>
   <script>
     var options = {
@@ -112,18 +112,17 @@
       },
       dataType: 'json',
       error: function (xhr, status, err) {
-        error_data = xhr.responseJSON;
-        $("#formError").html(error_data.errors);
+        showError(xhr.responseJSON, $("#formError"));
       }
     };
     $("#registerForm").validate({
       rules: {
         username: {
           required: true,
-          rangelength: [4, 20],
+          rangelength: [2, 20],
           remote: {
-            url: checkUserNameUrl,
-            type:'post',
+            url: checkUserRegisterUrl,
+            type: 'post',
             data: {
               username: function () {
                 return $("#username").val()
@@ -141,7 +140,16 @@
         },
         email: {
           required: true,
-          email:true
+          email: true,
+          remote: {
+            url: checkUserRegisterUrl,
+            type: 'post',
+            data: {
+              email: function () {
+                return $("#email").val()
+              }
+            }
+          }
         }
       },
       messages: {
@@ -158,6 +166,7 @@
         },
         email: {
           required: '请输入邮箱',
+          remote: '邮箱已经注册',
         },
       },
       submitHandler: function (form) {

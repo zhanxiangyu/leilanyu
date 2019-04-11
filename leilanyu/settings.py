@@ -194,10 +194,11 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 5
 
-# AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
 #    'rest_framework_social_oauth2.backends.DjangoOAuth2',
 #    'django.contrib.auth.backends.ModelBackend',
-# )
+)
 
 
 # Password validation

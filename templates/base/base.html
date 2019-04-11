@@ -106,7 +106,7 @@
 
   function swalC(option, callback) {
     if (callback) {
-      swal(option, callback())
+      swal(option, callback)
     } else {
       swal(option)
     }
@@ -135,6 +135,17 @@
 
   function swalCustom(option, callback) {
     swalC(option, callback);
+  }
+
+  function showError(error_data, $widgt) {
+    if (error_data instanceof Object) {
+      for (k in error_data) {
+        var errorContent = error_data[k];
+        $widgt.html(errorContent[0]);
+        break
+      }
+    }
+    $widgt.html(error_data.errors);
   }
 </script>
 {% block other_js %}

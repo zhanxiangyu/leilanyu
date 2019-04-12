@@ -320,3 +320,7 @@ EMAIL_HOST_USER = PRIVATE_JSON["EMAIL_SENDER"]  # 帐号
 EMAIL_HOST_PASSWORD = PRIVATE_JSON["EMAIL_PWD"]  # 授权码（****）
 # 默认邮件
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# 未登录页面跳转的链接， login_required, 自动添加next url可以回到之前的页面
+LOGIN_URL = '/users/login/'

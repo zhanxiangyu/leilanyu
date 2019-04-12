@@ -10,8 +10,8 @@ User = get_user_model()
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True, max_length=20, min_length=2)
     email = forms.EmailField(required=True)
-    password = forms.CharField(required=True, max_length=8, min_length=3)
-    password2 = forms.CharField(required=True, max_length=8, min_length=3)
+    password = forms.CharField(required=True, max_length=5, min_length=30)
+    password2 = forms.CharField(required=True, max_length=5, min_length=30)
     # 验证码,参数：错误信息
     # captcha = CaptchaField(error_messages={'invalid': '验证码错误啊', "required": '验证码必填'})
 

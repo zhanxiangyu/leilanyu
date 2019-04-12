@@ -19,6 +19,12 @@
     .main form .error {
       color: #ce2626;
     }
+    .form-control[disabled],
+    .form-control[readonly],
+    fieldset[disabled] .form-control {
+      background-color: #5bc0de;
+      opacity: 1;
+    }
   </style>
 {% endblock %}
 
@@ -29,11 +35,12 @@
         <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 50px;">
           <div class="well bs-component">
             <form id="eamilForm" class="form-horizontal" role="form" method="POST"
-                  action="{% url 'users:api:user-send-active-eamil' %}">
+                  action="{% url 'users:api:user-send-eamil' %}">
               {% csrf_token %}
 
               <fieldset>
-                <legend class="text-center">激活</legend>
+                <legend class="text-center">{{ title }}</legend>
+                <input id="email_type" name="email_type" value="{{ email_type }}" hidden>
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-1">
                     <label class="control-label" for="email">邮箱</label>

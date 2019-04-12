@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+
 {% block other_css %}
   <style>
     #app {
@@ -27,34 +28,24 @@
       <div class="row">
         <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 50px;">
           <div class="well bs-component">
-            <form id="loginForm" class="form-horizontal" role="form" method="POST"
-                  action="{% url 'users:handler_login' %}">
+            <form id="forgetForm" class="form-horizontal" role="form" method="POST"
+                  action="{% url 'users:api:user-reset-pwd' %}">
               {% csrf_token %}
-              <input hidden name="next" id="next" value="{{ next }}">
-
+              <input id="token" name="token" value="{{ token }}" hidden autocomplete="off">
               <fieldset>
-                <legend class="text-center">登录</legend>
+                <legend class="text-center">重置密码</legend>
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-1">
-                    <label class="control-label" for="username">用户名/邮箱</label>
-                    <input id="username" type="text" class="form-control" name="username" value=""
-                           placeholder="请输入用户名/邮箱" autofocus autocomplete="off">
+                    <label for="password" class="control-label">密码</label>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="请输入密码"
+                           autocomplete="off">
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-1">
-                    <label class="control-label" for="password">密码</label>
-                    <input id="password" type="password" class="form-control" name="password" autocomplete="off"
-                           placeholder="请输入密码">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-8 col-md-offset-1">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="remember"> 记住我
-                      </label>
-                    </div>
+                    <label for="password2" class="control-label">确认密码</label>
+                    <input id="password2" type="password" class="form-control" name="password2"
+                           placeholder="请输入确认密码" autocomplete="off">
                   </div>
                 </div>
                 <div class="form-group">
@@ -65,19 +56,8 @@
                 <div class="form-group">
                   <div class="col-lg-10 col-lg-offset-1">
                     <button type="submit" class="btn btn-info form-control">
-                      登录
+                      确认
                     </button>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="col-md-8 col-md-offset-2 text-center">
-                    <a class="pull-left" href="{% url 'users:send_confirm_email' 'pwd' %}">
-                      忘记密码？
-                    </a>
-                    <a class="pull-right" href="{% url 'users:send_confirm_email' 'active' %}">
-                      激活邮箱？
-                    </a>
                   </div>
                 </div>
               </fieldset>
@@ -87,7 +67,6 @@
       </div>
     </div>
   </div>
-
 {% endblock %}
 
 {% block other_js %}
@@ -95,15 +74,21 @@
   <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
   <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
   <script>
+    var send_eamil_pwd_url = "{% url 'users:send_confirm_email' 'pwd' %}";
+  </script>
+  <script>
+
     var active_msg = '{{ active_msg }}';
-    function showActiveMsg(msg) {
+
+    function showActiveMsg(msg, callback) {
       if (msg) {
-        swalSuccess({title: msg})
+        swalError({title: msg}, callback)
       }
     }
+
     var options = {
       success: function (data) {
-        swalSuccess({title: '登录成功'}, function () {
+        swalSuccess({title: '重置成功'}, function () {
           window.location.href = data.redirect_url
         })
       },
@@ -112,32 +97,36 @@
         showError(xhr.responseJSON, $("#formError"));
       }
     };
-    $("#loginForm").validate({
+    $("#forgetForm").validate({
       rules: {
-        username: {
-          required: true,
-          minlength: 2,
-        },
         password: {
           required: true,
-        }
+          rangelength: [5, 30]
+        },
+        password2: {
+          required: true,
+          equalTo: '#password',
+        },
       },
       messages: {
-        username: {
-          required: '请输入用户名或者邮箱',
-        },
         password: {
           required: '请输入密码',
-        }
+        },
+        password2: {
+          required: '请输入确认密码',
+          equalTo: '两次密码不一致'
+        },
       },
       submitHandler: function (form) {
         $("#formError").html('');
-        $("#loginForm").ajaxSubmit(options);
+        $("#forgetForm").ajaxSubmit(options);
       }
     });
 
     $(function () {
-      showActiveMsg(active_msg)
+      showActiveMsg(active_msg, function () {
+        window.location.href = send_eamil_pwd_url;
+      });
     })
   </script>
 {% endblock %}

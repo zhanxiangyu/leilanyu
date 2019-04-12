@@ -8,12 +8,13 @@ from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from users.models import RecordIP, User
 from users.serializers import RecordIPSerializers, UserSerializers
-from users.utils.utlis import token_confirm, custom_send_mail
+from users.utils.utlis import token_confirm, custom_send_mail, get_active_msg
+from users.utils.constants import expiration as time_expiration
 
 
 class RecordIPViewSet(CacheResponseMixin,
@@ -46,10 +47,11 @@ class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
         return Response(data=True, status=HTTP_200_OK)
 
     @list_route(methods=['POST',])
-    def send_active_eamil(self, request):
+    def send_eamil(self, request):
         email = request.data.get('email', '')
         if not email:
             raise ValidationError('邮箱不能为空')
+        email_type = request.data.get('email_type', '')
 
         # url = self.request.build_absolute_uri()
         http_host = request.META['HTTP_ORIGIN']
@@ -60,6 +62,35 @@ class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
         title = '累兰羽网站邀请你激活'
         msg = '点击激活链接进行用户激活：{http_host}{path}'.format(http_host=http_host,
                                                        path=reverse('users:active_user', kwargs={'token': token_code}))
+        if email_type == 'pwd':
+            title = '累兰羽网站找回密码'
+            msg = '点击找回密码链接进行密码重置： {http_host}{path}'.format(http_host=http_host,
+                                                             path=reverse('users:forget_pwd', kwargs={'token': token_code}))
 
         custom_send_mail(title, msg, email_from, email_to)
         return Response(data=True, status=HTTP_200_OK)
+
+    @list_route(methods=['POST', ])
+    def reset_pwd(self, request):
+        pwd = request.data.get('password', '')
+        pwd2 = request.data.get('password2', '')
+
+        if not pwd or not pwd == pwd2:
+            raise ValidationError('两次密码不一致')
+        if len(pwd) < 5 or len(pwd) > 30:
+            raise ValidationError('密码不规范')
+
+        token = request.data.get('token', '')
+        try:
+            email = token_confirm.confirm_validate_token(token=token, expiration=time_expiration)
+        except Exception as e:
+            active_msg = get_active_msg(e, '找回密码')
+            return Response(data=active_msg, status=HTTP_400_BAD_REQUEST)
+
+        user=User.objects.filter(email=email).first()
+        if not user:
+            raise ValidationError('该用户不存在')
+
+        user.set_password(pwd)
+        user.save()
+        return Response(data={'redirect_url': reverse('users:login')}, status=HTTP_200_OK)

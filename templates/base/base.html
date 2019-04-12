@@ -141,12 +141,20 @@
     if (error_data instanceof Object) {
       for (k in error_data) {
         var errorContent = error_data[k];
-        $widgt.html(errorContent[0]);
+        if (errorContent instanceof Array){
+          $widgt.html(errorContent[0]);
+        }else {
+          $widgt.html(errorContent);
+        }
         break
       }
     }
     if (error_data instanceof Array) {
       $widgt.html(error_data[0]);
+      return null
+    }
+    if (typeof error_data === 'string'){
+      $widgt.html(error_data);
       return null
     }
     $widgt.html(error_data.errors);

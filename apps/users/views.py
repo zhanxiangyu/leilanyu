@@ -1,11 +1,15 @@
 # -*- coding:utf-8 -*-
 from datetime import datetime
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login, logout as django_logout
+from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.db.models import Q
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
 from django.shortcuts import render, resolve_url
 from django.urls import reverse
 from django.utils.http import is_safe_url
@@ -14,13 +18,12 @@ from django.views.generic.base import View
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from django.contrib.auth.backends import ModelBackend
-from django.db.models import Q
 
 from blog.models import Blog, Tag, FriendLink
 from users.forms import RegisterForm
 from users.models import RecordIP
-from users.utils.utlis import get_client_ip_from_request, token_confirm
+from users.utils.utlis import get_client_ip_from_request, token_confirm, get_active_msg
+from users.utils.constants import expiration as time_expiration
 
 User = get_user_model()
 
@@ -34,6 +37,7 @@ class CustomBackend(ModelBackend):
                 return user
         except Exception as e:
             return None
+
 
 # 配置全局返回
 def template_variable(request):
@@ -148,14 +152,26 @@ class RegisterView(View):
         return response
 
 
-def active_email(request):
-    return render(request, 'logreg/active_email.html', locals())
+# 激活邮件，找回密码
+def send_confirm_email(request, email_type):
+    title = '激活账号'
+    if email_type == 'pwd':
+        title = '找回密码'
+    return render(request, 'logreg/send_email.html', locals())
+
+
+def forgetpwd(request, token):
+    try:
+        email = token_confirm.confirm_validate_token(token=token, expiration=time_expiration)
+    except Exception as e:
+        active_msg = get_active_msg(e, '找回密码')
+    return render(request, 'logreg/forgetpwd.html', locals())
 
 
 def active(request, token):
     active_msg = '激活成功'
     try:
-        email = token_confirm.confirm_validate_token(token=token, expiration=60*10)
+        email = token_confirm.confirm_validate_token(token=token, expiration=time_expiration)
         try:
             user = User.objects.get(email=email)
             if user.is_active:
@@ -165,13 +181,9 @@ def active(request, token):
             user.save()
         except:
             active_msg = '激活用户不存在'
-            return render(request, 'logreg/active_email.html', locals())
+            return render(request, 'logreg/send_email.html', locals())
     except Exception as e:
-        if 'age' in e.message and '>' in e.message:
-            active_msg = '该激活链接已过期'
-        else:
-            active_msg = '激活失败，请重新激活'
-
-        return render(request, 'logreg/active_email.html', locals())
+        active_msg = get_active_msg(e, '激活')
+        return render(request, 'logreg/send_email.html', locals())
 
     return render(request, 'logreg/login.html', locals())

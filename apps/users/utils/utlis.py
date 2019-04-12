@@ -20,6 +20,7 @@ def custom_send_mail(title, msg, from_email, to_email):
     new_task(send_mail, 2, (title, msg, from_email, to_email))
     # send_mail(title, msg, from_email, to_email, fail_silently=True)
 
+
 def get_client_ip_from_request(request):
     """
     返回request里的IP地址
@@ -56,3 +57,14 @@ class Token():
 
 
 token_confirm = Token(settings.SECRET_KEY)
+
+
+
+def get_active_msg(e, type):
+    if 'age' in e.message and '>' in e.message:
+        active_msg = '{type}链接已过期'.format(type=type)
+    else:
+        active_msg = '该链接异常, 请重新获取链接'
+    return active_msg
+
+

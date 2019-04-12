@@ -53,6 +53,10 @@ urlpatterns = [
     url(r'^search/', MySearchView(), name="haystack_search"),
 ]
 
+handler403 = 'users.views.permission_denied'
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'
+
 if settings.DEBUG:
     import debug_toolbar
 

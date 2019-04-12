@@ -193,3 +193,16 @@ def active(request, token):
 @login_required
 def user_index(request):
     return render(request, 'user/index.html', locals())
+
+
+# 配置404， 403， 500页面
+def permission_denied(request):
+    return render(request, 'error/403.html', locals())
+
+
+def page_not_found(request):
+    return render(request, 'error/404.html', locals())
+
+
+def page_error(request):
+    return render(request, 'error/500.html', locals())

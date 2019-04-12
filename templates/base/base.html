@@ -13,7 +13,7 @@
 
   <link rel="shortcut icon" href="{% static 'favicon.png' %}">
 
-  <title>兰羽</title>
+  <title>{% block title %}兰羽{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'muban/css/bootstrap.css' %}">
   <link rel="stylesheet" href="{% static 'css/sweetalert/sweetalert.css' %}">
@@ -40,7 +40,7 @@
       <div class="navbar-header">
 
         <!-- Collapsed Hamburger -->
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#app-navbar-collapse">
           <span class="sr-only">Toggle Navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -65,14 +65,47 @@
         <ul class="nav navbar-nav navbar-right">
           <!-- Search Box -->
           <li>
-            <form class="navbar-form navbar-right search" role="search" method="get" action="#">
+            <div class="navbar-form navbar-right search" role="search" method="get" action="#">
               <input type="text" class="form-control" name="q" placeholder="搜索" required>
-            </form>
+            </div>
           </li>
 
           <!-- Authentication Links -->
-          <li><a href="{% url 'users:login' %}">登录</a></li>
-          <li><a href="{% url 'users:register' %}">注册</a></li>
+          {% if request.user.is_authenticated %}
+            <li class="dropdown">
+{#                          <a href="javascript:;" >#}
+{#                            <img class="img-circle img-width" src="{{ request.user.image.url }}" alt="头像"> <span class="caret"></span>#}
+{#                          </a>#}
+              <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                <img class="img-circle img-width" src="{{ request.user.image.url }}" alt="头像">
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation">
+                  <img class="img-circle img-responsive img-width-big" src="{{ request.user.image.url }}" alt="头像">
+                  <h3 class="text-center" style="color: white;">{{ request.user.username }}</h3>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="{% url 'users:user_index' %}"><span class="glyphicon glyphicon-user"></span>&nbsp; 个人中心</a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp; 设置</a>
+                </li>
+                {% if request.user.is_staff %}
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="/{{ ADMIN_URL }}/"><span class="glyphicon glyphicon-tasks"></span>&nbsp; 后台管理</a>
+                  </li>
+                {% endif %}
+                <li role="presentation" class="divider"></li>
+                <li role="presentation">
+                  <a href="{% url 'users:logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp; 退出</a>
+                </li>
+              </ul>
+            </li>
+          {% else %}
+            <li><a href="{% url 'users:login' %}"><span class="glyphicon glyphicon-user"></span> 登录</a></li>
+            <li><a href="{% url 'users:register' %}"><span class="glyphicon glyphicon-log-in"></span> 注册</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -88,6 +121,9 @@
 
 
 <script src="{% static 'muban/js/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'muban/js/bootstrap.min.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'common/js/ajax_csrf.js' %}"></script>
 <script src="{% static 'js/sweetalert.min.js' %}"></script>
 <script src="{% static 'js/utils/marked.js' %}"></script>
@@ -141,9 +177,9 @@
     if (error_data instanceof Object) {
       for (k in error_data) {
         var errorContent = error_data[k];
-        if (errorContent instanceof Array){
+        if (errorContent instanceof Array) {
           $widgt.html(errorContent[0]);
-        }else {
+        } else {
           $widgt.html(errorContent);
         }
         break
@@ -153,7 +189,7 @@
       $widgt.html(error_data[0]);
       return null
     }
-    if (typeof error_data === 'string'){
+    if (typeof error_data === 'string') {
       $widgt.html(error_data);
       return null
     }

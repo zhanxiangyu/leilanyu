@@ -207,12 +207,12 @@
 		toggleBtnColor();
 		ScrollNext();
 		mobileMenuOutsideClick();
-		offcanvasMenu();
+		// offcanvasMenu();
 		burgerMenu();
 		testimonialFlexslider();
 		goToTop();
-
-		// Animate
+		//
+		// // Animate
 		contentWayPoint();
 
 	});

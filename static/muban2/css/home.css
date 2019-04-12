@@ -5751,7 +5751,7 @@ tbody.collapse.in {
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-  background-color: #1abc9c;
+  background-color: #408eba;
   color: #fff;
 }
 
@@ -16747,4 +16747,17 @@ img.emojione {
 
 .comment-body a {
   color: #1abc9c;
+}
+
+.img-width {
+  width: 30px;
+  height: 30px;
+}
+
+.img-width-big {
+  width: 100px;
+  margin: 20px auto;
+}
+.dropdown-menu {
+  min-width: 250px;
 }

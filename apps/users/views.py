@@ -92,10 +92,10 @@ def leave_message(request):
 def login(request):
     next = request.GET.get('next', '/')  # 用于返回页面跳转
     # return render(request, 'login.html', locals())
-    return render(request, 'logreg/login.html', locals())
+    return render(request, 'user/logreg/login.html', locals())
 
 
-@login_required(login_url='index')
+@login_required
 def logout(request):
     django_logout(request)
     return HttpResponseRedirect(reverse('index'))
@@ -130,7 +130,7 @@ class RegisterView(View):
 
     def get(self, request):
         register_form = RegisterForm()
-        return render(request, 'logreg/register.html', {'register_form': register_form})
+        return render(request, 'user/logreg/register.html', {'register_form': register_form})
 
     def post(self, request):
         register_form = RegisterForm(request.POST)
@@ -157,7 +157,7 @@ def send_confirm_email(request, email_type):
     title = '激活账号'
     if email_type == 'pwd':
         title = '找回密码'
-    return render(request, 'logreg/send_email.html', locals())
+    return render(request, 'user/logreg/send_email.html', locals())
 
 
 def forgetpwd(request, token):
@@ -165,7 +165,7 @@ def forgetpwd(request, token):
         email = token_confirm.confirm_validate_token(token=token, expiration=time_expiration)
     except Exception as e:
         active_msg = get_active_msg(e, '找回密码')
-    return render(request, 'logreg/forgetpwd.html', locals())
+    return render(request, 'user/logreg/forgetpwd.html', locals())
 
 
 def active(request, token):
@@ -176,14 +176,20 @@ def active(request, token):
             user = User.objects.get(email=email)
             if user.is_active:
                 active_msg = '已激活'
-                return render(request, 'logreg/login.html', locals())
+                return render(request, 'user/logreg/login.html', locals())
             user.is_active = True
             user.save()
         except:
             active_msg = '激活用户不存在'
-            return render(request, 'logreg/send_email.html', locals())
+            return render(request, 'user/logreg/send_email.html', locals())
     except Exception as e:
         active_msg = get_active_msg(e, '激活')
-        return render(request, 'logreg/send_email.html', locals())
+        return render(request, 'user/logreg/send_email.html', locals())
 
-    return render(request, 'logreg/login.html', locals())
+    return render(request, 'user/logreg/login.html', locals())
+
+
+# 个人中心
+@login_required
+def user_index(request):
+    return render(request, 'user/index.html', locals())

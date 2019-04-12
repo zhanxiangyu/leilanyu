@@ -75,7 +75,7 @@
                     <a class="pull-left" href="#password/reset">
                       忘记密码？
                     </a>
-                    <a class="pull-right" href="{% url '' %}">
+                    <a class="pull-right" href="{% url 'users:active_email' %}">
                       激活邮箱
                     </a>
                   </div>
@@ -95,6 +95,12 @@
   <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
   <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
   <script>
+    var active_msg = '{{ active_msg }}';
+    function showActiveMsg(msg) {
+      if (msg) {
+        swalSuccess({title: msg})
+      }
+    }
     var options = {
       success: function (data) {
         swalSuccess({title: '登录成功'}, function () {
@@ -129,5 +135,9 @@
         $("#loginForm").ajaxSubmit(options);
       }
     });
+
+    $(function () {
+      showActiveMsg(active_msg)
+    })
   </script>
 {% endblock %}

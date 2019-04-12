@@ -307,3 +307,16 @@ LOGGING = {
         'handlers': ['console', 'logfile']
     },
 }
+
+
+# 邮件配置
+# 邮件配置
+EMAIL_USE_SSL = True
+
+EMAIL_HOST = 'smtp.qq.com'  # 如果是 163 改成 smtp.163.com
+
+EMAIL_PORT = 465
+EMAIL_HOST_USER = PRIVATE_JSON["EMAIL_SENDER"]  # 帐号
+EMAIL_HOST_PASSWORD = PRIVATE_JSON["EMAIL_PWD"]  # 授权码（****）
+# 默认邮件
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

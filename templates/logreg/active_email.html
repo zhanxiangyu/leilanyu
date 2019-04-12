@@ -1,0 +1,113 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block other_css %}
+  <style>
+    #app {
+      background-color: #408EBA;
+    }
+
+    .main {
+      margin-top: 100px;
+    }
+
+    .main a:hover {
+      color: #408EBA;
+    }
+
+    .main form .error {
+      color: #ce2626;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <div class="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 50px;">
+          <div class="well bs-component">
+            <form id="eamilForm" class="form-horizontal" role="form" method="POST"
+                  action="{% url 'users:api:user-send-active-eamil' %}">
+              {% csrf_token %}
+
+              <fieldset>
+                <legend class="text-center">激活</legend>
+                <div class="form-group">
+                  <div class="col-md-10 col-md-offset-1">
+                    <label class="control-label" for="email">邮箱</label>
+                    <input id="email" type="email" class="form-control" name="email" value=""
+                           placeholder="请输入邮箱" autofocus autocomplete="on">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-10 col-md-offset-1 error text-center">
+                    <strong id="formError"></strong>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-1">
+                    <button type="submit" class="btn btn-info form-control">
+                      发送邮件
+                    </button>
+                  </div>
+                </div>
+
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block other_js %}
+  <script type="text/javascript" src="{% static 'plugin/jquery.validation/1.14.0/jquery.validate.js' %}"></script>
+  <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
+  <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
+  <script>
+    var active_msg = '{{ active_msg }}';
+
+    function showActiveMsg(msg) {
+      if (msg) {
+        swalError({title: msg})
+      }
+    }
+
+    var options = {
+      success: function (data) {
+        swalSuccess({title: '已发送激活链接, 链接有效期10分钟', timer: 2000});
+        $("button[type='submit']").attr('disabled', false)
+      },
+      dataType: 'json',
+      error: function (xhr, status, err) {
+        $("button[type='submit']").attr('disabled', false);
+        showError(xhr.responseJSON, $("#formError"));
+      }
+    };
+    $("#eamilForm").validate({
+      rules: {
+        email: {
+          required: true,
+          email: true,
+        },
+      },
+      messages: {
+        email: {
+          required: '请输入邮箱',
+        }
+      },
+      submitHandler: function (form) {
+        $("#formError").html('');
+        $("button[type='submit']").attr('disabled', true);
+        $("#eamilForm").ajaxSubmit(options);
+      }
+    });
+
+    $(function () {
+      showActiveMsg(active_msg);
+    })
+  </script>
+{% endblock %}

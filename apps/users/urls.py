@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^handler_login/$', views.handler_login, name='handler_login'),
+    url(r'^active_email/$', views.active_email, name='active_email'),
+    url(r'^active/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$',views.active,name='active_user'),
 ]

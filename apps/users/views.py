@@ -20,7 +20,7 @@ from django.db.models import Q
 from blog.models import Blog, Tag, FriendLink
 from users.forms import RegisterForm
 from users.models import RecordIP
-from users.utils.utlis import get_client_ip_from_request
+from users.utils.utlis import get_client_ip_from_request, token_confirm
 
 User = get_user_model()
 
@@ -146,3 +146,32 @@ class RegisterView(View):
         response = JsonResponse(data=register_form.errors)
         response.status_code = status.HTTP_400_BAD_REQUEST
         return response
+
+
+def active_email(request):
+    return render(request, 'logreg/active_email.html', locals())
+
+
+def active(request, token):
+    active_msg = '激活成功'
+    try:
+        email = token_confirm.confirm_validate_token(token=token, expiration=60*10)
+        try:
+            user = User.objects.get(email=email)
+            if user.is_active:
+                active_msg = '已激活'
+                return render(request, 'logreg/login.html', locals())
+            user.is_active = True
+            user.save()
+        except:
+            active_msg = '激活用户不存在'
+            return render(request, 'logreg/active_email.html', locals())
+    except Exception as e:
+        if 'age' in e.message and '>' in e.message:
+            active_msg = '该激活链接已过期'
+        else:
+            active_msg = '激活失败，请重新激活'
+
+        return render(request, 'logreg/active_email.html', locals())
+
+    return render(request, 'logreg/login.html', locals())

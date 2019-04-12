@@ -145,6 +145,10 @@
         break
       }
     }
+    if (error_data instanceof Array) {
+      $widgt.html(error_data[0]);
+      return null
+    }
     $widgt.html(error_data.errors);
   }
 </script>

@@ -195,6 +195,9 @@ def active(request, token):
 def user_settings(request):
     return render(request, 'user/settings.html', locals())
 
+@login_required
+def user_dynamic(request):
+    return render(request, 'user/dynamic.html', locals())
 
 # 配置404， 403， 500页面
 def permission_denied(request):

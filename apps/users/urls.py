@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^forget_pwd/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$', views.forgetpwd, name='forget_pwd'),
     url(r'^active/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$',views.active,name='active_user'),
     url(r'^settings/$', views.user_settings, name='user_settings'),
+    url(r'^dynamic/$', views.user_dynamic, name='user_dynamic'),
 ]

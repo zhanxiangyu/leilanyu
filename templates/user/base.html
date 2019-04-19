@@ -82,6 +82,9 @@
     .error {
       color: #ce2626;
     }
+    .main-right .panel-heading {
+      background-color: #408EBA
+    }
 
   </style>
   {% block other_css_main_right %}
@@ -104,7 +107,7 @@
           </div>
           <div class="user-settings">
             <ul class="list-unstyled">
-              <li><a class="list-item" href=""><i class="glyphicon glyphicon-flag icon-right"></i> 动态</a></li>
+              <li><a class="list-item" href="{% url 'users:user_dynamic' %}"><i class="glyphicon glyphicon-flag icon-right"></i> 动态</a></li>
               <li><a class="list-item" href=""><i class="glyphicon glyphicon-book icon-right"></i> 文章</a></li>
               <li><a class="list-item" href=""><i class="glyphicon glyphicon-star icon-right"></i> 收藏</a></li>
               <li><a class="list-item" href=""><i class="glyphicon glyphicon-comment icon-right"></i> 评论</a></li>

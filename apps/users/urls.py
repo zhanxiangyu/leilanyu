@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^send_confirm_email/(?P<email_type>\w+)/$', views.send_confirm_email, name='send_confirm_email'),
     url(r'^forget_pwd/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$', views.forgetpwd, name='forget_pwd'),
     url(r'^active/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$',views.active,name='active_user'),
-    url(r'^index/$', views.user_index, name='user_index'),
+    url(r'^settings/$', views.user_settings, name='user_settings'),
 ]

@@ -190,9 +190,10 @@ def active(request, token):
 
 
 # 个人中心
+# 用户设置
 @login_required
-def user_index(request):
-    return render(request, 'user/index.html', locals())
+def user_settings(request):
+    return render(request, 'user/settings.html', locals())
 
 
 # 配置404， 403， 500页面

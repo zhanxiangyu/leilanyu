@@ -12,7 +12,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from users.models import RecordIP, User
-from users.serializers import RecordIPSerializers, UserSerializers
+from users.serializers import RecordIPSerializers, UserSerializers, UserPatchSerializers
 from users.utils.utlis import token_confirm, custom_send_mail, get_active_msg
 from users.utils.constants import expiration as time_expiration
 
@@ -29,10 +29,15 @@ class RecordIPViewSet(CacheResponseMixin,
 class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return UserPatchSerializers
+        return self.serializer_class
 
 
-    @list_route(methods=['POST'])
+    @list_route(methods=['POST'], permission_classes=(permissions.AllowAny,))
     def check_user_register(self, request):
         username = request.data.get('username', '')
         email = request.data.get('email', '')
@@ -46,7 +51,7 @@ class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
                 return Response(data=False, status=HTTP_200_OK)
         return Response(data=True, status=HTTP_200_OK)
 
-    @list_route(methods=['POST',])
+    @list_route(methods=['POST',], permission_classes=(permissions.AllowAny,))
     def send_eamil(self, request):
         email = request.data.get('email', '')
         if not email:

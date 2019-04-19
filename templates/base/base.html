@@ -48,7 +48,7 @@
         </button>
 
         <!-- Branding Image -->
-        <a class="navbar-brand" href="{% url 'home' %}">
+        <a class="navbar-brand" href="{% url 'index' %}">
           兰羽
         </a>
       </div>
@@ -86,7 +86,7 @@
                   <h3 class="text-center" style="color: white;">{{ request.user.username }}</h3>
                 </li>
                 <li role="presentation">
-                  <a role="menuitem" tabindex="-1" href="{% url 'users:user_index' %}"><span class="glyphicon glyphicon-user"></span>&nbsp; 个人中心</a>
+                  <a role="menuitem" tabindex="-1" href="{% url 'users:user_settings' %}"><span class="glyphicon glyphicon-user"></span>&nbsp; 个人中心</a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp; 设置</a>

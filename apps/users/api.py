@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
 from django.conf import settings
-from django.core.mail import send_mail
 from django.urls import reverse
 from rest_framework import mixins
 from rest_framework import permissions
@@ -13,8 +13,8 @@ from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from users.models import RecordIP, User
 from users.serializers import RecordIPSerializers, UserSerializers, UserPatchSerializers
-from users.utils.utlis import token_confirm, custom_send_mail, get_active_msg
 from users.utils.constants import expiration as time_expiration
+from users.utils.utlis import token_confirm, custom_send_mail, get_active_msg
 
 
 class RecordIPViewSet(CacheResponseMixin,
@@ -35,6 +35,15 @@ class UserViewSet(CacheResponseMixin, viewsets.ModelViewSet):
         if self.action == 'partial_update':
             return UserPatchSerializers
         return self.serializer_class
+
+    def perform_update(self, serializer):
+        old_image_name = serializer.instance.image.name
+        old_image_path = serializer.instance.image.path
+
+        new_instance = serializer.save()
+
+        if old_image_name != new_instance.image.name and os.path.exists(old_image_path):
+            os.remove(old_image_path)
 
 
     @list_route(methods=['POST'], permission_classes=(permissions.AllowAny,))

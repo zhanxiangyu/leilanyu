@@ -157,6 +157,13 @@
     $("#dropdownMenu1").click(function () {
       $(".dropdown-menu").toggle();
     });
+    // 点击空白区域 隐藏下拉框
+    $(document).mouseup(function (e) {
+      var _con = $('#dropdownMenu1'); // 获取目标区域
+      if (!_con.is(e.target) && _con.has(e.target).length === 0) {
+        $(".dropdown-menu").hide();
+      }
+    });
   	$(function () { $("[data-toggle='tooltip']").tooltip(); });
   </script>
   {% block other_js_son %}

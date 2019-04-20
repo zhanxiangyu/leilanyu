@@ -85,6 +85,9 @@
     .main-right .panel-heading {
       background-color: #408EBA
     }
+    .main-right .panel {
+      min-height: 526px;
+    }
 
   </style>
   {% block other_css_main_right %}
@@ -97,7 +100,7 @@
       <div class="row">
         <div class="col-xs-12 col-md-3 user-left">
           <div class="header text-center">
-            <img src="{{ request.user.image.url }}" class="img-responsive img-circle">
+            <img src="{{ request.user.image.url }}" class="img-responsive img-circle" data-toggle="modal" data-target="#avatar-modal">
             <p class="user-name">{{ request.user.username }}</p>
             <div>
               <a href="{% url 'users:user_settings' %}">
@@ -122,6 +125,7 @@
       </div>
     </div>
   </div>
+  {% include 'user/image.html' %}
 {% endblock %}
 
 {% block other_js %}

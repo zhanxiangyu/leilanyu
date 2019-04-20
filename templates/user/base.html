@@ -100,8 +100,10 @@
       <div class="row">
         <div class="col-xs-12 col-md-3 user-left">
           <div class="header text-center">
-            <img src="{{ request.user.image.url }}" class="img-responsive img-circle" data-toggle="modal" data-target="#avatar-modal">
-            <p class="user-name">{{ request.user.username }}</p>
+            <div  data-toggle="modal" data-target="#avatar-modal">
+              <img src="{{ request.user.image.url }}" class="img-responsive img-circle">
+            </div>
+            <p class="user-name">{{ request.user.name }}</p>
             <div>
               <a href="{% url 'users:user_settings' %}">
                 <button class="btn btn-success btn-sm"><i class="glyphicon glyphicon-pencil"></i>修改信息</button>
@@ -132,6 +134,12 @@
   <script type="text/javascript" src="{% static 'plugin/jquery.validation/1.14.0/jquery.validate.js' %}"></script>
   <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
   <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
+  <script>
+    // 处理导航栏 下拉框因为头像切换功能导致bug
+    $("#dropdownMenu1").click(function () {
+      $(".dropdown-menu").toggle();
+    })
+  </script>
   {% block other_js_son %}
   {% endblock %}
 {% endblock %}

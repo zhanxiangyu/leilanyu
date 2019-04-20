@@ -83,7 +83,7 @@
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                 <li role="presentation">
                   <img class="img-circle img-responsive img-width-big" src="{{ request.user.image.url }}" alt="头像">
-                  <h3 class="text-center" style="color: white;">{{ request.user.username }}</h3>
+                  <h3 class="text-center" style="color: white;">{{ request.user.name }}</h3>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="{% url 'users:user_settings' %}"><span class="glyphicon glyphicon-user"></span>&nbsp; 个人中心</a>

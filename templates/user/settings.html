@@ -85,7 +85,9 @@
 
     var options = {
       success: function (data) {
-        swalSuccess({title: '修改成功'})
+        swalSuccess({title: '修改成功'}, function () {
+          window.location.reload();
+        })
       },
       dataType: 'json',
       error: function (xhr, status, err) {

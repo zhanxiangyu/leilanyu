@@ -34,6 +34,9 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse('users:about')
 
+    def name(self):
+        return self.nick_name and self.nick_name or self.name
+
     # def get_full_url(self):
     #     """
     #     获取当前网站域名，同时setting.py中INSTALLED_APPS需要添加'django.contrib.sites',

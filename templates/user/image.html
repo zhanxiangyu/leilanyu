@@ -1,14 +1,15 @@
 {% load static %}
 
 
-{#<link rel="stylesheet" type="text/css" href="{% static 'image/css/bootstrap.min.css' %}">#}
-<link href="{% static 'image/head/cropper.min.css' %}" rel="stylesheet">
-<link href="{% static 'image/head/sitelogo.css' %}" rel="stylesheet">
+<link href="{% static 'plugin/jquery.cropper3.1.3/cropper.min.css' %}" rel="stylesheet">
+<link href="{% static 'imageUpload/sitelogo.css' %}" rel="stylesheet">
 <link href="{% static 'font-awesome-4.7.0/css/font-awesome.css' %}" rel="stylesheet" type="text/css" >
-<script src="{% static 'image/head/jquery.min.js' %}"></script>
-<script src="{% static 'image/head/bootstrap.min.js' %}"></script>
-<script src="{% static 'image/head/cropper.js' %}"></script>
-<script src="{% static 'image/head/sitelogo.js' %}"></script>
+{#<script src="{% static 'image/head/jquery.min.js' %}"></script>#}
+<script src="{% static 'muban/js/jquery.min.js' %}"></script>
+{#<script src="{% static 'image/head/bootstrap.min.js' %}"></script>#}
+<script src="{% static 'muban/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugin/jquery.cropper3.1.3/cropper.js' %}"></script>
+<script src="{% static 'imageUpload/sitelogo.js' %}"></script>
 
 <style type="text/css">
   .avatar-btns button {
@@ -104,7 +105,7 @@
 </div>
 
 <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
-<script src="{% static 'image/head/html2canvas.min.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'imageUpload/html2canvas.min.js' %}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
   //做个下简易的验证  大小 格式
   $('#avatarInput').on('change', function (e) {
@@ -143,7 +144,7 @@
         imagesAjax(dataUrl)
       }
     });
-  })
+  });
 
   function imagesAjax(src) {
     var data = {};

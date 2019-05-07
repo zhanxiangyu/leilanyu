@@ -60,9 +60,11 @@ CUSTOM_APPS = [
     'users',
     'blog',
     'comments',
+    'chat',
 ]
 
 THIRD_PARTY_APPS = [
+    "channels",
     "xadmin",
     "crispy_forms",
     "reversion",

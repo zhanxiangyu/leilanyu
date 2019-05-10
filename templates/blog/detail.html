@@ -54,6 +54,10 @@
       padding-left: 5px;
     }
 
+    .media-heading {
+      margin-right: 20px;
+    }
+
     .imageSize {
       width: 40px;
       height: 40px;
@@ -81,41 +85,15 @@
           <!-- 评论部分 -->
           <section id="comments" class="backgroundWhite border1 marginTop20">
             <div class="padding">
-              <h4>文章评论 <span class="badge">4</span></h4>
+              <h4>文章评论 <span class="badge" id="comment_count"></span></h4>
               <div class="comment-input clearfix">
-                <textarea class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
-                <button type="button" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;">神吐槽 <i
+                <textarea id="comment-main" class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
+                <button type="button" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;"
+                        onclick="CALLBACK.postCommentData()">神吐槽 <i
                     class="glyphicon glyphicon-comment"></i></button>
               </div>
-              <div class="comment-content">
-                <div class="media">
-                  <div class="media-left">
-                    <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object  img-circle">
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Media Heading</h4>
-                    <p>这是一个普通用户的评论</p>
-                    <div class="media">
-                      <div class="media-left">
-                        <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object  img-circle">
-                      </div>
-                      <div class="media-body">
-                        <h4 class="media-heading">Media Heading</h4>
-                        <p>这是一个普通用户的评论</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="media">
-                  <div class="media-left">
-                    <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object img-circle">
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Media Heading</h4>
-                    <p>这是一个普通用户的评论</p>
-                  </div>
-                </div>
-              </div>
+              <!-- 评论列表 -->
+              <div class="comment-content"></div>
             </div>
           </section>
         </div>
@@ -131,14 +109,72 @@
 
 {% block other_js %}
   <script>
+    var js_blog_id = {{ blog_id }};
     var blog_url = "{% url 'blog:api:blog-detail' blog_id %}";
+    var comment_url = "{% url 'comments:api:comment-list' %}";
 
     $(function () {
       CALLBACK.getData();
+      CALLBACK.getCommentData();
     })
   </script>
   <script>
     var CALLBACK = {
+      getCommentData: function () {
+        $.get(comment_url, {blog_id: js_blog_id}, function (data) {
+          $("#comment_count").text(data.length);
+          CALLBACK.commentGenerate(data);
+        })
+      },
+      postCommentData: function () {
+        var comment_main = $("#comment-main").val();
+        if (!comment_main.trim()) {
+          swalError({title: '评论不能为空'});
+          return false
+        }
+        this.postComment({article: js_blog_id, body: comment_main})
+      },
+      postComment: function (CData, callback) {
+        $.post(comment_url, CData, function (data) {
+          swalSuccess({title: '评论成功'}, function () {
+            window.location.reload();
+          });
+        }).error(function (res) {
+          swalError({title: '评论失败'});
+        });
+        if (callback) {
+          callback()
+        }
+      },
+      replayComment: function(el, replayId) {
+        var $el = $(el);
+        var comment_content = $el.parent().find('textarea').val();
+        if (!comment_content.trim()) {
+          swalError({title: '评论不能为空'});
+          return false
+        }
+        this.postComment({article: js_blog_id, body: comment_content, parent_comment: replayId})
+      },
+      commentGenerate: function (commentList) {
+        $.each(commentList, function (k, row) {
+          var temp = `<div class="media">
+                  <div class="media-left">
+                    <img src="${row.commentator.image}" alt="头像" class="imageSize media-object img-circle">
+                  </div>
+                  <div class="media-body" id="media-comment-${row.id}">
+                    <span class="media-heading"><strong>${row.commentator.name}</strong></span>
+                    <time>${row.created_time}</time>
+                    <p>${row.body}</p>
+                    <a onclick="CALLBACK.toggleReply(this, ${row.id})"><i class="fa fa-mail-forward"></i> 回复</a>
+                  </div>
+                </div>`;
+          if (row.parent_comment) {
+            $(`.comment-content #media-comment-${row.parent_comment}.media-body`).append(temp);
+          } else {
+            $(".comment-content").append(temp)
+          }
+        });
+      },
       getData: function () {
         $.get(blog_url, {}, function (data) {
           CALLBACK.setData(data)
@@ -149,6 +185,18 @@
         $("#b_name").html(data.username);
         $("#b_time").html(data.created_time);
         $("#b_content").html(marked(data.body));
+      },
+      toggleReply: function (el, replayId) {
+        var replay_html = `<div class="togglereplayClass clearfix">
+                      <textarea class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
+                      <button type="button" onclick="CALLBACK.replayComment(this, ${replayId})" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;">神吐槽</button>
+                    </div>`;
+        var $el = $(el);
+        if ($el.siblings(".togglereplayClass").length) {
+          $el.siblings(".togglereplayClass").remove()
+        } else {
+          $el.after(replay_html)
+        }
       }
     }
   </script>

@@ -164,7 +164,7 @@
                   <div class="media-body" id="media-comment-${row.id}">
                     <span class="media-heading"><strong>${row.commentator.name}</strong></span>
                     <time>${row.created_time}</time>
-                    <p>${row.body}</p>
+                    <p>${codeUtil.htmlEncode(row.body)}</p>
                     <a onclick="CALLBACK.toggleReply(this, ${row.id})"><i class="fa fa-mail-forward"></i> 回复</a>
                   </div>
                 </div>`;

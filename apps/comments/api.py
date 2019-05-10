@@ -17,12 +17,13 @@ logger = logging.getLogger(__name__)
 class CommentViewSet(mixins.CreateModelMixin,
                      mixins.ListModelMixin,
                      viewsets.GenericViewSet):
-    queryset = Comment.objects.filter(parent_comment=None)
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializers
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def get_queryset(self):
-        queryset = Comment.objects.filter(parent_comment=None)
+        queryset = self.queryset.all()
+        # queryset = Comment.objects.filter(parent_comment=None)
         blog_id = self.request.query_params.get('blog_id', None)
         if blog_id is not None:
             queryset = queryset.filter(article_id=blog_id)

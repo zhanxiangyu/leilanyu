@@ -35,7 +35,7 @@ class User(AbstractUser):
         return reverse('users:about')
 
     def name(self):
-        return self.nick_name and self.nick_name or self.name
+        return self.nick_name and self.nick_name or self.username
 
     # def get_full_url(self):
     #     """

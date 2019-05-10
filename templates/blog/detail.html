@@ -19,27 +19,112 @@
     #b_content pre {
       background-color: #1abc9c6e;
     }
+
+    .border1 {
+      border: 1px solid rgba(118, 118, 118, 0.28);
+      padding: 0 30px;
+    }
+
+    .margin30 {
+      margin-top: 30px;
+    }
+
+    .padding {
+      padding: 20px 0;
+    }
+
+    .backgroundWhite {
+      background-color: white;
+    }
+
+    .comment-content {
+      margin: 20px 0;
+    }
+
+    .badge {
+      background-color: #408EBA;
+    }
+
+    .comment-input {
+      margin: 20px 0;
+    }
+
+    .media {
+      border-left: 2px double #408eba52;
+      padding-left: 5px;
+    }
+
+    .imageSize {
+      width: 40px;
+      height: 40px;
+    }
   </style>
 {% endblock %}
 
 {% block main %}
-  <div class="main">
+  <div class="main margin30">
     <div class="article container">
       <div class="row">
-        <div class="col-md-8 col-md-offset-2 text-center">
-          <h3 id="b_title"></h3>
-          <div class="header">
-            <i class="ion-person"></i><span id="b_name"></span>
-            <i class="ion-clock"></i><span id="b_time"></span>
-          </div>
+        <div class="col-md-9">
+          <!-- 文章 -->
+          <article class="backgroundWhite border1">
+            <div class="text-center">
+              <h3 id="b_title"></h3>
+              <div class="header">
+                <i class="ion-person"></i><span id="b_name"></span>
+                <i class="ion-clock"></i><span id="b_time"></span>
+              </div>
+            </div>
+            <!-- 文章主体 -->
+            <div id="b_content"></div>
+          </article>
+          <!-- 评论部分 -->
+          <section id="comments" class="backgroundWhite border1 marginTop20">
+            <div class="padding">
+              <h4>文章评论 <span class="badge">4</span></h4>
+              <div class="comment-input clearfix">
+                <textarea class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
+                <button type="button" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;">神吐槽 <i
+                    class="glyphicon glyphicon-comment"></i></button>
+              </div>
+              <div class="comment-content">
+                <div class="media">
+                  <div class="media-left">
+                    <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object  img-circle">
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">Media Heading</h4>
+                    <p>这是一个普通用户的评论</p>
+                    <div class="media">
+                      <div class="media-left">
+                        <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object  img-circle">
+                      </div>
+                      <div class="media-body">
+                        <h4 class="media-heading">Media Heading</h4>
+                        <p>这是一个普通用户的评论</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="media">
+                  <div class="media-left">
+                    <img src="{% static 'img/1.jpg' %}" alt="头像" class="imageSize media-object img-circle">
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">Media Heading</h4>
+                    <p>这是一个普通用户的评论</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2" id="b_content">
-        </div>
+        <aside class="col-md-3">
+          <!-- 侧边工作栏 -->
+          侧边工作栏
+        </aside>
       </div>
     </div>
-
 
   </div>
 {% endblock %}

@@ -112,10 +112,10 @@
     var js_blog_id = {{ blog_id }};
     var blog_url = "{% url 'blog:api:blog-detail' blog_id %}";
     var comment_url = "{% url 'comments:api:comment-list' %}";
+    var blog_user_id = null;
 
     $(function () {
-      CALLBACK.getData();
-      CALLBACK.getCommentData();
+      CALLBACK.getData(CALLBACK.getCommentData);
     })
   </script>
   <script>
@@ -146,7 +146,7 @@
           callback()
         }
       },
-      replayComment: function(el, replayId) {
+      replayComment: function (el, replayId) {
         var $el = $(el);
         var comment_content = $el.parent().find('textarea').val();
         if (!comment_content.trim()) {
@@ -155,6 +155,12 @@
         }
         this.postComment({article: js_blog_id, body: comment_content, parent_comment: replayId})
       },
+      getBlogger: function (blogUserId, commentUserId) {
+        if (blogUserId === commentUserId) {
+          return '博主'
+        }
+        return ''
+      },
       commentGenerate: function (commentList) {
         $.each(commentList, function (k, row) {
           var temp = `<div class="media">
@@ -162,7 +168,10 @@
                     <img src="${row.commentator.image}" alt="头像" class="imageSize media-object img-circle">
                   </div>
                   <div class="media-body" id="media-comment-${row.id}">
-                    <span class="media-heading"><strong>${row.commentator.name}</strong></span>
+                    <span class="media-heading"><strong>${row.commentator.name}</strong>
+                    <span class="text-danger"><strong>${CALLBACK.getBlogger(blog_user_id, row.commentator.id)}</strong></span>
+                    </span>
+
                     <time>${row.created_time}</time>
                     <p>${codeUtil.htmlEncode(row.body)}</p>
                     <a onclick="CALLBACK.toggleReply(this, ${row.id})"><i class="fa fa-mail-forward"></i> 回复</a>
@@ -175,9 +184,13 @@
           }
         });
       },
-      getData: function () {
+      getData: function (callback) {
         $.get(blog_url, {}, function (data) {
-          CALLBACK.setData(data)
+          CALLBACK.setData(data);
+          blog_user_id = data.author;
+          if (callback) {
+            callback()
+          }
         })
       },
       setData: function (data) {

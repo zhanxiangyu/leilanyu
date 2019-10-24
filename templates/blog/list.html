@@ -86,6 +86,14 @@
             articles[i].image = MYCONST.blogImage
           }
           var url = get_detail_url.replace(0, articles[i].id);
+          var html_tags = ``;
+          articles[i]['tags'].forEach(tag => {
+            html_tags += `
+              <a href="javascript:void(0)">
+                  <div class="label"><i class="ion-pricetag"></i>${tag.name}</div>
+              </a>
+           `;
+          });
 
           html += `<div class="media">
             <a class="media-left" href="${url}">
@@ -102,17 +110,12 @@
                 ${articles[i]['description']}
               </div>
               <div class="extra">
-                <a href="#tag/docker">
-                  <div class="label"><i class="ion-pricetag"></i>docker</div>
-                </a>
-                <a href="#tag/linux">
-                  <div class="label"><i class="ion-pricetag"></i>linux</div>
-                </a>
-
+                ${html_tags}
                 <div class="info">
-                  <i class="ion-person"></i>${articles[i]['username']}&nbsp;,&nbsp;
-                  <i class="ion-clock"></i>${articles[i]['created_time']}&nbsp;
-                  <i class="ion-ios-eye"></i>${articles[i]['views']}
+                  <i class="fa fa-user"></i>${articles[i]['username']}&nbsp;,&nbsp;
+                  <i class="fa fa-calendar"></i>${articles[i]['created_time']}&nbsp;
+                  <i class="fa fa-eye"></i>${articles[i]['views']}
+                  <i class="fa fa-commenting"></i>0
                 </div>
               </div>
             </div>

@@ -136,8 +136,9 @@
       },
       postComment: function (CData, callback) {
         $.post(comment_url, CData, function (data) {
-          swalSuccess({title: '评论成功'}, function () {
-            window.location.reload();
+          swalSuccess({title: '评论成功',  showConfirmButton: true}, function () {
+            $(".comment-content").empty();
+            CALLBACK.getCommentData();
           });
         }).error(function (res) {
           swalError({title: '评论失败'});

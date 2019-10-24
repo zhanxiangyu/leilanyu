@@ -82,7 +82,7 @@ DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': r"/static/plugin/jquery/1.9.1/jquery.min.j
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',  # 缓存
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # 全站缓存
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,7 +91,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware', # django_debugtools
-    'django.middleware.cache.FetchFromCacheMiddleware',  # 缓存
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # 全站缓存 单个页面使用cache_page
 ]
 
 ROOT_URLCONF = 'leilanyu.urls'

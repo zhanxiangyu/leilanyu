@@ -7,6 +7,24 @@
 #pagination li {
   margin: 0 1px;
 }
+.friend_links {
+  margin-top: 2em;
+}
+.friend_links .friend_body {
+  padding: 1.25rem;
+  border: 1px;
+  background: #fff;
+  padding-left: 30px;
+}
+.friend_links .friend-title {
+  font-weight: bold;
+}
+
+ul.friend-text li{
+  list-style: none;
+  margin-bottom: 5px;
+}
+
 </style>
 {% endblock %}
 
@@ -14,8 +32,27 @@
   <div class="main">
     <div class="container list">
       <div class="row">
-        <div id="article_list" class="col-md-10 col-md-offset-1">
+        <div id="article_list" class="col-md-9">
         </div>
+        <aside class="col-md-3">
+          <!-- 侧边工作栏 -->
+          <div class="friend_links">
+            <div class="friend_body shake">
+              <p class="friend-title"><i class="fa fa-link fa-lg" style="color: #408EBA; font-weight: bold"></i> 友情链接</p>
+              <ul class="friend-text">
+                <li>
+                  <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="http://www.dusaiphoto.com">杜赛的个人网站</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="https://tendcode.com/">Tend to Code</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
       </div>
       <div class="row">
         <div class="col-md-10 col-md-offset-1 text-center">

@@ -10,8 +10,8 @@ User = get_user_model()
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True, max_length=20, min_length=2)
     email = forms.EmailField(required=True)
-    password = forms.CharField(required=True, max_length=5, min_length=30)
-    password2 = forms.CharField(required=True, max_length=5, min_length=30)
+    password = forms.CharField(required=True, max_length=30, min_length=5)
+    password2 = forms.CharField(required=True, max_length=30, min_length=5)
     # 验证码,参数：错误信息
     # captcha = CaptchaField(error_messages={'invalid': '验证码错误啊', "required": '验证码必填'})
 
@@ -31,7 +31,7 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError('两次密码不一致')
         username = self.cleaned_data['username']
         email = self.cleaned_data['username']
-        user = User.object.filter(Q(username=username) | Q(email=email))
+        user = User.objects.filter(Q(username=username) | Q(email=email))
         if user.exists():
             raise forms.ValidationError("用户名或邮箱已存在")
         return self.cleaned_data

@@ -3,7 +3,14 @@ from django.urls import reverse
 from rest_framework import serializers
 from common_framework.handleserializers import ChangeSerializerFields
 
-from .models import Blog, TimeLine
+from .models import Blog, TimeLine, Tag
+
+
+class TagSerializers(ChangeSerializerFields, serializers.ModelSerializer):
+
+    class Meta:
+        model = Tag
+        fields = "__all__"
 
 
 class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
@@ -12,6 +19,7 @@ class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
     category_name_url = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
+    tags = TagSerializers(many=True, fields=('id', 'name'))
 
     def get_category_name_url(self, obj):
         if obj.category:

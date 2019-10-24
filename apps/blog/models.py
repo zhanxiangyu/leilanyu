@@ -92,7 +92,7 @@ class Category(models.Model):
 
 class Tag(models.Model):
     """文章标签"""
-    name = models.CharField('标签名', max_length=30, unique=True)
+    name = models.CharField('标签名', max_length=10, unique=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_mod_time = models.DateTimeField('修改时间', auto_now=True)
 
@@ -107,7 +107,6 @@ class Tag(models.Model):
         ordering = ['name']
         verbose_name = "标签"
         verbose_name_plural = verbose_name
-
 
 
 class FriendLink(models.Model):

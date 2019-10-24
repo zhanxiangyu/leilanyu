@@ -16394,7 +16394,8 @@ i.large {
 
 .list .media .media-left img {
   border-radius: 5px;
-  width: 260px;
+  width: 200px;
+  height: 130px;
 }
 
 .list .media .media-body .media-heading > a {

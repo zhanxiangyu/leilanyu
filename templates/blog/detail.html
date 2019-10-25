@@ -84,6 +84,9 @@
       font-weight: bold;
       padding: 5px;
     }
+    .eof {
+      font-weight: bold;
+    }
   </style>
 {% endblock %}
 
@@ -146,6 +149,7 @@
     var blog_like_url = "{% url 'blog:api:bloglike-list' %}";
     var get_blog_like_count_url = "{% url 'blog:api:bloglike-get-blog-like-count' %}";
     var blog_user_id = null;
+    var has_like = false;
 
     $(function () {
       CALLBACK.getData(CALLBACK.getCommentData);
@@ -155,6 +159,10 @@
   <script>
     var CALLBACK = {
       setLike: function () {
+        if (has_like) {
+          $('.like-icon').tooltip("toggle");
+          return false
+        }
         $.post(blog_like_url, {blog: js_blog_id}, function (data) {
           swalSuccess({title: "点赞成功"}, CALLBACK.getLike())
         }).error(function (xhr, status, err) {
@@ -163,15 +171,14 @@
       },
       getLike: function() {
         $.get(get_blog_like_count_url, {blog_id: js_blog_id}, function (data) {
-          console.log(data);
           var count = data["count"];
-          var has_like = data["has_like"];
+          has_like = data["has_like"];
           if (count !== 0) {
             $(".like-text").text(`${count}人点赞`)
           }
           if (has_like) {
             $(".like-icon").empty().append('<i class="fa fa-thumbs-o-up fa-5x"></i>')
-              .removeAttr("onclick").attr("title", "已点赞");
+              .attr("title", "已点赞");
           }
         })
       },
@@ -253,7 +260,7 @@
         $("#b_title").html(data.title);
         $("#b_name").html(data.username);
         $("#b_time").html(data.created_time);
-        $("#b_content").html(marked(data.body));
+        $("#b_content").html(marked(data.body)).append("<p class='text-center text-muted eof'>-- EOF --</p>");
       },
       toggleReply: function (el, replayId) {
         var replay_html = `<div class="togglereplayClass clearfix">

@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import serializers
 from common_framework.handleserializers import ChangeSerializerFields
 
-from .models import Blog, TimeLine, Tag
+from .models import Blog, TimeLine, Tag, BlogLike
 
 
 class TagSerializers(ChangeSerializerFields, serializers.ModelSerializer):
@@ -44,6 +44,12 @@ class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
 
     class Meta:
         model = Blog
+        fields = "__all__"
+
+
+class BlogLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogLike
         fields = "__all__"
 
 

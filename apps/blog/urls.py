@@ -5,11 +5,12 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from . import views
-from .api import BlogViewSet, TimeLineViewSet
+from .api import BlogViewSet, TimeLineViewSet, BlogLikeViewSet
 
 router = routers.DefaultRouter()
 router.register("blog", BlogViewSet)
 router.register("timeline", TimeLineViewSet)
+router.register("like", BlogLikeViewSet)
 
 
 urlpatterns = [

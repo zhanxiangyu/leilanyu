@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
+from rest_framework import exceptions
 
 from rest_framework import mixins
 from rest_framework import permissions, pagination
@@ -9,8 +10,9 @@ from rest_framework import status
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from rest_framework.decorators import detail_route, list_route
 
-from .serializers import BlogSerializers, TimeLineSerializers
-from .models import Blog, TimeLine
+from common_framework.utils import get_ip
+from .serializers import BlogSerializers, TimeLineSerializers, BlogLikeSerializer
+from .models import Blog, TimeLine, BlogLike
 
 
 class BlogPagination(pagination.PageNumberPagination):
@@ -79,7 +81,41 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
             'last_blog': last_blog
         }
         return Response(data=data, status=status.HTTP_200_OK)
-        pass
+
+
+class BlogLikeViewSet(CacheResponseMixin, mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    博客点赞
+    """
+    queryset = BlogLike.objects.all()
+    serializer_class = BlogLikeSerializer
+    permission_classes = (permissions.AllowAny,)
+    pagination_class = pagination.PageNumberPagination
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        anonymous_ip = get_ip(self.request)
+        if self.get_queryset().filter(user_id=user.id, anonymous_ip=anonymous_ip, blog=serializer.validated_data['blog']).exists():
+            raise exceptions.ValidationError("已经点过赞了")
+        # 判断是否登录用户
+        if user.is_authenticated:
+            serializer.save(user=user, anonymous_ip=anonymous_ip)
+        else:
+            serializer.save(anonymous_ip=anonymous_ip)
+
+    @list_route(methods=['get'])
+    def get_blog_like_count(self, request):
+        user = self.request.user
+        anonymous_ip = get_ip(self.request)
+
+        blog_id = request.query_params.get("blog_id")
+        if not blog_id and not blog_id.isdigit():
+            raise exceptions.ValidationError("参数错误")
+        queryset = self.get_queryset()
+
+        has_like = queryset.filter(user_id=user.id, anonymous_ip=anonymous_ip, blog_id=blog_id).exists()
+        like_count = queryset.filter(blog_id=int(blog_id)).count()
+        return Response(status=status.HTTP_200_OK, data={"count": like_count, "has_like": has_like})
 
 
 class TimeLineViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):

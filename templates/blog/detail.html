@@ -62,6 +62,28 @@
       width: 40px;
       height: 40px;
     }
+    .header span {
+      padding-right: 10px;
+    }
+    .like {
+      text-align: center;
+      background: #fff;
+      margin: 10px 0 5px 0;
+      padding: 20px 0;
+    }
+    .like .like-icon {
+      border-radius: 50%;
+      border: none;
+    }
+
+    .like .like-icon:hover {
+      border-radius: 50%;
+      border: none;
+    }
+    .like .like-text {
+      font-weight: bold;
+      padding: 5px;
+    }
   </style>
 {% endblock %}
 
@@ -75,13 +97,22 @@
             <div class="text-center">
               <h3 id="b_title"></h3>
               <div class="header">
-                <i class="ion-person"></i><span id="b_name"></span>
-                <i class="ion-clock"></i><span id="b_time"></span>
+                <i class="fa fa-user"></i><span id="b_name"></span>
+                <i class="fa fa-calendar"></i><span id="b_time"></span>
+                <i class="fa fa-eye"></i><span id="b_time">100</span>
               </div>
             </div>
             <!-- 文章主体 -->
             <div id="b_content"></div>
           </article>
+          <!-- 点赞部分 -->
+          <div class="like">
+            <div type="button" class="btn btn-success like-icon" onclick="CALLBACK.setLike()">
+              {#              <i class="fa fa-thumbs-o-up fa-5x"></i>#}
+              <i class="fa fa-thumbs-up fa-5x"></i>
+            </div>
+            <p class="like-text"><i class="fa fa-heart-o"></i>还没有赞</p>
+          </div>
           <!-- 评论部分 -->
           <section id="comments" class="backgroundWhite border1 marginTop20">
             <div class="padding">
@@ -112,14 +143,38 @@
     var js_blog_id = {{ blog_id }};
     var blog_url = "{% url 'blog:api:blog-detail' blog_id %}";
     var comment_url = "{% url 'comments:api:comment-list' %}";
+    var blog_like_url = "{% url 'blog:api:bloglike-list' %}";
+    var get_blog_like_count_url = "{% url 'blog:api:bloglike-get-blog-like-count' %}";
     var blog_user_id = null;
 
     $(function () {
       CALLBACK.getData(CALLBACK.getCommentData);
+      CALLBACK.getLike();
     })
   </script>
   <script>
     var CALLBACK = {
+      setLike: function () {
+        $.post(blog_like_url, {blog: js_blog_id}, function (data) {
+          swalSuccess({title: "点赞成功"}, CALLBACK.getLike())
+        }).error(function (xhr, status, err) {
+          swalError({type: 'warning', title: xhr.responseJSON[0]})
+        })
+      },
+      getLike: function() {
+        $.get(get_blog_like_count_url, {blog_id: js_blog_id}, function (data) {
+          console.log(data);
+          var count = data["count"];
+          var has_like = data["has_like"];
+          if (count !== 0) {
+            $(".like-text").text(`${count}人点赞`)
+          }
+          if (has_like) {
+            $(".like-icon").empty().append('<i class="fa fa-thumbs-o-up fa-5x"></i>')
+              .removeAttr("onclick").attr("title", "已点赞");
+          }
+        })
+      },
       getCommentData: function () {
         $.get(comment_url, {blog_id: js_blog_id}, function (data) {
           $("#comment_count").text(data.length);

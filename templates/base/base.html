@@ -207,6 +207,13 @@
     }
     $widgt.html(error_data.errors);
   }
+
+  Storage.set = function (name, val) {
+    localStorage.setItem(name, val);
+  };
+  Storage.get = function (name) {
+    return localStorage.getItem(name);
+  };
 </script>
 {% block other_js %}
 {% endblock %}

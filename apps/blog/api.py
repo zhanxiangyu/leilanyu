@@ -35,6 +35,14 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
     pagination_class = BlogPagination
 
+    def retrieve(self, request, *args, **kwargs):
+        is_add_views = request.query_params.get('is_add_views')
+        instance = self.get_object()
+        if is_add_views == 'true':
+            instance.increase_views()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     @list_route()
     def get_hot(self, request):
         queryset = self.get_queryset()

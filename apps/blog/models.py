@@ -68,7 +68,10 @@ class Blog(models.Model):
         verbose_name = "文章"
         verbose_name_plural = verbose_name
         # get_latest_by = 'created_time'
-    pass
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
 
 
 class BlogLike(models.Model):

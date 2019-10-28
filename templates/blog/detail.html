@@ -102,7 +102,7 @@
               <div class="header">
                 <i class="fa fa-user"></i><span id="b_name"></span>
                 <i class="fa fa-calendar"></i><span id="b_time"></span>
-                <i class="fa fa-eye"></i><span id="b_time">100</span>
+                <i class="fa fa-eye"></i><span id="b_views"></span>
               </div>
             </div>
             <!-- 文章主体 -->
@@ -248,7 +248,7 @@
         });
       },
       getData: function (callback) {
-        $.get(blog_url, {}, function (data) {
+        $.get(blog_url, {is_add_views: this.beforeGetData()}, function (data) {
           CALLBACK.setData(data);
           blog_user_id = data.author;
           if (callback) {
@@ -256,10 +256,21 @@
           }
         })
       },
+      beforeGetData: function () {
+        if (Storage.get(`js_blog_id_${js_blog_id}`)) {
+          // 存在不添加
+          return false;
+        } else {
+          // 不存在添加
+          Storage.set(`js_blog_id_${js_blog_id}`, js_blog_id);
+          return true;
+        }
+      },
       setData: function (data) {
         $("#b_title").html(data.title);
         $("#b_name").html(data.username);
         $("#b_time").html(data.created_time);
+        $("#b_views").html(data.views);
         $("#b_content").html(marked(data.body)).append("<p class='text-center text-muted eof'>-- EOF --</p>");
       },
       toggleReply: function (el, replayId) {

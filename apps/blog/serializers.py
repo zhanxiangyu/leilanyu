@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse
 from rest_framework import serializers
+
+from comments.models import Comment
 from common_framework.handleserializers import ChangeSerializerFields
 
 from .models import Blog, TimeLine, Tag, BlogLike
@@ -20,6 +22,7 @@ class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
     category_name_url = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
     tags = TagSerializers(many=True, fields=('id', 'name'))
+    comment_count = serializers.SerializerMethodField()
 
     def get_category_name_url(self, obj):
         if obj.category:
@@ -41,6 +44,10 @@ class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
         if obj.description == '':
             return '暂无描述'
         return obj.description
+
+    def get_comment_count(self, obj):
+        # 获取文章评论数据
+        return Comment.objects.filter(article=obj).count()
 
     class Meta:
         model = Blog

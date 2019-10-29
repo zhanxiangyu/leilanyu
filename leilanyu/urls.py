@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
+from common_framework.webhook import webhook
 
 from users.views import index, indexV
 from blog.search_views import MySearchView
@@ -51,6 +52,9 @@ urlpatterns = [
 
 
     url(r'^search/', MySearchView(), name="haystack_search"),
+
+    # 项目自动更新
+    url(r'^webhook/$', webhook, name='webhook'),
 ]
 
 handler403 = 'users.views.permission_denied'

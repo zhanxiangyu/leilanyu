@@ -54,7 +54,7 @@ urlpatterns = [
     url(r'^search/', MySearchView(), name="haystack_search"),
 
     # 项目自动更新
-    url(r'^webhook/$', webhook, name='webhook'),
+    url(r'^my_webhook/$', webhook, name='webhook'),
 ]
 
 handler403 = 'users.views.permission_denied'

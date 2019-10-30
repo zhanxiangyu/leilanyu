@@ -24,15 +24,16 @@ def webhook(request):
 
     # 获取github hooks的白名单
     for valid_ip in whitelist:
-        if client_ip_address in ip_network(valid_ip):
+        ips = [ip_network_valid_ip.exploded for ip_network_valid_ip in ip_network(valid_ip)]
+        if client_ip_address in ips:
             break
     else:
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Permission denied. ip not allow ')
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE')
     if header_signature is None:
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Permission denied signature.')
 
     sha_name, signature = header_signature.split('=')
     if sha_name != 'sha1':
@@ -40,7 +41,7 @@ def webhook(request):
 
     mac = hmac.new(force_bytes(settings.GITHUB_WEBHOOK_KEY), msg=force_bytes(request.body), digestmod=sha1)
     if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Permission denied. signature not match')
 
     event = request.META.get('HTTP_X_GITHUB_EVENT', 'ping')
 

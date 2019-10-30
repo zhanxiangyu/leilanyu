@@ -14,6 +14,8 @@ from ipaddress import ip_address, ip_network
 @require_POST
 @csrf_exempt
 def webhook(request):
+    # import pdb
+    # pdb.set_trace()
     forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
     client_ip_address = ip_address(forwarded_for)  # 获取发送请求的ip--客户端ip
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import hmac
 from hashlib import sha1
 from django.conf import settings
@@ -11,7 +12,7 @@ import requests
 from ipaddress import ip_network
 
 
-# @require_POST
+@require_POST
 @csrf_exempt
 def webhook(request):
     # import pdb
@@ -47,9 +48,13 @@ def webhook(request):
     if event == 'ping':
         return HttpResponse('pong')
     elif event == 'push':
-        return HttpResponse('success')
+        git_web_hook_update = os.path.join(settings.BASE_DIR, 'config', 'git_web_hook_update.sh')
+        code = os.system('sh {}'.format(git_web_hook_update))
+        if code == 0:
+            return HttpResponse('success')
+        else:
+            return HttpResponse('failed')
 
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
-    # os.system('cd /var/www/admin')
-    # os.system('git pull -f git@github.com:haoflynet/admin.git 2>&1')
+

@@ -1,13 +1,16 @@
 # unset GIT_DIR
+root_path=/home/leilanyu
+pip_path=/root/.virtualenvs/leilanyu/bin/pip
+python_path=/root/.virtualenvs/leilanyu/bin/python
 
-cd /Users/zhan/projects/leilanyu
+cd $root_path
 git pull origin dev
-/root/.virtualenvs/leilanyu/bin/pip install -r requirements.txt
+$pip_path install -r requirements.txt
 supervisorctl stop leilanyu
-/root/.virtualenvs/leilanyu/bin/python manage.py makemigrations
-/root/.virtualenvs/leilanyu/bin/python manage.py migrate
-/root/.virtualenvs/leilanyu/bin/python manage.py compilemessages
-/root/.virtualenvs/leilanyu/bin/python manage.py collectstatic --noinput
+$python_path manage.py makemigrations
+$python_path manage.py migrate
+$python_path manage.py compilemessages
+$python_path manage.py collectstatic --noinput
 supervisorctl start leilanyu
 echo 'over'
 

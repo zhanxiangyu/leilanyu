@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import logging
 import hmac
 from hashlib import sha1
 from django.conf import settings
@@ -10,6 +11,10 @@ from django.utils.encoding import force_bytes
 
 import requests
 from ipaddress import ip_network
+
+from common_framework.django_cmd import django_manage
+
+logger = logging.getLogger(__name__)
 
 
 @require_POST
@@ -48,13 +53,28 @@ def webhook(request):
     if event == 'ping':
         return HttpResponse('pong')
     elif event == 'push':
+        logger.info("update step 2, makemigrations begin....")
+        django_manage('makemigrations')
+        logger.info("update step 2, makemigrations end....")
+
+        logger.info("update step 2, migrate begin....")
+        django_manage('migrate')
+        logger.info("update step 2, migrate end....")
+
+        logger.info("update step 2, collectstatic begin....")
+        django_manage('collectstatic', '--noinput')
+        logger.info("update step 2, mcollectstatic end....")
+
+        logger.info("update step 2, compilemessages begin....")
+        django_manage('compilemessages')
+        logger.info("update step 2, compilemessages end....")
+
         git_web_hook_update = os.path.join(settings.BASE_DIR, 'config', 'git_web_hook_update.sh')
         code = os.system('sh {}'.format(git_web_hook_update))
         if code == 0:
             return HttpResponse('success')
         else:
-            return HttpResponse('failed')
+            return HttpResponse('failed', status=400)
 
     # In case we receive an event that's not ping or push
     return HttpResponse(status=204)
-

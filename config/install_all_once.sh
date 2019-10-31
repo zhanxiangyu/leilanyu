@@ -269,6 +269,11 @@ supervisord -c /etc/supervisord.conf
 supervisorctl update
 supervisorctl reload
 
+# 将flash_webhook.py 复制到home目录下面并 改名为webhook.py
+cp /home/leilanyu/flash_webhook.py /home/
+mv /home/flash_webhook.py /home/webhook.py
+# 服务器内存至少需要2个G， 不然特别卡
+# nohup python /home/webhook.py hook.log 2>&1 &
 
 
 # supervisord 基本操作命令

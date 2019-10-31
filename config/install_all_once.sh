@@ -47,6 +47,8 @@ fi
 pip install virtualenv
 pip install virtualenvwrapper
 pip install supervisor==3.3.5
+# git web hook使用
+pip install Flask
 
 
 if [ `grep -c "WORKON_HOME" $HOME/.bashrc` -eq 0 ]; then

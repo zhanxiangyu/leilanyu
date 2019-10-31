@@ -5,12 +5,12 @@ python_path=/root/.virtualenvs/leilanyu/bin/python
 
 cd $root_path
 git pull origin dev
-supervisorctl stop leilanyu
+supervisorctl stop all
 $pip_path install -r requirements.txt
 $python_path manage.py makemigrations
 $python_path manage.py migrate
 $python_path manage.py compilemessages
 $python_path manage.py collectstatic --noinput
-supervisorctl start leilanyu
+supervisorctl start all
 echo 'over'
 

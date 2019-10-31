@@ -12,8 +12,6 @@ from django.utils.encoding import force_bytes
 import requests
 from ipaddress import ip_network
 
-from common_framework.django_cmd import django_manage
-
 logger = logging.getLogger(__name__)
 
 
@@ -53,23 +51,8 @@ def webhook(request):
     if event == 'ping':
         return HttpResponse('pong')
     elif event == 'push':
-        logger.info("update step 2, makemigrations begin....")
-        django_manage('makemigrations')
-        logger.info("update step 2, makemigrations end....")
-
-        logger.info("update step 2, migrate begin....")
-        django_manage('migrate')
-        logger.info("update step 2, migrate end....")
-
-        logger.info("update step 2, collectstatic begin....")
-        django_manage('collectstatic', '--noinput')
-        logger.info("update step 2, mcollectstatic end....")
-
-        logger.info("update step 2, compilemessages begin....")
-        django_manage('compilemessages')
-        logger.info("update step 2, compilemessages end....")
-
         git_web_hook_update = os.path.join(settings.BASE_DIR, 'config', 'git_web_hook_update.sh')
+        # 不能重启自己， 无法调用manage.py 命令
         code = os.system('sh {}'.format(git_web_hook_update))
         if code == 0:
             return HttpResponse('success')

@@ -81,7 +81,7 @@ class BlogLike(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='创建者', null=True, blank=True,
                              related_name="to_like")
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    anonymous_ip = models.CharField(verbose_name="匿名用户ip", max_length=10, null=True, blank=True)
+    anonymous_ip = models.CharField(verbose_name="匿名用户ip", max_length=20, null=True, blank=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
 
 

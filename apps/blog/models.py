@@ -42,6 +42,7 @@ class Blog(models.Model):
     views = models.PositiveIntegerField('浏览量', default=0)
     image = models.ImageField(verbose_name=u'文章头像', upload_to='image/blog', blank=True, null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE)
+    description = models.CharField("文章描述", max_length=30, default='')
 
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField('Tag', verbose_name='标签集合', blank=True)
@@ -67,7 +68,21 @@ class Blog(models.Model):
         verbose_name = "文章"
         verbose_name_plural = verbose_name
         # get_latest_by = 'created_time'
-    pass
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
+
+
+class BlogLike(models.Model):
+    """
+    用户点赞
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='创建者', null=True, blank=True,
+                             related_name="to_like")
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    anonymous_ip = models.CharField(verbose_name="匿名用户ip", max_length=20, null=True, blank=True)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)
 
 
 class Category(models.Model):
@@ -91,7 +106,7 @@ class Category(models.Model):
 
 class Tag(models.Model):
     """文章标签"""
-    name = models.CharField('标签名', max_length=30, unique=True)
+    name = models.CharField('标签名', max_length=10, unique=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_mod_time = models.DateTimeField('修改时间', auto_now=True)
 
@@ -106,7 +121,6 @@ class Tag(models.Model):
         ordering = ['name']
         verbose_name = "标签"
         verbose_name_plural = verbose_name
-
 
 
 class FriendLink(models.Model):

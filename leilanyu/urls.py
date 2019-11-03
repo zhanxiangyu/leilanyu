@@ -20,8 +20,9 @@ from django.contrib import admin
 from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
+from common_framework.webhook import webhook
 
-from users.views import index
+from users.views import index, indexV
 from blog.search_views import MySearchView
 
 import xadmin
@@ -42,7 +43,8 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^comments/', include('comments.urls', namespace='comments')),
 
-    url(r'^$', index, name='index'),
+    url(r'^$', indexV, name='index'),
+    url(r'^v1$', index, name='home'),
 
     url(r'^uploads/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
@@ -50,7 +52,14 @@ urlpatterns = [
 
 
     url(r'^search/', MySearchView(), name="haystack_search"),
+
+    # 项目自动更新
+    url(r'^my_webhook/$', webhook, name='webhook'),
 ]
+
+handler403 = 'users.views.permission_denied'
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'
 
 if settings.DEBUG:
     import debug_toolbar

@@ -12,8 +12,22 @@
 ### 安装包
 pip install -r requiremetns.txt -i https://pypi.mirrors.ustc.edu.cn/simple/ </br>
 修改数据库连接， 创建表结构
+```angular2
+# 创建数据库和数据用户
+mysql -e "
+CREATE USER 'leilanyu'@'%' IDENTIFIED BY 'leilanyu';
+CREATE USER 'leilanyu'@'localhost' IDENTIFIED BY 'leilanyu';
+CREATE DATABASE leilanyu DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES ON leilanyu.* TO 'leilanyu'@'%';
+GRANT ALL PRIVILEGES ON leilanyu.* TO 'leilanyu'@'localhost';
+FLUSH PRIVILEGES;
+"
+```
 ```python
+# 创建数据表
 python manage.py makemigrations users blog comments
+python manage.py migrate
+python manage.py makemigrations xadmin
 python manage.py migrate
 ```
 构建索引 python manage.py rebuild_index

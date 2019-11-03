@@ -1,0 +1,290 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block other_css %}
+  <style>
+    .main .header {
+      margin-bottom: 20px;
+    }
+
+    .main .header span {
+      color: #015b80;
+    }
+
+    div h3 {
+      color: #000;
+    }
+
+    #b_content pre {
+      background-color: #1abc9c6e;
+    }
+
+    .border1 {
+      border: 1px solid rgba(118, 118, 118, 0.28);
+      padding: 0 30px;
+    }
+
+    .margin30 {
+      margin-top: 30px;
+    }
+
+    .padding {
+      padding: 20px 0;
+    }
+
+    .backgroundWhite {
+      background-color: white;
+    }
+
+    .comment-content {
+      margin: 20px 0;
+    }
+
+    .badge {
+      background-color: #408EBA;
+    }
+
+    .comment-input {
+      margin: 20px 0;
+    }
+
+    .media {
+      border-left: 2px double #408eba52;
+      padding-left: 5px;
+    }
+
+    .media-heading {
+      margin-right: 20px;
+    }
+
+    .imageSize {
+      width: 40px;
+      height: 40px;
+    }
+    .header span {
+      padding-right: 10px;
+    }
+    .like {
+      text-align: center;
+      background: #fff;
+      margin: 10px 0 5px 0;
+      padding: 20px 0;
+    }
+    .like .like-icon {
+      border-radius: 50%;
+      border: none;
+    }
+
+    .like .like-icon:hover {
+      border-radius: 50%;
+      border: none;
+    }
+    .like .like-text {
+      font-weight: bold;
+      padding: 5px;
+    }
+    .eof {
+      font-weight: bold;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <div class="main margin30">
+    <div class="article container">
+      <div class="row">
+        <div class="col-md-9">
+          <!-- 文章 -->
+          <article class="backgroundWhite border1">
+            <div class="text-center">
+              <h3 id="b_title"></h3>
+              <div class="header">
+                <i class="fa fa-user"></i><span id="b_name"></span>
+                <i class="fa fa-calendar"></i><span id="b_time"></span>
+                <i class="fa fa-eye"></i><span id="b_views"></span>
+              </div>
+            </div>
+            <!-- 文章主体 -->
+            <div id="b_content"></div>
+          </article>
+          <!-- 点赞部分 -->
+          <div class="like">
+            <div type="button" class="btn btn-success like-icon" onclick="CALLBACK.setLike()">
+              {#              <i class="fa fa-thumbs-o-up fa-5x"></i>#}
+              <i class="fa fa-thumbs-up fa-5x"></i>
+            </div>
+            <p class="like-text"><i class="fa fa-heart-o"></i>还没有赞</p>
+          </div>
+          <!-- 评论部分 -->
+          <section id="comments" class="backgroundWhite border1 marginTop20">
+            <div class="padding">
+              <h4>文章评论 <span class="badge" id="comment_count"></span></h4>
+              <div class="comment-input clearfix">
+                <textarea id="comment-main" class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
+                <button type="button" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;"
+                        onclick="CALLBACK.postCommentData()">神吐槽 <i
+                    class="glyphicon glyphicon-comment"></i></button>
+              </div>
+              <!-- 评论列表 -->
+              <div class="comment-content"></div>
+            </div>
+          </section>
+        </div>
+        <aside class="col-md-3">
+          <!-- 侧边工作栏 -->
+          侧边工作栏
+        </aside>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block other_js %}
+  <script>
+    var js_blog_id = {{ blog_id }};
+    var blog_url = "{% url 'blog:api:blog-detail' blog_id %}";
+    var comment_url = "{% url 'comments:api:comment-list' %}";
+    var blog_like_url = "{% url 'blog:api:bloglike-list' %}";
+    var get_blog_like_count_url = "{% url 'blog:api:bloglike-get-blog-like-count' %}";
+    var blog_user_id = null;
+    var has_like = false;
+
+    $(function () {
+      CALLBACK.getData(CALLBACK.getCommentData);
+      CALLBACK.getLike();
+    })
+  </script>
+  <script>
+    var CALLBACK = {
+      setLike: function () {
+        if (has_like) {
+          $('.like-icon').tooltip("toggle");
+          return false
+        }
+        $.post(blog_like_url, {blog: js_blog_id}, function (data) {
+          swalSuccess({title: "点赞成功"}, CALLBACK.getLike())
+        }).error(function (xhr, status, err) {
+          swalError({type: 'warning', title: xhr.responseJSON[0]})
+        })
+      },
+      getLike: function() {
+        $.get(get_blog_like_count_url, {blog_id: js_blog_id}, function (data) {
+          var count = data["count"];
+          has_like = data["has_like"];
+          if (count !== 0) {
+            $(".like-text").text(`${count}人点赞`)
+          }
+          if (has_like) {
+            $(".like-icon").empty().append('<i class="fa fa-thumbs-o-up fa-5x"></i>')
+              .attr("title", "已点赞");
+          }
+        })
+      },
+      getCommentData: function () {
+        $.get(comment_url, {blog_id: js_blog_id}, function (data) {
+          $("#comment_count").text(data.length);
+          CALLBACK.commentGenerate(data);
+        })
+      },
+      postCommentData: function () {
+        var comment_main = $("#comment-main").val();
+        if (!comment_main.trim()) {
+          swalError({title: '评论不能为空'});
+          return false
+        }
+        this.postComment({article: js_blog_id, body: comment_main})
+      },
+      postComment: function (CData, callback) {
+        $.post(comment_url, CData, function (data) {
+          swalSuccess({title: '评论成功',  showConfirmButton: true}, function () {
+            $(".comment-content").empty();
+            CALLBACK.getCommentData();
+          });
+        }).error(function (res) {
+          swalError({title: '评论失败'});
+        });
+        if (callback) {
+          callback()
+        }
+      },
+      replayComment: function (el, replayId) {
+        var $el = $(el);
+        var comment_content = $el.parent().find('textarea').val();
+        if (!comment_content.trim()) {
+          swalError({title: '评论不能为空'});
+          return false
+        }
+        this.postComment({article: js_blog_id, body: comment_content, parent_comment: replayId})
+      },
+      getBlogger: function (blogUserId, commentUserId) {
+        if (blogUserId === commentUserId) {
+          return '博主'
+        }
+        return ''
+      },
+      commentGenerate: function (commentList) {
+        $.each(commentList, function (k, row) {
+          var temp = `<div class="media">
+                  <div class="media-left">
+                    <img src="${row.commentator.image}" alt="头像" class="imageSize media-object img-circle">
+                  </div>
+                  <div class="media-body" id="media-comment-${row.id}">
+                    <span class="media-heading"><strong>${row.commentator.name}</strong>
+                    <span class="text-danger"><strong>${CALLBACK.getBlogger(blog_user_id, row.commentator.id)}</strong></span>
+                    </span>
+
+                    <time>${row.created_time}</time>
+                    <p>${codeUtil.htmlEncode(row.body)}</p>
+                    <a onclick="CALLBACK.toggleReply(this, ${row.id})"><i class="fa fa-mail-forward"></i> 回复</a>
+                  </div>
+                </div>`;
+          if (row.parent_comment) {
+            $(`.comment-content #media-comment-${row.parent_comment}.media-body`).append(temp);
+          } else {
+            $(".comment-content").append(temp)
+          }
+        });
+      },
+      getData: function (callback) {
+        $.get(blog_url, {is_add_views: this.beforeGetData()}, function (data) {
+          CALLBACK.setData(data);
+          blog_user_id = data.author;
+          if (callback) {
+            callback()
+          }
+        })
+      },
+      beforeGetData: function () {
+        if (Storage.get(`js_blog_id_${js_blog_id}`)) {
+          // 存在不添加
+          return false;
+        } else {
+          // 不存在添加
+          Storage.set(`js_blog_id_${js_blog_id}`, js_blog_id);
+          return true;
+        }
+      },
+      setData: function (data) {
+        $("#b_title").html(data.title);
+        $("#b_name").html(data.username);
+        $("#b_time").html(data.created_time);
+        $("#b_views").html(data.views);
+        $("#b_content").html(marked(data.body)).append("<p class='text-center text-muted eof'>-- EOF --</p>");
+      },
+      toggleReply: function (el, replayId) {
+        var replay_html = `<div class="togglereplayClass clearfix">
+                      <textarea class="form-control" rows="3" placeholder="我也来吐槽..."></textarea>
+                      <button type="button" onclick="CALLBACK.replayComment(this, ${replayId})" class="btn btn-info btn-sm pull-right" style="margin-top: 5px;">神吐槽</button>
+                    </div>`;
+        var $el = $(el);
+        if ($el.siblings(".togglereplayClass").length) {
+          $el.siblings(".togglereplayClass").remove()
+        } else {
+          $el.after(replay_html)
+        }
+      }
+    }
+  </script>
+{% endblock %}

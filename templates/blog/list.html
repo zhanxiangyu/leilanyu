@@ -1,0 +1,171 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block other_css %}
+<style>
+#pagination li {
+  margin: 0 1px;
+}
+.friend_links {
+  margin-top: 2em;
+}
+.friend_links .friend_body {
+  padding: 1.25rem;
+  border: 1px;
+  background: #fff;
+  padding-left: 30px;
+}
+.friend_links .friend-title {
+  font-weight: bold;
+}
+
+ul.friend-text li{
+  list-style: none;
+  margin-bottom: 5px;
+}
+
+</style>
+{% endblock %}
+
+{% block main %}
+  <div class="main">
+    <div class="container list">
+      <div class="row">
+        <div id="article_list" class="col-md-9">
+        </div>
+        <aside class="col-md-3">
+          <!-- 侧边工作栏 -->
+          <div class="friend_links">
+            <div class="friend_body shake">
+              <p class="friend-title"><i class="fa fa-link fa-lg" style="color: #408EBA; font-weight: bold"></i> 友情链接</p>
+              <ul class="friend-text">
+                <li>
+                  <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="http://www.dusaiphoto.com">杜赛的个人网站</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="https://tendcode.com/">Tend to Code</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="https://frostming.com/">Frost's Blog</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <div class="row">
+        <div class="col-md-9 text-center">
+          <ul id="pagination">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+
+
+{% block other_js %}
+  <script src="{% static 'bootstrap-paginator/bootstrap-paginator.js' %}"></script>
+  <script src="{% static 'js/constants.js' %}"></script>
+  <script>
+    var get_page_number_url = "{% url 'blog:api:blog-list' %}";
+    var get_detail_url = "{% url 'blog:blog_detail' 0 %}";
+
+    $(function () {
+      // 设置列表数据
+      CALLBACK.getArticlePagination()
+    });
+
+
+    var CALLBACK = {
+      getArticlePagination: function () {
+        $.get(get_page_number_url, {}, function (data) {
+          var currentPage = 1;
+          var totalPages = data['pageNumber'];
+          var posts = data["posts"];
+          CALLBACK.setArticle(CALLBACK.genArticleHtml(posts));
+          var options = {
+            bootstrapMajorVersion: 3,
+            currentPage: currentPage,
+            totalPages: totalPages,
+            numberofPages: 5,
+            itemTexts: function (type, page, current) { //修改显示文字
+              switch (type) {
+                case "first":
+                  return "第一页";
+                case "prev":
+                  return "上一页";
+                case "next":
+                  return "下一页";
+                case "last":
+                  return "最后一页";
+                case "page":
+                  return page;
+              }
+            },
+            onPageClicked: function (event, originalEvent, type, page) { //异步换页
+              $.get(get_page_number_url, {page: page}, function (data) {
+                var posts = data["posts"];
+                CALLBACK.setArticle(CALLBACK.genArticleHtml(posts));
+              });
+            }
+          };
+          $("#pagination").bootstrapPaginator(options);
+        });
+      },
+      genArticleHtml: function (articles) {
+        var html = '';
+        for (var i = 0; i < articles.length; i++) {
+          if (articles[i].image == null) {
+            articles[i].image = MYCONST.blogImage
+          }
+          var url = get_detail_url.replace(0, articles[i].id);
+          var html_tags = ``;
+          articles[i]['tags'].forEach(tag => {
+            html_tags += `
+              <a href="javascript:void(0)">
+                  <div class="label"><i class="ion-pricetag"></i>${tag.name}</div>
+              </a>
+           `;
+          });
+
+          html += `<div class="media">
+            <a class="media-left" href="${url}">
+              <img alt="docker-kagnt" src="${articles[i].image}"
+                   data-holder-rendered="true" width="229" height="185">
+            </a>
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="${url}">
+                  ${articles[i]["title"]}
+                </a>
+              </h6>
+              <div class="description">
+                ${articles[i]['description']}
+              </div>
+              <div class="extra">
+                ${html_tags}
+                <div class="info">
+                  <i class="fa fa-user"></i>${articles[i]['username']}&nbsp;,&nbsp;
+                  <i class="fa fa-calendar"></i>${articles[i]['created_time']}&nbsp;
+                  <i class="fa fa-eye"></i>${articles[i]['views']}&nbsp;
+                  <i class="fa fa-commenting"></i>${articles[i]['comment_count']}
+                </div>
+              </div>
+            </div>
+          </div>`
+        }
+        return html
+      },
+      setArticle: function (html) {
+        $("#article_list").html(html)
+      }
+    }
+  </script>
+{% endblock %}

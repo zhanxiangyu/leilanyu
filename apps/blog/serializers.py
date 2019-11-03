@@ -2,15 +2,27 @@
 from django.urls import reverse
 from rest_framework import serializers
 
-from .models import Blog, TimeLine
+from comments.models import Comment
+from common_framework.handleserializers import ChangeSerializerFields
+
+from .models import Blog, TimeLine, Tag, BlogLike
 
 
-class BlogSerializers(serializers.ModelSerializer):
+class TagSerializers(ChangeSerializerFields, serializers.ModelSerializer):
+
+    class Meta:
+        model = Tag
+        fields = "__all__"
+
+
+class BlogSerializers(ChangeSerializerFields, serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()
     category_name_url = serializers.SerializerMethodField()
-    body = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    tags = TagSerializers(many=True, fields=('id', 'name'))
+    comment_count = serializers.SerializerMethodField()
 
     def get_category_name_url(self, obj):
         if obj.category:
@@ -28,19 +40,27 @@ class BlogSerializers(serializers.ModelSerializer):
     def get_username(self, obj):
         return obj.author.username
 
-    def get_body(self, obj):
-        if len(obj.body) > 50:
-            return obj.body[:50]
-        return obj.body
+    def get_description(self, obj):
+        if obj.description == '':
+            return '暂无描述'
+        return obj.description
+
+    def get_comment_count(self, obj):
+        # 获取文章评论数据
+        return Comment.objects.filter(article=obj).count()
 
     class Meta:
         model = Blog
         fields = "__all__"
 
 
-class TimeLineSerializers(serializers.ModelSerializer):
+class BlogLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogLike
+        fields = "__all__"
 
+
+class TimeLineSerializers(serializers.ModelSerializer):
     class Meta:
         model = TimeLine
         fields = "__all__"
-

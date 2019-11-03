@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="个人博客,累兰羽博客,blog,python">
+  <meta name="description" content="累兰羽博客，是一个热爱互联网技术的个人博客，定期分享自己的原创技术文章、生活趣事、生活感悟等，希望能帮助到同样喜欢技术的同学">
+
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="xONOKFPwA8rilQtUk9LyPcOECpt9VAxdEgfs0C2V">
+
+  <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+
+  <title>{% block title %}兰羽{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'muban/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sweetalert/sweetalert.css' %}">
+  <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.css' %}">
+  <link rel="stylesheet" href="{% static 'muban2/css/home.css' %}">
+  <style>
+    .swalAlert2 {
+      background-color: #66afe9;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .marginTop20 {
+      margin-top: 20px;
+    }
+  </style>
+
+  {% block other_css %}
+  {% endblock %}
+  <!-- Scripts -->
+  <script>
+    window.Language = 'zh_cn';
+
+    window.Laravel = {"csrfToken": "xONOKFPwA8rilQtUk9LyPcOECpt9VAxdEgfs0C2V"}    </script>
+
+</head>
+<body>
+<div id="app">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+
+        <!-- Collapsed Hamburger -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#app-navbar-collapse">
+          <span class="sr-only">Toggle Navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <!-- Branding Image -->
+        <a class="navbar-brand" href="{% url 'index' %}">
+          兰羽
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <!-- Left Side Of Navbar -->
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
+          <li><a href="#">资源推荐</a></li>
+          <li><a href="#">社区</a></li>
+        </ul>
+
+        <!-- Right Side Of Navbar -->
+        <ul class="nav navbar-nav navbar-right">
+          <!-- Search Box -->
+          <li>
+            <div class="navbar-form navbar-right search" role="search" method="get" action="#">
+              <input type="text" class="form-control" name="q" placeholder="搜索" required>
+            </div>
+          </li>
+
+          <!-- Authentication Links -->
+          {% if request.user.is_authenticated %}
+            <li class="dropdown">
+              {#                          <a href="javascript:;" >#}
+              {#                            <img class="img-circle img-width" src="{{ request.user.image.url }}" alt="头像"> <span class="caret"></span>#}
+              {#                          </a>#}
+              <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                <img class="img-circle img-width" src="{{ request.user.image.url }}" alt="头像">
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation">
+                  <img class="img-circle img-responsive img-width-big" src="{{ request.user.image.url }}" alt="头像">
+                  <h3 class="text-center" style="color: white;">{{ request.user.name }}</h3>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="{% url 'users:user_settings' %}"><span
+                      class="glyphicon glyphicon-user"></span>&nbsp; 个人中心</a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp; 设置</a>
+                </li>
+                {% if request.user.is_staff %}
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="/{{ ADMIN_URL }}/"><span
+                        class="glyphicon glyphicon-tasks"></span>&nbsp; 后台管理</a>
+                  </li>
+                {% endif %}
+                <li role="presentation" class="divider"></li>
+                <li role="presentation">
+                  <a href="{% url 'users:logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp; 退出</a>
+                </li>
+              </ul>
+            </li>
+          {% else %}
+            <li><a href="{% url 'users:login' %}"><span class="glyphicon glyphicon-user"></span> 登录</a></li>
+            <li><a href="{% url 'users:register' %}"><span class="glyphicon glyphicon-log-in"></span> 注册</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% block main %}
+  {% endblock %}
+  <footer id="footer" class="footer">
+    <div class="copy-right text-center">
+      <a>Copyright&copy; 2019 累兰羽个人博客</a>
+    </div>
+  </footer>
+</div>
+
+
+<script src="{% static 'muban/js/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'muban/js/bootstrap.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'common/js/ajax_csrf.js' %}"></script>
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
+<script src="{% static 'js/utils/marked.js' %}"></script>
+<script src="{% static 'common/js/utils.js' %}"></script>
+<script>
+  var rendererMD = new marked.Renderer();
+  marked.setOptions({
+    renderer: rendererMD,
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+  });
+
+  function swalC(option, callback) {
+    if (callback) {
+      swal(option, callback)
+    } else {
+      swal(option)
+    }
+  }
+
+  function swalSuccess(option, callback) {
+    var option_t = {
+      type: "success",
+      title: "成功",
+      timer: 1000,
+      showConfirmButton: false,
+      {#customClass: 'swalAlert2',#}
+    };
+    option = $.extend({}, option_t, option);
+    swalC(option, callback);
+  }
+
+  function swalError(option, callback) {
+    var option_t = {
+      type: "error",
+      title: "错误",
+    };
+    option = $.extend({}, option_t, option);
+    swalC(option, callback);
+  }
+
+  function swalCustom(option, callback) {
+    swalC(option, callback);
+  }
+
+  function showError(error_data, $widgt) {
+    if (error_data instanceof Object) {
+      for (k in error_data) {
+        var errorContent = error_data[k];
+        if (errorContent instanceof Array) {
+          $widgt.html(errorContent[0]);
+        } else {
+          $widgt.html(errorContent);
+        }
+        break
+      }
+    }
+    if (error_data instanceof Array) {
+      $widgt.html(error_data[0]);
+      return null
+    }
+    if (typeof error_data === 'string') {
+      $widgt.html(error_data);
+      return null
+    }
+    $widgt.html(error_data.errors);
+  }
+
+  Storage.set = function (name, val) {
+    localStorage.setItem(name, val);
+  };
+  Storage.get = function (name) {
+    return localStorage.getItem(name);
+  };
+</script>
+{% block other_js %}
+{% endblock %}
+</body>
+</html>

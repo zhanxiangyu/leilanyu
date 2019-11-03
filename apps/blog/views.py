@@ -8,24 +8,23 @@ from markdown.extensions.toc import TocExtension
 # Create your views here.
 from blog.models import Blog, Tag, Category
 
-
 def blog_detail(request, blog_id):
     """
     博客详情页
     """
-    blog_id = int(blog_id)
-    blog = get_object_or_404(Blog, pk=blog_id)
-    blog.views += 1
-    blog.save()
-
-    md = markdown.Markdown(extensions=[
-        'markdown.extensions.extra',
-        'markdown.extensions.codehilite',
-        # 'markdown.extensions.toc',
-        TocExtension(slugify=slugify),
-    ])
-    blog.body = md.convert(blog.body)
-    toc = md.toc
+    # blog_id = int(blog_id)
+    # blog = get_object_or_404(Blog, pk=blog_id)
+    # blog.views += 1
+    # blog.save()
+    #
+    # md = markdown.Markdown(extensions=[
+    #     'markdown.extensions.extra',
+    #     'markdown.extensions.codehilite',
+    #     # 'markdown.extensions.toc',
+    #     TocExtension(slugify=slugify),
+    # ])
+    # blog.body = md.convert(blog.body)
+    # toc = md.toc
 
     # blog.body = markdown.markdown(blog.body, extensions=[
     #     'markdown.extensions.extra',
@@ -48,8 +47,7 @@ def blog_detail(request, blog_id):
     # except:
     #     next_blog_title = '没有下一篇'
     #     next_blog_id = None
-
-    return render(request, 'article_detail.html', locals())
+    return render(request, 'blog/detail.html', locals())
 
 
 def blog_category(request, category_id):
@@ -91,3 +89,7 @@ def blog_mood(request):
     """
     blogs = Blog.objects.all().order_by('-created_time')
     return render(request, 'mood.html', locals())
+
+
+def list(request):
+    return render(request, 'blog/list.html', locals())

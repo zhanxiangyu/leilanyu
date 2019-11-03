@@ -1,0 +1,171 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+  个人中心
+{% endblock %}
+
+{% block other_css %}
+  <style>
+    .main .user-left {
+      color: #fff;
+    }
+
+    .main div.header {
+      margin-top: 0;
+    }
+
+    .main div.header img {
+      width: 50%;
+      margin: 0 auto 5px;
+      padding-top: 10px;
+    }
+
+    .main div.header button {
+      width: 85%;
+      margin-bottom: 15px;
+    }
+
+    .main div.header > div {
+      padding-top: 10px;
+      border-top: 1px solid rgba(52, 152, 219, 0.46);
+    }
+
+    .main .row {
+      margin: 30px 0;
+    }
+
+    .main .header,
+    .main .user-settings {
+      background: #408EBA;
+    }
+
+    .main .user-settings {
+      box-sizing: inherit;
+      margin: 15px 0;
+      width: 100%;
+      padding: 15px 0;
+    }
+
+    p.user-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+
+    .list-item {
+      padding: 7px 10%;
+      display: block;
+    }
+
+    .icon-right {
+      padding-right: 10px;
+    }
+
+    a {
+      color: #fff;
+    }
+
+    a:hover,
+    a.active {
+      text-decoration: none;
+      color: #fff;
+      background-color: #1abc9c;
+    }
+
+    .main ul.list-unstyled > li + li {
+      padding-top: 10px;
+    }
+
+    .main ul.list-unstyled li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.51);
+    }
+
+    .main .header img:hover {
+      transform: scale(1.2);
+      -webkit-transform: scale(1.2); /*Safari 和 Chrome*/
+      -moz-transform: scale(1.2); /*Firefox*/
+      -ms-transform: scale(1.2); /*IE9*/
+      -o-transform: scale(1.2); /*Opera*/
+    }
+    .error {
+      color: #ce2626;
+    }
+    .main-right .panel-heading {
+      background-color: #408EBA
+    }
+    .main-right .panel {
+      min-height: 526px;
+    }
+    .tooltip-inner {
+      background-color: #408EBA;
+      color: #fff;
+      font-weight: bold;
+    }
+    .tooltip.top .tooltip-arrow {
+      border-top-color: #408EBA;
+      color: #fff;
+      font-weight: bold;
+    }
+
+  </style>
+  {% block other_css_main_right %}
+  {% endblock %}
+{% endblock %}
+
+{% block main %}
+  <div class="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-3 user-left">
+          <div class="header text-center">
+            <div  data-toggle="modal" data-target="#avatar-modal">
+              <img  data-toggle="tooltip" data-placement="left" title="点击修改头像" src="{{ request.user.image.url }}" class="img-responsive img-circle" alt="用户头像">
+            </div>
+            <p class="user-name">{{ request.user.name }}</p>
+            <div>
+              <a href="{% url 'users:user_settings' %}">
+                <button class="btn btn-success btn-sm"><i class="glyphicon glyphicon-pencil"></i>修改信息</button>
+              </a>
+            </div>
+          </div>
+          <div class="user-settings">
+            <ul class="list-unstyled">
+              <li><a class="list-item" href="{% url 'users:user_dynamic' %}"><i class="glyphicon glyphicon-flag icon-right"></i> 动态</a></li>
+              <li><a class="list-item" href=""><i class="glyphicon glyphicon-book icon-right"></i> 文章</a></li>
+              <li><a class="list-item" href=""><i class="glyphicon glyphicon-star icon-right"></i> 收藏</a></li>
+              <li><a class="list-item" href=""><i class="glyphicon glyphicon-comment icon-right"></i> 评论</a></li>
+              <li><a class="list-item" href=""><i class="glyphicon glyphicon-bullhorn icon-right"></i> 通知</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-9">
+          {% block main-right %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'user/image.html' %}
+{% endblock %}
+
+{% block other_js %}
+  <script type="text/javascript" src="{% static 'plugin/jquery.validation/1.14.0/jquery.validate.js' %}"></script>
+  <script src="{% static 'plugin/jquery.validation/1.14.0/messages_zh.js' %}"></script>
+  <script src="{% static 'plugin/jquery/jquery.form.js' %}"></script>
+  <script>
+    // 处理导航栏 下拉框因为头像切换功能导致bug
+    $("#dropdownMenu1").click(function () {
+      $(".dropdown-menu").toggle();
+    });
+    // 点击空白区域 隐藏下拉框
+    $(document).mouseup(function (e) {
+      var _con = $('#dropdownMenu1'); // 获取目标区域
+      if (!_con.is(e.target) && _con.has(e.target).length === 0) {
+        $(".dropdown-menu").hide();
+      }
+    });
+  	$(function () { $("[data-toggle='tooltip']").tooltip(); });
+  </script>
+  {% block other_js_son %}
+  {% endblock %}
+{% endblock %}

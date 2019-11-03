@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+{% load static %}
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>兰羽</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Template by FREEHTML5"/>
+  <meta name="keywords" content="累兰羽"/>
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="{% static 'muban/css/animate.css' %}">
+  <!-- Flexslider -->
+  <link rel="stylesheet" href="{% static 'muban/css/flexslider.css' %}">
+  <!-- Icomoon Icon Fonts-->
+  <link rel="stylesheet" href="{% static 'muban/css/icomoon.css' %}">
+  <!-- Magnific Popup -->
+  <link rel="stylesheet" href="{% static 'muban/css/magnific-popup.css' %}">
+  <!-- Bootstrap  -->
+  <link rel="stylesheet" href="{% static 'muban/css/bootstrap.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'muban/css/style.css' %}">
+
+  <!-- Styleswitcher ( This style is for demo purposes only, you may delete this anytime. ) -->
+  <link rel="stylesheet" id="theme-switch" href="{% static 'muban/css/style.css' %}">
+  <!-- End demo purposes only -->
+
+  <!-- 100动画 -->
+  <link rel="stylesheet" href="{% static 'muban/animation/styleBin.css' %}">
+  <!-- End 100动画 -->
+
+  <style>
+    .moreHidden {
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+      overflow: hidden; /** 隐藏超出的内容 **/
+      white-space: nowrap
+    }
+
+    /* For demo purpose only */
+
+    /*
+      GREEN
+      8dc63f
+      RED
+      FA5555
+      TURQUOISE
+      27E1CE
+      BLUE
+      2772DB
+      ORANGE
+      FF7844
+      YELLOW
+      FCDA05
+      PINK
+      F64662
+      PURPLE
+      7045FF
+
+      */
+
+    /* For Demo Purposes Only ( You can delete this anytime :-) */
+    #colour-variations {
+      padding: 10px;
+      -webkit-transition: 0.5s;
+      -o-transition: 0.5s;
+      transition: 0.5s;
+      width: 140px;
+      position: fixed;
+      left: 0;
+      top: 100px;
+      z-index: 999999;
+      background: #fff;
+      /*border-radius: 4px;*/
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      -webkit-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      -moz-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      -ms-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+    }
+
+    #colour-variations.sleep {
+      margin-left: -140px;
+    }
+
+    #colour-variations h3 {
+      text-align: center;;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #777;
+      margin: 0 0 10px 0;
+      padding: 0;;
+    }
+
+    #colour-variations ul,
+    #colour-variations ul li {
+      padding: 0;
+      margin: 0;
+    }
+
+    #colour-variations ul {
+      margin-bottom: 20px;
+      float: left;
+    }
+
+    #colour-variations li {
+      list-style: none;
+      display: inline;
+    }
+
+    #colour-variations li a {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      float: left;
+      margin: 5px;
+    }
+
+    #colour-variations li a[data-theme="style"] {
+      background: #8dc63f;
+    }
+
+    #colour-variations li a[data-theme="red"] {
+      background: #FA5555;
+    }
+
+    #colour-variations li a[data-theme="turquoise"] {
+      background: #27E1CE;
+    }
+
+    #colour-variations li a[data-theme="blue"] {
+      background: #2772DB;
+    }
+
+    #colour-variations li a[data-theme="orange"] {
+      background: #FF7844;
+    }
+
+    #colour-variations li a[data-theme="yellow"] {
+      background: #FCDA05;
+    }
+
+    #colour-variations li a[data-theme="pink"] {
+      background: #F64662;
+    }
+
+    #colour-variations li a[data-theme="purple"] {
+      background: #7045FF;
+    }
+
+    #colour-variations a[data-layout="boxed"],
+    #colour-variations a[data-layout="wide"] {
+      padding: 2px 0;
+      width: 48%;
+      border: 1px solid #ededed;
+      text-align: center;
+      color: #777;
+      display: block;
+    }
+
+    #colour-variations a[data-layout="boxed"]:hover,
+    #colour-variations a[data-layout="wide"]:hover {
+      border: 1px solid #777;
+    }
+
+    #colour-variations a[data-layout="boxed"] {
+      float: left;
+    }
+
+    #colour-variations a[data-layout="wide"] {
+      float: right;
+    }
+
+    .option-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin-top: 5px;
+      margin-right: -30px;
+      width: 30px;
+      height: 30px;
+      background: #8dc63f;
+      text-align: center;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      -webkit-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      -moz-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      -ms-box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+      box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+    }
+
+    .option-toggle i {
+      top: 2px;
+      position: relative;
+    }
+
+    .option-toggle:hover, .option-toggle:focus, .option-toggle:active {
+      color: #fff;
+      text-decoration: none;
+      outline: none;
+    }
+  </style>
+  <!-- End demo purposes only -->
+
+  <!-- Modernizr JS -->
+  <script src="{% static 'muban/js/modernizr-2.6.2.min.js' %}"></script>
+  <!-- FOR IE9 below -->
+  <!--[if lt IE 9]>
+	<script src="{% static 'muban/js/respond.min.js' %}"></script>
+	<![endif]-->
+
+</head>
+
+
+<body>
+
+<!-- Loader -->
+<div class="fh5co-loader"></div>
+
+<div id="fh5co-page">
+  <section id="fh5co-header">
+    <div class="container">
+      <nav role="navigation">
+        <h1 id="fh5co-logo"><a href="{% url 'index' %}">兰羽</a></h1>
+        <ul class="pull-left left-menu">
+          <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
+          <li><a href="tour.html">资源下载</a></li>
+          <li><a href="pricing.html">社区</a></li>
+        </ul>
+        <ul class="pull-right right-menu">
+{#          <li class="fh5co-cta-btn"><a href="{% url 'users:login' %}">登录</a></li>#}
+{#          <li class="fh5co-cta-btn"><a href="{% url 'users:register' %}">注册</a></li>#}
+          <li><a href="{% url 'blog:blog_list' %}">文章</a></li>
+          <li><a href="tour.html">资源下载</a></li>
+          <li><a href="pricing.html">社区</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  <!-- #fh5co-header -->
+
+  <section id="fh5co-hero" class="js-fullheight" style="background-color: rgba(0, 175, 255, 1)" data-next="yes">
+    <div class="fh5co-overlay"></div>
+    <div class="container">
+      <div class="fh5co-intro js-fullheight">
+        <div class="fh5co-intro-text">
+          <!--
+                          INFO:
+                          Change the class to 'fh5co-right-position' or 'fh5co-center-position' to change the layout position
+                          Example:
+                          <div class="fh5co-right-position">
+                      -->
+          <div class="fh5co-left-position">
+            <h4 class="animate-box">过放荡不羁的生活</h4>
+            <h4 class="animate-box">容易得像顺水推舟</h4>
+            <h4 class="animate-box">但是要结识良朋益友</h4>
+            <h4 class="animate-box">却难如登天</h4>
+            {#            <p class="animate-box"><a href="images/video.wmv" class="btn btn-outline popup-vimeo btn-video"><i#}
+            {#                class="icon-play2"></i> 关于</a> <a href="http://www.jianhuax.com/html5/156.html" target="_blank"#}
+            {#                                                  class="btn btn-primary">点击下载此模板</a></p>#}
+          </div>
+          <div class="fh5co-right-position">
+            <!-- 右侧蜜蜂动画 -->
+            <div id="bee-container">
+              <div id="bee">
+                <div class="leg" id="right"></div>
+                <div id="body">
+                  <div id="face"></div>
+                </div>
+                <div class="leg" id="left"></div>
+              </div>
+            </div>
+            <!-- End 右侧蜜蜂动画 -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fh5co-learn-more animate-box">
+      <a href="#" class="scroll-btn">
+        <span class="text">更多</span>
+        <span class="arrow"><i class="icon-chevron-down"></i></span> </a></div>
+  </section>
+  <!-- END #fh5co-hero -->
+
+
+  <section id="fh5co-projects">
+    <div class="container">
+      <div class="row row-bottom-padded-md">
+        <div class="col-md-6 col-md-offset-3 text-center">
+          <h2 class="fh5co-lead ">最新文章</h2>
+        </div>
+      </div>
+      <div class="row" id="hotArticle">
+        {#        ajax填充数据#}
+      </div>
+      <div class="row">
+        <div class="text-center">
+          <a href="{% url 'blog:blog_list' %}" type="button" class="btn btn-primary">更多文章</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fh5co-features">
+    <div class="container">
+      <div class="row text-center row-bottom-padded-md">
+        <div class="col-md-8 col-md-offset-2">
+          <h2 class="fh5co-lead animate-box">友情链接</h2>
+          {#          <p class="fh5co-sub-lead animate-box">欢迎您走进Hooguang的世界，我们将竭诚为您服务，美丽梦想在此启航！</p>#}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-power"></i></div>
+            <h3>化妆全科班</h3>
+            <p>掌握高级化妆师技能技术是最基本的要求,同时能够独立完成各种人物的化妆造型工作.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-flag2"></i></div>
+            <h3>摄影全科班</h3>
+            <p>培养具有时尚感觉和丰富创意能力的人像摄影师,可在人像摄影界广泛就业或者创立个人...</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-anchor"></i></div>
+            <h3>美甲全科班</h3>
+            <p>掌握高级美睫师的技术,具有专业知识全面以及潮流时尚审美,能够独立完成各种美睫工作.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-paragraph"></i></div>
+            <h3>摄影业余速成班</h3>
+            <p>时尚婚纱、写真摄影师,影楼及时尚摄影工作室,婚纱影楼等.</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-umbrella"></i></div>
+            <h3>后期剪辑班</h3>
+            <p>培养具有系统掌握艺术造型理论和形象设计技能,从事企事业领域/各种团体的整体能力.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 animate-box">
+          <div class="fh5co-feature">
+            <div class="fh5co-icon">
+              <i class="icon-toggle"></i></div>
+            <h3>网络推广</h3>
+            <p>掌握高级化妆师技能技术是最基本的要求，同时能够独立完成各种人物的化妆造型工作。</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" class="footer">
+    <div class="copy-right text-center">
+      <a>Copyright&copy; 2019 累兰羽个人博客</a>
+    </div>
+  </footer>
+</div>
+<!-- END #fh5co-page -->
+
+<!-- jQuery -->
+<script src="{% static 'muban/js/jquery.min.js' %}"></script>
+<!-- jQuery Easing -->
+<script src="{% static 'muban/js/jquery.easing.1.3.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'muban/js/bootstrap.min.js' %}"></script>
+<!-- Waypoints -->
+<script src="{% static 'muban/js/jquery.waypoints.min.js' %}"></script>
+<!-- Flexslider -->
+<script src="{% static 'muban/js/jquery.flexslider-min.js' %}"></script>
+<!-- Magnific Popup -->
+{#<script src="{% static 'muban/js/jquery.magnific-popup.min.js' %}"></script>#}
+{#<script src="{% static 'muban/js/magnific-popup-options.js' %}"></script>#}
+
+<script src="{% static 'muban/js/jquery.style.switcher.js' %}"></script>
+<script>
+  $(function () {
+    $('#colour-variations ul').styleSwitcher({
+      defaultThemeId: 'theme-switch',
+      hasPreview: false,
+      cookie: {
+        expires: 30,
+        isManagingLoad: true
+      }
+    });
+    $('.option-toggle').click(function () {
+      $('#colour-variations').toggleClass('sleep');
+    });
+  });
+</script>
+<!-- End demo purposes only -->
+
+<script src="{% static 'js/constants.js' %}"></script>
+<!-- Main JS (Do not remove) -->
+<script src="{% static 'muban/js/main.js' %}"></script>
+
+
+<!--
+  INFO:
+  jQuery Cookie for Demo Purposes Only.
+  The code below is to toggle the layout to boxed or wide
+  -->
+<script src="{% static 'muban/js/jquery.cookie.js' %}"></script>
+<script>
+  $(function () {
+
+    if ($.cookie('layoutCookie') != '') {
+      $('body').addClass($.cookie('layoutCookie'));
+    }
+
+    $('a[data-layout="boxed"]').click(function (event) {
+      event.preventDefault();
+      $.cookie('layoutCookie', 'boxed', {expires: 7, path: '/'});
+      $('body').addClass($.cookie('layoutCookie')); // the value is boxed.
+    });
+
+    $('a[data-layout="wide"]').click(function (event) {
+      event.preventDefault();
+      $('body').removeClass($.cookie('layoutCookie')); // the value is boxed.
+      $.removeCookie('layoutCookie', {path: '/'}); // remove the value of our cookie 'layoutCookie'
+    });
+  });
+</script>
+
+{#数据填充#}
+<script>
+  var get_blog_hot_url = "{% url 'blog:api:blog-get-hot' %}";
+  var blog_detail_url = '#';
+
+  $(function () {
+    $.get(get_blog_hot_url, {}, function (data) {
+      var html = CALLBACK.genArticle(data);
+      $("#hotArticle").html(html)
+    })
+  });
+
+  var CALLBACK = {
+    genArticle: function (data) {
+      var html = '';
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].image == null) {
+          data[i].image = MYCONST.blogImage
+        }
+        html += `<div class="col-md-4 col-sm-6 col-xxs-12">
+          <a href="${blog_detail_url}" class="fh5co-project-item ">
+            <img src="${data[i]['image']}" alt="Image" class="img-responsive">
+            <div class="fh5co-text">
+              <h2>${data[i]['title']}</h2>
+              <p class="moreHidden">${data[i]['description']}</p>
+            </div>
+          </a></div>`;
+      }
+      return html
+    }
+  }
+</script>
+
+
+</body>
+</html>
+

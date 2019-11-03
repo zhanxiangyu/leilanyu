@@ -24,11 +24,15 @@ except:
         "DEBUG": True,
         "ALLOWED_HOSTS": ["*"],
         "DB_NAME": 'leilanyu',
-        "DB_USER": "leilanyu",
-        "DB_PASSWORD": "leilanyu",
-        "ADMIN_URL": "admin",   #控制后台admin路径
-        "SECRET_KEY": 'jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d',
-        "REDIS_PASS": 'v105uCdcjQQuCdgww',  # 配置redis缓存
+        "DB_USER": "root",
+        "DB_PASSWORD": "123456",
+        "DB_HOST": "192.168.152.128",
+        "REDIS_PASS": "",  # 配置redis缓存密码
+        "REDIS_HOST": "192.168.152.128",
+        "ADMIN_URL": "admin",  # 控制后台admin路径
+        "SECRET_KEY": "jfy0^m#y*0ti(y0u9e(pp_)*t+he3arzhm$5b$(wu@@=7h!%6d",
+        "EMAIL_SENDER": "1035@qq.com",
+        "EMAIL_PWD": "214",
     }
     """
     print('私有，可以自己提供')
@@ -129,7 +133,7 @@ DATABASES = {
         'NAME': PRIVATE_JSON['DB_NAME'],
         'USER': PRIVATE_JSON['DB_USER'],
         'PASSWORD': PRIVATE_JSON['DB_PASSWORD'],
-        'HOST': '127.0.0.1',
+        'HOST': PRIVATE_JSON["DB_HOST"],
         # 'OPTIONS':{"init_command":"SET default_storage_engine=INNODB;"}
 
     }
@@ -140,7 +144,7 @@ DEFAULT_CACHE_AGE = 300
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': 'redis://:{}@127.0.0.1:6379'.format(PRIVATE_JSON['REDIS_PASS']),
+        'LOCATION': 'redis://:{password}@{host}:6379'.format(password=PRIVATE_JSON['REDIS_PASS'], host=PRIVATE_JSON["REDIS_HOST"]),
         "OPTIONS": {
             "CLIENT_CLASS": "redis_cache.client.DefaultClient",
         },

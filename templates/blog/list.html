@@ -7,23 +7,41 @@
 #pagination li {
   margin: 0 1px;
 }
-.friend_links {
+.left-block {
   margin-top: 2em;
 }
-.friend_links .friend_body {
+.left-body {
   padding: 1.25rem;
   border: 1px;
   background: #fff;
   padding-left: 30px;
 }
-.friend_links .friend-title {
+
+.left-title {
   font-weight: bold;
+  line-height: 35px;
+  height: 35px;
+  border-bottom: 1px solid var(--basecolor);
+  margin-bottom: 10px;
+}
+
+.left-title i {
+  color: var(--basergb);
 }
 
 ul.friend-text li{
   list-style: none;
   margin-bottom: 5px;
 }
+.tag-cloud {
+  width: 45%;
+  text-align: center;
+  font-size: 15px;
+  background: var(--basergb);
+  margin: 0 5px 5px 0;
+  color: #fff;
+}
+
 
 </style>
 {% endblock %}
@@ -35,45 +53,45 @@ ul.friend-text li{
         <div id="article_list" class="col-md-9">
         </div>
         <aside class="col-md-3">
-            <!-- 侧边工作栏 -->
-            <div class="friend_links">
-                <div class="friend_body shake">
-                    <p class="friend-title"><i class="fa fa-link fa-lg" style="color: #408EBA; font-weight: bold"></i>
-                        友情链接</p>
-                    <ul class="friend-text">
-                        <li>
-                            <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
-                        </li>
-                        <li>
-                            <a class="text-muted" target="_blank" href="http://www.dusaiphoto.com">杜赛的个人网站</a>
-                        </li>
-                        <li>
-                            <a class="text-muted" target="_blank" href="https://tendcode.com/">Tend to Code</a>
-                        </li>
-                        <li>
-                            <a class="text-muted" target="_blank" href="https://frostming.com/">Frost's Blog</a>
-                        </li>
-                    </ul>
-                </div>
+          <!-- 侧边工作栏 -->
+          <div class="left-block">
+            <div class="left-body shake">
+              <p class="left-title"><i class="fa fa-link fa-lg"></i>
+                友情链接</p>
+              <ul class="friend-text">
+                <li>
+                  <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="http://www.dusaiphoto.com">杜赛的个人网站</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="https://tendcode.com/">Tend to Code</a>
+                </li>
+                <li>
+                  <a class="text-muted" target="_blank" href="https://frostming.com/">Frost's Blog</a>
+                </li>
+              </ul>
             </div>
-            <div class="friend_links">
-            <div class="friend_body shake">
-                <div class="">
-                    <p class="friend-title"><i class="fa fa-cloud fa-lg" style="color: #408EBA; font-weight: bold"></i>
-                    标签云 </p>
-                <p><a href="all">全部</a></p>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">test</div>
-                    <div class="col-md-6">django</div>
-</div>
-                <div class="row">
-                    <div class="col-md-6">vue</div>
-                    <div class="col-md-6">python</div>
-                </div>
+          </div>
+          <div class="left-block">
+            <div class="left-body shake">
+              <div class="left-title">
+                <p style="display: inline">
+                  <i class="fa fa-cloud fa-lg" ></i> 标签云
+                </p>
+                {#                    <p style="display: inline" class=""><a href="all">全部</a></p>#}
+              </div>
+              <ul class="list-inline">
+                <li class="tag-cloud"><a href="">python</a></li>
+                <li class="tag-cloud"><a href="">django</a></li>
+                <li class="tag-cloud"><a href="">vue</a></li>
+                <li class="tag-cloud"><a href="">javascript</a></li>
+                <li class="tag-cloud"><a href="">java</a></li>
+                <li class="tag-cloud"><a href="">test</a></li>
+              </ul>
             </div>
-      </div>
+          </div>
         </aside>
       </div>
       <div class="row">

@@ -7,12 +7,14 @@ from rest_framework import permissions, pagination
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
-from rest_framework.decorators import detail_route, list_route
+from rest_framework_extensions.cache.decorators import cache_response
+from rest_framework.decorators import action, api_view, permission_classes
 
 from common_framework.utils import get_ip
-from .serializers import BlogSerializers, TimeLineSerializers, BlogLikeSerializer
-from .models import Blog, TimeLine, BlogLike
+from .serializers import BlogSerializers, TimeLineSerializers, BlogLikeSerializer, TagSerializers, FriendLinkSerializers
+from .models import Blog, TimeLine, BlogLike, Tag, FriendLink
 
 
 class BlogPagination(pagination.PageNumberPagination):
@@ -43,7 +45,7 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    @list_route()
+    @action(methods=['get'], detail=False)
     def get_hot(self, request):
         queryset = self.get_queryset()
         queryset = queryset.filter(status='p')[:6]
@@ -51,7 +53,7 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
                                               fields=('image', 'title', 'description')).data
         return Response(status=status.HTTP_200_OK, data=serializer_data)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def page_up_down(self, request, pk):
         pk = int(pk)
         ids_titles = list(self.get_queryset().values('id', 'title'))
@@ -66,7 +68,7 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
         if current_blog_index < 0:
             raise NotImplementedError('list_index 必须大于0')
 
-        if current_blog_index == len(ids_titles)-1:
+        if current_blog_index == len(ids_titles) - 1:
             next_blog_title = u'没有下一篇'
             next_blog = {
                 'title': next_blog_title,
@@ -103,7 +105,8 @@ class BlogLikeViewSet(CacheResponseMixin, mixins.CreateModelMixin, mixins.ListMo
     def perform_create(self, serializer):
         user = self.request.user
         anonymous_ip = get_ip(self.request)
-        if self.get_queryset().filter(user_id=user.id, anonymous_ip=anonymous_ip, blog=serializer.validated_data['blog']).exists():
+        if self.get_queryset().filter(user_id=user.id, anonymous_ip=anonymous_ip,
+                                      blog=serializer.validated_data['blog']).exists():
             raise exceptions.ValidationError("已经点过赞了")
         # 判断是否登录用户
         if user.is_authenticated:
@@ -111,7 +114,7 @@ class BlogLikeViewSet(CacheResponseMixin, mixins.CreateModelMixin, mixins.ListMo
         else:
             serializer.save(anonymous_ip=anonymous_ip)
 
-    @list_route(methods=['get'])
+    @action(methods=['get'], detail=False)
     def get_blog_like_count(self, request):
         user = self.request.user
         anonymous_ip = get_ip(self.request)
@@ -129,4 +132,25 @@ class BlogLikeViewSet(CacheResponseMixin, mixins.CreateModelMixin, mixins.ListMo
 class TimeLineViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
     queryset = TimeLine.objects.all().order_by("-created_time")
     serializer_class = TimeLineSerializers
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (permissions.AllowAny,)
+
+
+class TagViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializers
+    permission_classes = (permissions.AllowAny,)
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def get_tags_and_friends(request):
+    """
+    获取友情链接和标签列表
+    :param request:
+    :return:
+    """
+    tags = Tag.objects.all()
+    friendlink = FriendLink.objects.all()
+    tags_data = TagSerializers(tags, many=True, fields=('id', 'name')).data
+    friendlink_data = FriendLinkSerializers(friendlink, many=True, fields=('name', 'url')).data
+    return Response(status=status.HTTP_200_OK, data={"tags": tags_data, "links": friendlink_data})

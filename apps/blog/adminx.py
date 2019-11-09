@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import xadmin
-from blog.models import Blog, TimeLine, Tag, Category
+from blog.models import Blog, TimeLine, Tag, Category, FriendLink
 
 
 class BlogAdmin(object):
@@ -23,7 +23,13 @@ class CategoryAdmin(object):
     model_icon = "fa fa-tasks"
 
 
+class FriendlinkAdmin(object):
+    list_display = ('name', 'url', 'last_mod_time')
+    model_icon = "fa fa-tasks"
+
+
 xadmin.site.register(Blog, BlogAdmin)
 xadmin.site.register(TimeLine, TimeLineAdmin)
 xadmin.site.register(Tag, TagAdmin)
 xadmin.site.register(Category, CategoryAdmin)
+xadmin.site.register(FriendLink, FriendlinkAdmin)

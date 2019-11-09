@@ -5,7 +5,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from . import views
-from .api import BlogViewSet, TimeLineViewSet, BlogLikeViewSet
+from .api import BlogViewSet, TimeLineViewSet, BlogLikeViewSet, get_tags_and_friends
 
 router = routers.DefaultRouter()
 router.register("blog", BlogViewSet)
@@ -15,9 +15,7 @@ router.register("like", BlogLikeViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
+    url(r'^api/get_tags_and_friends/$', get_tags_and_friends, name='get_tags_and_friends'),
     url(r'^detail/(?P<blog_id>\d+)/$', views.blog_detail, name='blog_detail'),
-    url(r'^tag/(?P<tag_id>[0-9a-z]+)/$', views.blog_tag, name='blog_tag'),
-    url(r'^category/(?P<category_id>[0-9a-z]+)/$', views.blog_category, name='blog_category'),
-    url(r'^mood/$', views.blog_mood, name='blog_mood'),
     url(r'^list/$', views.list, name='blog_list'),
 ]

@@ -5,11 +5,10 @@ from rest_framework import serializers
 from comments.models import Comment
 from common_framework.handleserializers import ChangeSerializerFields
 
-from .models import Blog, TimeLine, Tag, BlogLike
+from .models import Blog, TimeLine, Tag, BlogLike, FriendLink
 
 
 class TagSerializers(ChangeSerializerFields, serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = "__all__"
@@ -63,4 +62,10 @@ class BlogLikeSerializer(serializers.ModelSerializer):
 class TimeLineSerializers(serializers.ModelSerializer):
     class Meta:
         model = TimeLine
+        fields = "__all__"
+
+
+class FriendLinkSerializers(ChangeSerializerFields, serializers.ModelSerializer):
+    class Meta:
+        model = FriendLink
         fields = "__all__"

@@ -58,6 +58,7 @@ ul.friend-text li{
             <div class="left-body shake">
               <p class="left-title"><i class="fa fa-link fa-lg"></i>
                 友情链接</p>
+
               <ul class="friend-text">
                 <li>
                   <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
@@ -113,14 +114,28 @@ ul.friend-text li{
   <script>
     var get_page_number_url = "{% url 'blog:api:blog-list' %}";
     var get_detail_url = "{% url 'blog:blog_detail' 0 %}";
+    var get_left_data_url = "{% url 'blog:get_tags_and_friends' %}";
 
     $(function () {
       // 设置列表数据
-      CALLBACK.getArticlePagination()
+      CALLBACK.getArticlePagination();
+      CALLBACK.getLeftData();
     });
 
 
     var CALLBACK = {
+      getLeftData: function() {
+        $.get(get_left_data_url, {}, function (data) {
+          var tags = data["tags"];
+          var links = data["links"];
+          if (tags) {
+
+          }
+          if (links) {
+
+          }
+        });
+      },
       getArticlePagination: function () {
         $.get(get_page_number_url, {}, function (data) {
           var currentPage = 1;
@@ -202,7 +217,11 @@ ul.friend-text li{
       },
       setArticle: function (html) {
         $("#article_list").html(html)
-      }
+      },
+      setTags:function () {
+
+      },
+      setLinks:func
     }
   </script>
 {% endblock %}

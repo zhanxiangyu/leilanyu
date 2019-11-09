@@ -58,20 +58,8 @@ ul.friend-text li{
             <div class="left-body shake">
               <p class="left-title"><i class="fa fa-link fa-lg"></i>
                 友情链接</p>
+              <ul class="friend-text" id="links">
 
-              <ul class="friend-text">
-                <li>
-                  <a class="text-muted" target="_blank" href="https://vimjc.com">Vim教程网</a>
-                </li>
-                <li>
-                  <a class="text-muted" target="_blank" href="http://www.dusaiphoto.com">杜赛的个人网站</a>
-                </li>
-                <li>
-                  <a class="text-muted" target="_blank" href="https://tendcode.com/">Tend to Code</a>
-                </li>
-                <li>
-                  <a class="text-muted" target="_blank" href="https://frostming.com/">Frost's Blog</a>
-                </li>
               </ul>
             </div>
           </div>
@@ -83,13 +71,8 @@ ul.friend-text li{
                 </p>
                 {#                    <p style="display: inline" class=""><a href="all">全部</a></p>#}
               </div>
-              <ul class="list-inline">
-                <li class="tag-cloud"><a href="">python</a></li>
-                <li class="tag-cloud"><a href="">django</a></li>
-                <li class="tag-cloud"><a href="">vue</a></li>
-                <li class="tag-cloud"><a href="">javascript</a></li>
-                <li class="tag-cloud"><a href="">java</a></li>
-                <li class="tag-cloud"><a href="">test</a></li>
+              <ul class="list-inline" id="tags">
+
               </ul>
             </div>
           </div>
@@ -129,10 +112,10 @@ ul.friend-text li{
           var tags = data["tags"];
           var links = data["links"];
           if (tags) {
-
+            CALLBACK.setTags(tags);
           }
           if (links) {
-
+            CALLBACK.setLinks(links);
           }
         });
       },
@@ -218,10 +201,22 @@ ul.friend-text li{
       setArticle: function (html) {
         $("#article_list").html(html)
       },
-      setTags:function () {
-
+      setTags:function (tagdata) {
+        var html = '';
+        for (var i = 0; i < tagdata.length; i++) {
+          html += `<li class="tag-cloud"><a href="">${tagdata[i]['name']}</a></li>`
+        }
+        $("#tags").append(html)
       },
-      setLinks:func
+      setLinks:function (linkdata) {
+        var html = '';
+        for (var i = 0; i < linkdata.length; i++) {
+          html += `<li>
+                    <a class="text-muted" target="_blank" href="${linkdata[i]['url']}">${linkdata[i]['name']}</a>
+                    </li>`
+        }
+        $("#links").append(html);
+      },
     }
   </script>
 {% endblock %}

@@ -40,6 +40,13 @@ ul.friend-text li{
   background: var(--basergb);
   margin: 0 5px 5px 0;
   color: #fff;
+  border-radius: 15px;
+}
+
+.tag-cloud.active {
+  border: 2px solid var(--basecolor);
+  background: var(--baseselect);
+
 }
 
 
@@ -119,8 +126,12 @@ ul.friend-text li{
           }
         });
       },
-      getArticlePagination: function () {
-        $.get(get_page_number_url, {}, function (data) {
+      getArticlePagination: function (tag_id) {
+        var get_data = {};
+        if (tag_id) {
+          get_data['tag_id'] = tag_id
+        }
+        $.get(get_page_number_url, get_data, function (data) {
           var currentPage = 1;
           var totalPages = data['pageNumber'];
           var posts = data["posts"];
@@ -145,7 +156,8 @@ ul.friend-text li{
               }
             },
             onPageClicked: function (event, originalEvent, type, page) { //异步换页
-              $.get(get_page_number_url, {page: page}, function (data) {
+              var tag_id = $(".tag-cloud.active").attr('data-val');
+              $.get(get_page_number_url, {page: page, tag_id: tag_id}, function (data) {
                 var posts = data["posts"];
                 CALLBACK.setArticle(CALLBACK.genArticleHtml(posts));
               });
@@ -198,13 +210,23 @@ ul.friend-text li{
         }
         return html
       },
+      getTagArticles: function(event) {
+        if (!$(event).hasClass('active')) {
+          $(event).siblings().removeClass("active");
+          $(event).addClass('active');
+          this.getArticlePagination($(event).attr('data-val'))
+        } else {
+          $(event).removeClass('active');
+          this.getArticlePagination()
+        }
+      },
       setArticle: function (html) {
         $("#article_list").html(html)
       },
       setTags:function (tagdata) {
         var html = '';
         for (var i = 0; i < tagdata.length; i++) {
-          html += `<li class="tag-cloud"><a href="">${tagdata[i]['name']}</a></li>`
+          html += `<li class="tag-cloud" onclick="CALLBACK.getTagArticles(this)" data-val="${tagdata[i]['id']}"><a href="javascript:void(0)" >${tagdata[i]['name']}</a></li>`
         }
         $("#tags").append(html)
       },

@@ -45,6 +45,13 @@ class BlogViewSet(CacheResponseMixin, viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    def get_queryset(self):
+        queryset = super(BlogViewSet, self).get_queryset()
+        tag_id = self.request.query_params.get('tag_id')
+        if tag_id and tag_id.isdigit():
+            queryset = queryset.filter(tags=int(tag_id))
+        return queryset
+
     @action(methods=['get'], detail=False)
     def get_hot(self, request):
         queryset = self.get_queryset()

@@ -16766,4 +16766,5 @@ img.emojione {
 :root {
   --basecolor: #408EBA;
   --basergb: rgba(12, 149, 214, 0.4);
+  --baseselect: #1abc9c;
 }

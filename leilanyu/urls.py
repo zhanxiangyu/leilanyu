@@ -25,16 +25,9 @@ from common_framework.webhook import webhook
 from users.views import index, indexV
 from blog.search_views import MySearchView
 
-import xadmin
-xadmin.autodiscover()
-
-# version模块自动注册需要版本控制的 Model
-from xadmin.plugins import xversion
-xversion.register_models()
-
 
 urlpatterns = [
-    url(r'^'+settings.ADMIN_URL+'/', xadmin.site.urls),
+    url(r'^'+settings.ADMIN_URL+'/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^captcha/', include('captcha.urls')),
     # url(r'^auth/', include('rest_framework_social_oauth2.urls')),

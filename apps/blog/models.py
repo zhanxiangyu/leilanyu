@@ -84,6 +84,10 @@ class BlogLike(models.Model):
     anonymous_ip = models.CharField(verbose_name="匿名用户ip", max_length=20, null=True, blank=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
 
+    class Meta:
+        verbose_name = "点赞统计"
+        verbose_name_plural = verbose_name
+
 
 class Category(models.Model):
     """文章分类"""

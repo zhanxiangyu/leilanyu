@@ -28,7 +28,7 @@ class FriendlinkAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         user = request.user
         obj.created_user = user
-        obj.save()
+        super(FriendlinkAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(TimeLine)

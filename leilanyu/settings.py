@@ -327,8 +327,14 @@ LOGIN_URL = '/users/login/'
 from django.contrib import admin
 admin.AdminSite.site_header = '累兰羽博客系统'
 admin.AdminSite.site_title = '累兰羽博客系统'
+admin.AdminSite.site_url = 'http://www.leilanyu.com'
+
 # 配置simpleui
 # 读取本地资源文件
 SIMPLEUI_STATIC_OFFLINE = True
 # 替换站点logo， 书签上的icon暂时不能替换，需要修改请查看tempaltes/admin文件
 SIMPLEUI_LOGO = "/static/favicon.png"
+# 修改模块图标
+SIMPLEUI_ICON = {
+    u"博客管理": "fas fa-book",
+}

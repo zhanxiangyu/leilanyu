@@ -23,7 +23,7 @@ class Comment(BaseComment):
 
     class Meta:
         ordering = ['created_time']
-        verbose_name = '评论'
+        verbose_name = '评论信息'
         verbose_name_plural = verbose_name
 
     def __unicode__(self):

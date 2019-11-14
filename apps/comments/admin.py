@@ -16,6 +16,7 @@ disable_commentstatus.short_description = '隐藏评论'
 enable_commentstatus.short_description = '显示评论'
 
 
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'commentator', "body", 'article', 'parent_comment', 'is_enable', 'created_time')
     list_display_links = ('id', 'commentator', "body")
@@ -30,5 +31,3 @@ class CommentAdmin(admin.ModelAdmin):
             except:
                 kwargs['queryset'] = Comment.objects.filter(parent_comment=None)
         return super(CommentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-admin.site.register(Comment, CommentAdmin)

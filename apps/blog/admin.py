@@ -1,24 +1,26 @@
 # coding:utf-8
 from django.contrib import admin
 
-from models import Blog, Category, Tag, FriendLink, TimeLine
+from models import Blog, Category, Tag, FriendLink, TimeLine, BlogLike
 
 
-# Register your models here.
-
+@admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'type', 'views', 'author', 'category', 'last_mod_time')
     pass
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent_category', 'last_mod_time',)
 
 
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'last_mod_time')
 
 
+@admin.register(FriendLink)
 class FriendlinkAdmin(admin.ModelAdmin):
     list_display = ('name', 'quanzhong', 'created_user')
     readonly_fields = ('created_user',)
@@ -29,12 +31,11 @@ class FriendlinkAdmin(admin.ModelAdmin):
         obj.save()
 
 
+@admin.register(TimeLine)
 class TimeLineAdmin(admin.ModelAdmin):
     list_display = ("title", "created_time", "last_mod_time")
 
 
-admin.site.register(Blog, BlogAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Tag, TagAdmin)
-admin.site.register(FriendLink, FriendlinkAdmin)
-admin.site.register(TimeLine, TimeLineAdmin)
+@admin.register(BlogLike)
+class BlogLikeAdmin(admin.ModelAdmin):
+    list_display = ("user", "blog", "anonymous_ip", "created_time")

@@ -321,3 +321,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 未登录页面跳转的链接， login_required, 自动添加next url可以回到之前的页面
 LOGIN_URL = '/users/login/'
+
+
+# 站点显示配置
+from django.contrib import admin
+admin.AdminSite.site_header = '累兰羽博客系统'
+admin.AdminSite.site_title = '累兰羽博客系统'
+# 配置simpleui
+# 读取本地资源文件
+SIMPLEUI_STATIC_OFFLINE = True
+# 替换站点logo， 书签上的icon暂时不能替换，需要修改请查看tempaltes/admin文件
+SIMPLEUI_LOGO = "/static/favicon.png"

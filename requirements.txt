@@ -61,7 +61,7 @@ PyJWT==1.6.1
 python-memcached==1.58
 python-openid==2.2.5
 pytz==2019.1
-PyYAML==5.1
+PyYAML==5.4
 redis==2.10.6
 requests==2.22.0
 requests-oauthlib==0.8.0

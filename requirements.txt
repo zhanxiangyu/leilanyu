@@ -44,7 +44,7 @@ itsdangerous==1.1.0
 itypes==1.1.0
 jdcal==1.4
 jieba==0.39
-Jinja2==2.10
+Jinja2==2.11.3
 kombu==4.5.0
 Markdown==2.6.11
 markdown2==2.3.5

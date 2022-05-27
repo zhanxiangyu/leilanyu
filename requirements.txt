@@ -4,7 +4,7 @@ attrs==19.1.0
 autobahn==20.12.3
 Automat==0.7.0
 billiard==3.6.0.0
-celery==4.3.0
+celery==5.2.2
 certifi==2018.1.18
 channels==1.1.8
 chardet==3.0.4
